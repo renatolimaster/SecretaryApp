@@ -1,0 +1,46 @@
+==== Visual Studio Code Extensions
+
+C# Extensions - jchannon
+
+Angular v5 Snippets - John Papa
+
+Angular Files - Alexander Ivanichev
+
+Angular language Service
+
+Bracket Pair Colorizer - CoenraadS
+
+Material Icon Theme - Philipp Kief
+
+Path Intellisense - Christian Kohler
+
+Prettier - Code Formatter - Esben Petersen
+
+TSLint - egamma
+
+Nuget Package Manager - jmrog
+
+TypeScript Hero - Christoph Buhler
+
+
+===== Migrations
+dotnet ef migrations add {MigrationName}
+dotnet ef migrations remove
+dotnet ef database update 
+
+
+===== Change Environment
+To Change: export ASPNETCORE_ENVIRONMENT=Production
+To Show: echo $ASPNETCORE_ENVIRONMENT
+
+===== Success. You can now start the database server using:
+
+    /usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start
+
+===== MySql DefaultConnection
+"DefaultConnection":
+      "Server=127.0.0.1;port=3306;Database=secretary;user id=root;password=22113311;TreatTinyAsBoolean=true;"
+
+===== Postgres DefaultConnection
+"Server=localhost;Port=5432;Database=myDataBase;User Id=myUsername;Password=myPassword;"
+

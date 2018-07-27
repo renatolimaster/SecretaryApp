@@ -6,11 +6,14 @@ using Secretary.API.Interfaces;
 using Secretary.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Secretary.API.Controllers
 {
-    [Route("api/[Controller]")]
-    public class CongregationController : Controller
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CongregationController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -36,6 +39,7 @@ namespace Secretary.API.Controllers
             return Ok(cong);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> getCongregationAsync(int id) {
             Console.WriteLine("getCongregationAsync: " + id);

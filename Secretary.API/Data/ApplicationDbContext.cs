@@ -857,7 +857,11 @@ namespace Secretary.API.Data
                 entity.HasIndex(e => new { e.CongregacaoId, e.PublicadorId })
                     .HasName("IX_Usuario_Congregacao_Publicador");
 
-                entity.Property(e => e.Password)
+                entity.Property(e => e.PasswordHarsh)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.PasswordSalt)
                     .IsRequired()
                     .HasMaxLength(255);
 

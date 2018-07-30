@@ -15,38 +15,33 @@ namespace Secretary.API.Controllers
     [ApiController]
     public class CongregationController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        private IRepository<Congregacao> _repoCongregation;
-        public CongregationController(ApplicationDbContext dbContext)
+        private readonly ICongregation _repoCongregation;
+        public CongregationController(ICongregation repoCongregation)
         {
-            _dbContext = dbContext;
+            _repoCongregation = repoCongregation;
         }
 
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> getCongregationsAsync() {
+        public async Task<IActionResult> getCongregationsAsync()
+        {
             Console.WriteLine("getCongregationsAsync");
 
-            ///
-            /// PAY ATTENTION - Include has problem with circular reference
-            /// add this to the ConfigureServices method of your startup.cs file:
-            /// services.AddMvc().AddJsonOptions(options => 
-            /// options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            /// in startup.cs 
+            var cong = await _repoCongregation.getAllCongregationsAsync();
 
-            var cong = await _dbContext.Congregacao.Include(c => c.Publicador).ToListAsync();
-            // await Task.Delay(1000);
             return Ok(cong);
         }
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> getCongregationAsync(int id) {
+        public async Task<IActionResult> getCongregationAsync(long id)
+        {
             Console.WriteLine("getCongregationAsync: " + id);
-            var cong = await _dbContext.Congregacao.FirstOrDefaultAsync(g => g.Id == id);
+            var cong = await _repoCongregation.getCongregationAsync(id);
             // await Task.Delay(1000);
             return Ok(cong);
         }
+
 
     }
 }

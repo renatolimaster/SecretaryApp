@@ -13,6 +13,7 @@ using Secretary.API.Models;
 
 namespace Secretary.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController] // because using this so is not necessary use [FromBody] in methods
     public class AuthController : ControllerBase
@@ -28,10 +29,15 @@ namespace Secretary.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
+            Console.WriteLine("========= Register ===========-");
+            
             userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
 
             if (await _repoAuth.UserExist(userForRegisterDto.Username))
+            {
                 return BadRequest("Username already exist!");
+            }
+
 
             var userToCreate = new Usuario
             {

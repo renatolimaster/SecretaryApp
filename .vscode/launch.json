@@ -4,6 +4,12 @@
    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
    "version": "0.2.0",
    "configurations": [
+   {
+       "name": ".NET Core Attach 1",
+       "type": "coreclr", 
+       "request": "attach",
+       "processId": "${command:pickProcess}"
+   },
        {
            "name": ".NET Core Attach",
            "type": "coreclr",
@@ -18,7 +24,7 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Secretary.API/bin/Debug/netcoreapp2.1/Secretary.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Secretary.API",
+            "cwd": "${workspaceFolder/Secretary.API",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {

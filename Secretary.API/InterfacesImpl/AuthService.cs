@@ -7,10 +7,10 @@ using Secretary.API.Models;
 
 namespace Secretary.API.InterfacesImpl
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthService : IAuthRepository
     {
         private readonly ApplicationDbContext _context;
-        public AuthRepository(ApplicationDbContext context)
+        public AuthService(ApplicationDbContext context)
         {
             _context = context;
 

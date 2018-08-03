@@ -2,19 +2,26 @@
 
   <div class="container">
 
-    <a class="navbar-brand" href="#">.:: Secretary Web ::.</a>
+    <a class="navbar-brand" [routerLink]="['/home']">.:: Secretary Web ::.</a>
 
     <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Congregation
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/members']">Members    
+        </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/congregation']" >Congregation
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Publisher</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/publisher']" >Publisher</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Field Service</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/fieldservice']" routerLinkActive="router-link-active" >Field Service</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/assistance']" routerLinkActive="router-link-active">Assistance</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" >Reports</a>

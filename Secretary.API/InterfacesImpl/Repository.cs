@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Secretary.API.Data;
 using Secretary.API.Interfaces;
@@ -7,7 +9,7 @@ using Secretary.API.Models;
 
 namespace Secretary.API.InterfacesImpl
 {
-    public class Repository<T>: IRepository<T> where T: BaseEntity
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly ApplicationDbContext _context;
         private DbSet<T> entities;
@@ -18,19 +20,16 @@ namespace Secretary.API.InterfacesImpl
             _context = context;
             entities = context.Set<T>();
         }
-        public IQueryable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return entities.AsQueryable();
+            return await entities.ToListAsync();
         }
  
-        public T Get(long id)
+        public async Task<T> Get(long id)
         {
-            return entities.Find(id);
+            return await entities.SingleOrDefaultAsync(e => e.Id == id);
         }
-        public IQueryable<T> GetQueryable(long id)
-        {
-            return entities.Where(x => x.Id == id).AsQueryable();
-        }
+     
         public void Insert(T entity)
         {
             if (entity == null)
@@ -63,5 +62,11 @@ namespace Secretary.API.InterfacesImpl
         {
             _context.SaveChanges();
         }
+
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
     }
 }

@@ -27,7 +27,8 @@ export class NavComponent implements OnInit {
       },
       error => {
         this.alertify.error(error);
-      }, () => {
+      },
+      () => {
         this.router.navigate(['/fieldservice']);
       }
     );
@@ -43,5 +44,17 @@ export class NavComponent implements OnInit {
     localStorage.removeItem('token');
     this.alertify.message('logged out');
     this.router.navigate(['/home']);
+  }
+
+  onShown(): void {
+    console.log('on show');
+  }
+
+  onHidden() {
+    console.log('on hidden');
+  }
+
+  isOpenChange() {
+console.log('on open change');
   }
 }

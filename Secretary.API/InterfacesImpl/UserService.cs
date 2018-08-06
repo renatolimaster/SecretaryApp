@@ -28,6 +28,13 @@ namespace Secretary.API.InterfacesImpl
 
         public async Task<Usuario> GetUser(long id)
         {
+            var user = await _context.Usuario.FirstOrDefaultAsync(u => u.Id == id);
+
+            return user;
+        }
+
+        public async Task<Usuario> GetUserInclude(long id)
+        {
             var user = await _context.Usuario.Include(u => u.Congregacao).Include(u => u.Publicador).FirstOrDefaultAsync(u => u.Id == id);
 
             return user;
@@ -38,7 +45,7 @@ namespace Secretary.API.InterfacesImpl
             /*
             var user = await _context.Usuario.Include(u => u.Congregacao).Include(u => u.Publicador).ToListAsync();
              */
-            var user = await _context.Usuario.ToListAsync();
+            var user = await _context.Usuario.Include(u => u.Congregacao).Include(u => u.Publicador).ToListAsync();
 
             return user;
         }

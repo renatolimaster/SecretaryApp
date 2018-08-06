@@ -16,11 +16,11 @@ namespace Secretary.API.Models
 
 
         // ForeignKey
-        public long CongregacaoId { get; set; }
+        public long? CongregacaoId { get; set; }
         [Display(Name = "Congregation")]
         public Congregacao Congregacao { get; set; }
 
-        public long PublicadorId { get; set; }
+        public long? PublicadorId { get; set; }
         [Display(Name = "Publisher")]
         public Publicador Publicador { get; set; }
     }

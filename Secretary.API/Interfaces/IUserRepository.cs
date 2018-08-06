@@ -11,5 +11,7 @@ namespace Secretary.API.Interfaces
         Task<bool> SaveAll();
         Task<IEnumerable<Usuario>> GetUsers();
         Task<Usuario> GetUser(long id);
+
+        Task<Usuario> GetUserInclude(long id);
     }
 }

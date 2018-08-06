@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace DatingApp.API.Helpers
+namespace Secretary.API.Helpers
 {
     public static class Extensions
     {
@@ -12,12 +12,16 @@ namespace DatingApp.API.Helpers
             response.Headers.Add("Access-Control-Allow-Origin", "*");
         }
 
-        public static int CalculateAge(this DateTime theDateTime)
+        public static int CalculateAge(this DateTime? theDateTime)
         {
-            var age = DateTime.Today.Year - theDateTime.Year;
-            if (theDateTime.AddYears(age) > DateTime.Today)
-                age--;
-
+            
+            var age = 0;
+            if (theDateTime.HasValue)
+            {
+                age = DateTime.Today.Year - theDateTime.Value.Year;
+                if (theDateTime.Value.AddYears(age) > DateTime.Today)
+                    age--;
+            }
             return age;
         }
     }

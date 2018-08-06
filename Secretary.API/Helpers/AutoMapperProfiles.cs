@@ -1,38 +1,29 @@
-/*
+
 using System.Linq;
 using AutoMapper;
 using Secretary.API.Dtos;
 using Secretary.API.Models;
 
-namespace DatingApp.API.Helpers
+namespace Secretary.API.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, UserForListDto>()
-                .ForMember(dest => dest.PhotoUrl, opt =>
+            CreateMap<Usuario, UserForListDto>();
+
+            CreateMap<Usuario, UserForDetailsDto>();
+
+            // CreateMap<Publicador, PublisherForListDto>();
+
+            
+            CreateMap<Publicador, PublisherForListDto>().ForMember(dest => dest.Age, opt =>
                 {
-                    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
-                })
-                .ForMember(dest => dest.Age, opt =>
-                {
-                    opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
+                    opt.ResolveUsing(d => d.DataNascimento.CalculateAge());
                 });
+                 
 
-            CreateMap<User, UserForDetailedDto>()
-                .ForMember(dest => dest.PhotoUrl, opt =>
-                {
-                    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
-                })
-                .ForMember(dest => dest.Age, opt =>
-                {
-                    opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
-                });
-
-
-            CreateMap<Photo, PhotosForDetailedDto>();
+            CreateMap<Congregacao, CongregationForListDto>();
         }
     }
 }
- */

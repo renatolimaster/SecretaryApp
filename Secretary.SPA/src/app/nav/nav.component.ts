@@ -55,6 +55,6 @@ export class NavComponent implements OnInit {
   }
 
   isOpenChange() {
-console.log('on open change');
+    console.log('on open change');
   }
 }

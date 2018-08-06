@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 using AutoMapper;
-using DatingApp.API.Helpers;
+using Secretary.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -33,9 +33,13 @@ namespace Secretary.API
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             optionsAction.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));            
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(opt =>
+            {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddCors();
             services.AddAutoMapper();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IAuthRepository, AuthService>();
             services.AddScoped<ICongregation, CongregationService>();
             services.AddScoped<IUserRepository, UserService>();
@@ -49,10 +53,12 @@ namespace Secretary.API
                     ValidateAudience = false
                 };
             });
+            /* Está mais em cima
             services.AddMvc().AddJsonOptions(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

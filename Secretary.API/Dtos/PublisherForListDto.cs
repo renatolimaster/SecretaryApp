@@ -6,6 +6,7 @@ namespace Secretary.API.Dtos
     public class PublisherForListDto
     {
         public string Nome { get; set; }
+        public string NomeSobrenome { get; set; }
         public DateTime? DataNascimento { get; set; }
         public int Age { get; set; }
         public long? DianteiraId { get; set; }

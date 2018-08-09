@@ -21,6 +21,12 @@ import { CongregationFieldserviceComponent } from './report/congregation-fieldse
 import { ListAssistanceComponent } from './assistance/list-assistance/list-assistance.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { ListMembersComponent } from './members/list-members/list-members.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { FooterComponent } from './footer/footer.component';
+import { ReportsComponent } from './reports/reports.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { EditMembersComponent } from './members/edit-members/edit-members.component';
+import { DetailsMembersComponent } from './members/details-members/details-members.component';
 
 @NgModule({
   declarations: [
@@ -34,9 +40,15 @@ import { ListMembersComponent } from './members/list-members/list-members.compon
     ListAssistanceComponent,
     PublisherFieldserviceComponent,
     CongregationFieldserviceComponent,
-    ListMembersComponent
+    ListMembersComponent,
+    MemberCardComponent,
+    FooterComponent,
+    ReportsComponent,
+    EditMembersComponent,
+    DetailsMembersComponent
   ],
   imports: [
+    NgxDatatableModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,

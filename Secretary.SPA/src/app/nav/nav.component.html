@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-
+            
   <div class="container">
 
     <a class="navbar-brand" [routerLink]="['/home']">Secretary Web </a>
@@ -14,9 +14,8 @@
           <i class="fa fa-home"></i> Congregation
         </a>
         <a class="dropdown-item" href="#">
-          <i class="fa fa-exchange"></i> Transfer</a>
-        <div class="dropdown divider"></div>
-        <a class="dropdown-item">
+          <i class="fa fa-exchange"></i> Transfer</a>        
+        <a class="dropdown-item" href="#">
           <i class="fa fa-users"></i> Meetings</a>
       </div>
     </div>
@@ -34,13 +33,13 @@
         <a class="nav-link" [routerLink]="['/publisher']">Publisher</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/fieldservice']" routerLinkActive="router-link-active">Field Service</a>
+        <a class="nav-link" [routerLink]="['/fieldservice']">Field Service</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/assistance']" routerLinkActive="router-link-active">Assistance</a>
+        <a class="nav-link" [routerLink]="['/assistance']">Assistance</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link">Reports</a>
+      <li class="nav-item" routerLinkActive="active" >
+        <a class="nav-link" [routerLink]="['/reports']" >Reports</a>
       </li>
 
     </ul>
@@ -54,7 +53,7 @@
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" href="#">
           <i class="fa fa-user"></i> Edit Profile</a>
-        <div class="dropdown divider"></div>
+        <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="logout()">
           <i class="fa fa-sign-out"></i> Logout</a>
       </div>

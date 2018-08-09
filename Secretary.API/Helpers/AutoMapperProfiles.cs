@@ -16,12 +16,17 @@ namespace Secretary.API.Helpers
 
             // CreateMap<Publicador, PublisherForListDto>();
 
-            
-            CreateMap<Publicador, PublisherForListDto>().ForMember(dest => dest.Age, opt =>
+
+            CreateMap<Publicador, PublisherForListDto>()
+            .ForMember(dest => dest.NomeSobrenome, opt =>
+                {
+                    opt.ResolveUsing(d => d.Nome.Split(' ')[0] + ' ' + d.Nome.Split(' ')[d.Nome.Split(' ').Length - 1]);
+                })
+            .ForMember(dest => dest.Age, opt =>
                 {
                     opt.ResolveUsing(d => d.DataNascimento.CalculateAge());
                 });
-                 
+
 
             CreateMap<Congregacao, CongregationForListDto>();
         }

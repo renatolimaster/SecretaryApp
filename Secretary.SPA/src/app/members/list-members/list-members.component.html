@@ -1,3 +1,89 @@
-<p>
-  list-members works!
-</p>
+<div class="container mt-3">
+  <div class="row">
+    <h2>{{title}}</h2>
+    <div class="col-xs-12 col-md-12">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary">
+        <i class="fa fa-plus"></i> Create New</button>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-12 mt-3">
+      <h4>List of {{title}}</h4>
+      <hr>
+    </div>
+  </div>
+</div>
+<br />
+
+<div class="container">
+
+    <input
+    type='text'
+    style='padding:8px;margin:15px auto;width:30%;'
+    placeholder='Type to filter the username column...'
+    (keyup)='updateFilter($event)'
+  />
+
+
+  <ngx-datatable #table class='material' [limit]="10" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+    [rows]='rows'>
+    <!-- Row Detail Template -->
+    <ngx-datatable-row-detail [rowHeight]="50" #myDetailRow (toggle)="onDetailToggle($event)">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <div style="padding-left:60px; font-size:14px">
+          <div>{{row.username}}, {{row.email}}</div>
+        </div>
+      </ng-template>
+    </ngx-datatable-row-detail>
+    <!-- Column Templates -->
+    <ngx-datatable-column name="Username" [flexGrow]="3" [minWidth]="200">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Email" [flexGrow]="1">
+      <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+        <span class="mobile-hidden">{{column.name}}</span>
+      </ng-template>
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <span class="mobile-hidden">{{value}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Congregacao" [flexGrow]="1">
+      <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+        <span class="mobile-hidden">{{column.name}}</span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span class="mobile-hidden">{{value.nome}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Publicador" [flexGrow]="1">
+      <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+        <span class="mobile-hidden">{{column.name}}</span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span class="mobile-hidden">{{value.nome}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <button type="button" class="btn-sm btn btn-primary" [routerLink]="['/editmembers']" routerLinkActive="router-link-active">
+          <i class="fa fa-pencil-square-o"></i> Edit</button>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <button type="button" class="btn-sm btn btn-warning" [routerLink]="['/detailsmembers']" routerLinkActive="router-link-active">
+          <i class="fa fa-address-card-o"></i> Detail</button>
+      </ng-template>
+    </ngx-datatable-column>
+      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <button type="button" class="btn-sm btn btn-danger">
+          <i class="fa fa-times"></i> Delete</button>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

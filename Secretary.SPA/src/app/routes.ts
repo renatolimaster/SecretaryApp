@@ -8,6 +8,9 @@ import { CongregationFieldserviceComponent } from './report/congregation-fieldse
 import { PublisherFieldserviceComponent } from './report/publisher-fieldservice/publisher-fieldservice.component';
 import { ListMembersComponent } from './members/list-members/list-members.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { ReportsComponent } from './reports/reports.component';
+import { EditMembersComponent } from './members/edit-members/edit-members.component';
+import { DetailsMembersComponent } from './members/details-members/details-members.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +20,8 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'members', component: ListMembersComponent, canActivate: [AuthGuard] },
+      { path: 'editmembers', component: EditMembersComponent, canActivate: [AuthGuard] },
+      { path: 'detailsmembers', component: DetailsMembersComponent, canActivate: [AuthGuard] },
       { path: 'congregation', component: ListCongregationComponent },
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },
@@ -26,6 +31,7 @@ export const appRoutes: Routes = [
         component: CongregationFieldserviceComponent
       },
       { path: 'publisherfieldservice', component: PublisherFieldserviceComponent },
+      { path: 'reports', component: ReportsComponent }
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' }

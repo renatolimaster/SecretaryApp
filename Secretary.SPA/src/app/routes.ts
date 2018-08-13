@@ -21,7 +21,8 @@ export const appRoutes: Routes = [
     children: [
       { path: 'members', component: ListMembersComponent, canActivate: [AuthGuard] },
       { path: 'editmembers', component: EditMembersComponent, canActivate: [AuthGuard] },
-      { path: 'detailsmembers', component: DetailsMembersComponent, canActivate: [AuthGuard] },
+      { path: 'detailsmembers/:id', component: DetailsMembersComponent, canActivate: [AuthGuard] },
+      { path: 'editmembers/:id', component: EditMembersComponent, canActivate: [AuthGuard] },
       { path: 'congregation', component: ListCongregationComponent },
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },

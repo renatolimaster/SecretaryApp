@@ -3,7 +3,7 @@ using Secretary.API.Models;
 
 namespace Secretary.API.Dtos
 {
-    public class PublisherForListDto
+    public class PublisherForDetailsDto
     {
         public string Nome { get; set; }
         public string NomeSobrenome { get; set; }
@@ -12,7 +12,7 @@ namespace Secretary.API.Dtos
         public long? DianteiraId { get; set; }
         public LeadSimplifiedDto Dianteira { get; set; }
         public long? GrupoId { get; set; }
-        public Grupo Grupo { get; set; }
+        public GroupSimplifiedDto Grupo { get; set; }
         public long? PioneiroId { get; set; }    
         public PioneerSimplifiedDto Pioneiro { get; set; }         
         public string Sexo { get; set; }

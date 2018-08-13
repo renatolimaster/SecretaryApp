@@ -15,8 +15,8 @@ namespace Secretary.API.Controllers
     [ApiController]
     public class CongregationController : ControllerBase
     {
-        private readonly ICongregation _repoCongregation;
-        public CongregationController(ICongregation repoCongregation)
+        private readonly ICongregationRepository _repoCongregation;
+        public CongregationController(ICongregationRepository repoCongregation)
         {
             _repoCongregation = repoCongregation;
         }

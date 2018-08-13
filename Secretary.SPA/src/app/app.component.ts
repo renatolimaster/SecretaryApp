@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     if (token) {
       this.authService.decodedToken = this.jwtHelper.decodeToken(token);
       // will use it to get real name of publisher data
-      console.log('userId: ' + this.authService.decodedToken.nameid);
+      console.log('will use it to get real name of publisher data -> userId: ' + this.authService.decodedToken.nameid);
     }
   }
 }

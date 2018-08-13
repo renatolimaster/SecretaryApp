@@ -8,7 +8,7 @@ using Secretary.API.Models;
 
 namespace Secretary.API.InterfacesImpl
 {
-    public class CongregationService : ICongregation
+    public class CongregationService : ICongregationRepository
     {
         private readonly ApplicationDbContext _dbContext;
         public CongregationService(ApplicationDbContext dbContext)
@@ -34,6 +34,13 @@ namespace Secretary.API.InterfacesImpl
         public Task<Congregacao> getCongregationAsync(long id)
         {
             var cong = _dbContext.Congregacao.FirstOrDefaultAsync(c => c.Id == id);
+
+            return cong;
+        }
+
+        public Congregacao getCongregationDefaultAsync()
+        {
+            var cong = _dbContext.Congregacao.FirstOrDefaultAsync(c => c.Padrao == true).Result;
 
             return cong;
         }

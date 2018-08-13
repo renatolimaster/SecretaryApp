@@ -19,11 +19,7 @@
 
 <div class="container">
 
-    <input
-    type='text'
-    style='padding:8px;margin:15px auto;width:30%;'
-    placeholder='Type to filter the username column...'
-    (keyup)='updateFilter($event)'
+  <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='Type to filter the username column...' (keyup)='updateFilter($event)'
   />
 
 
@@ -38,7 +34,7 @@
       </ng-template>
     </ngx-datatable-row-detail>
     <!-- Column Templates -->
-    <ngx-datatable-column name="Username" [flexGrow]="3" [minWidth]="200">
+    <ngx-datatable-column name="Username" [flexGrow]="3" [minWidth]="80" [width]="100">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{value}}
       </ng-template>
@@ -67,23 +63,25 @@
         <span class="mobile-hidden">{{value.nome}}</span>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
-      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-        <button type="button" class="btn-sm btn btn-primary" [routerLink]="['/editmembers']" routerLinkActive="router-link-active">
-          <i class="fa fa-pencil-square-o"></i> Edit</button>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
-      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-        <button type="button" class="btn-sm btn btn-warning" [routerLink]="['/detailsmembers']" routerLinkActive="router-link-active">
-          <i class="fa fa-address-card-o"></i> Detail</button>
-      </ng-template>
-    </ngx-datatable-column>
+    <div class="text-center">
       <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
-      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-        <button type="button" class="btn-sm btn btn-danger">
-          <i class="fa fa-times"></i> Delete</button>
-      </ng-template>
-    </ngx-datatable-column>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <button type="button" class="btn-sm btn btn-primary custombuttonlist" [routerLink]="['/editmembers', row.id]" routerLinkActive="router-link-active">
+            <i class="fa fa-pencil-square-o"></i> Edit</button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <button type="button" class="btn-sm btn btn-warning custombuttonlist" [routerLink]="['/detailsmembers/', row.id]" routerLinkActive="router-link-active">
+            <i class="fa fa-address-card-o"></i> Detail</button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <button type="button" class="btn-sm btn btn-danger custombuttonlist">
+            <i class="fa fa-times"></i> Delete</button>
+        </ng-template>
+      </ngx-datatable-column>
+    </div>
   </ngx-datatable>
 </div>

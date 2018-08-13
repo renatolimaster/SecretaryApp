@@ -41,8 +41,9 @@ namespace Secretary.API
             services.AddAutoMapper();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IAuthRepository, AuthService>();
-            services.AddScoped<ICongregation, CongregationService>();
+            services.AddScoped<ICongregationRepository, CongregationService>();
             services.AddScoped<IUserRepository, UserService>();
+            services.AddScoped<IPublisherRepository, PublisherService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

@@ -12,10 +12,13 @@ namespace Secretary.API.Helpers
         {
             CreateMap<Usuario, UserForListDto>();
 
-            CreateMap<Usuario, UserForDetailsDto>();
+            CreateMap<Usuario, UserForDetailsDto>();     
 
-            // CreateMap<Publicador, PublisherForListDto>();
-
+            CreateMap<Publicador, PublisherSimplifiedDto>()
+            .ForMember(dest => dest.NomeSobrenome, opt =>
+                {
+                    opt.ResolveUsing(d => d.Nome.Split(' ')[0] + ' ' + d.Nome.Split(' ')[d.Nome.Split(' ').Length - 1]);
+                });       
 
             CreateMap<Publicador, PublisherForListDto>()
             .ForMember(dest => dest.NomeSobrenome, opt =>
@@ -27,8 +30,27 @@ namespace Secretary.API.Helpers
                     opt.ResolveUsing(d => d.DataNascimento.CalculateAge());
                 });
 
+            CreateMap<Publicador, PublisherForDetailsDto>()
+            .ForMember(dest => dest.NomeSobrenome, opt =>
+                {
+                    opt.ResolveUsing(d => d.Nome.Split(' ')[0] + ' ' + d.Nome.Split(' ')[d.Nome.Split(' ').Length - 1]);
+                })
+            .ForMember(dest => dest.Age, opt =>
+                {
+                    opt.ResolveUsing(d => d.DataNascimento.CalculateAge());
+                });
 
             CreateMap<Congregacao, CongregationForListDto>();
+
+            CreateMap<Dianteira, LeadForListDto>();
+
+            CreateMap<Dianteira, LeadSimplifiedDto>();
+
+            CreateMap<Grupo, GroupSimplifiedDto>();
+
+            CreateMap<Pioneiro, PioneerSimplifiedDto>();
+
+            CreateMap<Congregacao, CongregationSimplifiedDto>();
         }
     }
 }

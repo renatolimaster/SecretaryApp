@@ -1518,7 +1518,7 @@ namespace Secretary.API.Migrations
             modelBuilder.Entity("Secretary.API.Models.Usuario", b =>
                 {
                     b.HasOne("Secretary.API.Models.Congregacao", "Congregacao")
-                        .WithMany()
+                        .WithMany("Usuario")
                         .HasForeignKey("CongregacaoId")
                         .OnDelete(DeleteBehavior.Cascade);
 

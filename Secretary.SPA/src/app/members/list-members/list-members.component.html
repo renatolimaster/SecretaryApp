@@ -21,8 +21,6 @@
 
   <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='Type to filter the username column...' (keyup)='updateFilter($event)'
   />
-
-
   <ngx-datatable #table class='material' [limit]="10" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
     [rows]='rows'>
     <!-- Row Detail Template -->
@@ -33,7 +31,7 @@
         </div>
       </ng-template>
     </ngx-datatable-row-detail>
-    <!-- Column Templates -->
+    <!-- Column Templates -->    
     <ngx-datatable-column name="Username" [flexGrow]="3" [minWidth]="80" [width]="100">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{value}}
@@ -49,7 +47,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="Congregacao" [flexGrow]="1">
       <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
-        <span class="mobile-hidden">{{column.name}}</span>
+        <span class="mobile-hidden">Congregation</span>
       </ng-template>
       <ng-template let-value="value" ngx-datatable-cell-template>
         <span class="mobile-hidden">{{value.nome}}</span>
@@ -57,7 +55,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="Publicador" [flexGrow]="1">
       <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
-        <span class="mobile-hidden">{{column.name}}</span>
+        <span class="mobile-hidden">Publisher</span>
       </ng-template>
       <ng-template let-value="value" ngx-datatable-cell-template>
         <span class="mobile-hidden">{{value.nome}}</span>

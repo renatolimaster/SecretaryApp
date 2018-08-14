@@ -4,6 +4,7 @@ namespace Secretary.API.Dtos
 {
     public class CongregationForListDto
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Coordenador { get; set; }
         public bool Padrao { get; set; }

@@ -17,10 +17,13 @@ namespace Secretary.API.InterfacesImpl
         }
         public async Task<Usuario> Login(string username, string password)
         {
-            var user = await _context.Usuario.FirstOrDefaultAsync(x => x.Username == username);
+            Console.WriteLine("login");
+            var user = await _context.Usuario.Include(u => u.Publicador).FirstOrDefaultAsync(x => x.Username == username);
 
             if (user == null)
+            {
                 return null;
+            }
 
             if (!VerifyPasswordHash(password, user.PasswordHarsh, user.PasswordSalt))
                 return null;
@@ -31,9 +34,10 @@ namespace Secretary.API.InterfacesImpl
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-            {                
+            {
                 var computerHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computerHash.Length; i++) {
+                for (int i = 0; i < computerHash.Length; i++)
+                {
                     if (computerHash[i] != passwordHash[i]) return false;
                 }
             }
@@ -56,17 +60,18 @@ namespace Secretary.API.InterfacesImpl
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using(var hmac = new System.Security.Cryptography.HMACSHA512()) {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
-            
+
         }
 
         public async Task<bool> UserExist(string username)
         {
             if (await _context.Usuario.AnyAsync(x => x.Username == username))
-            return true;
+                return true;
 
             return false;
         }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
+import { Publicador } from '../_models/Publicador';
 
 @Component({
   selector: 'app-nav',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  @Input() publisher;
   model: any = {};
 
   constructor(
@@ -17,7 +19,9 @@ export class NavComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('veio do pai: ' + this.publisher);
+  }
 
   login() {
     // console.log(this.model);

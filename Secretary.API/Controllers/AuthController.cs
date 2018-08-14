@@ -57,13 +57,23 @@ namespace Secretary.API.Controllers
             var userFromRepo = await _repoAuth.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
             if (userFromRepo == null)
+            {
+                Console.WriteLine("========= userFromRepo 1 == null ===========-");
                 return Unauthorized();
+            }
+
+            if (userFromRepo.Publicador == null)
+            {
+                Console.WriteLine("========= userFromRepo.Publicador 2 == null ===========-" + userFromRepo.PublicadorId);
+                return Unauthorized();
+            }
 
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username)
-                };
+                new Claim(ClaimTypes.Name, userFromRepo.Publicador.Nome), // pode ser usado o Username
+                new Claim(ClaimTypes.GivenName, userFromRepo.Publicador.Nome)
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
 

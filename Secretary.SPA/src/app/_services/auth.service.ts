@@ -21,10 +21,11 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'login', model).pipe(
       map((response: any) => {
         const user = response;
+        console.log('token: ' + user.Publicador);
         if (user) {
           localStorage.setItem('token', user.token);
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
-          // console.log(this.decodedToken);
+          console.log('token: ' + this.decodedToken.nameid);
         }
       })
     );

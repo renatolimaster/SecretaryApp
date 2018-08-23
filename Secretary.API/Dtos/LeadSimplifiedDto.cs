@@ -2,7 +2,7 @@ namespace Secretary.API.Dtos
 {
     public class LeadSimplifiedDto
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Descricao { get; set; } 
     }
 }

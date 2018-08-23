@@ -7,6 +7,8 @@ using Secretary.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Secretary.API.Dtos;
 
 namespace Secretary.API.Controllers
 {
@@ -16,8 +18,10 @@ namespace Secretary.API.Controllers
     public class CongregationController : ControllerBase
     {
         private readonly ICongregationRepository _repoCongregation;
-        public CongregationController(ICongregationRepository repoCongregation)
+        private readonly IMapper _mapper;
+        public CongregationController(ICongregationRepository repoCongregation, IMapper mapper)
         {
+            _mapper = mapper;
             _repoCongregation = repoCongregation;
         }
 
@@ -28,8 +32,9 @@ namespace Secretary.API.Controllers
             Console.WriteLine("getCongregationsAsync");
 
             var cong = await _repoCongregation.getAllCongregationsAsync();
+            var congToReturn = _mapper.Map<IEnumerable<CongregationForListDto>>(cong);
 
-            return Ok(cong);
+            return Ok(congToReturn);
         }
 
         [AllowAnonymous]

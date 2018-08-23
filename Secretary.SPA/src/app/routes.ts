@@ -11,6 +11,8 @@ import { AuthGuard } from './_guards/auth.guard';
 import { ReportsComponent } from './reports/reports.component';
 import { EditMembersComponent } from './members/edit-members/edit-members.component';
 import { DetailsMembersComponent } from './members/details-members/details-members.component';
+import { EditFieldserviceComponent } from './fieldservice/edit-fieldservice/edit-fieldservice.component';
+import { DetailFieldserviceComponent } from './fieldservice/detail-fieldservice/detail-fieldservice.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,6 +29,8 @@ export const appRoutes: Routes = [
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },
       { path: 'fieldservice', component: ListFieldserviceComponent },
+      { path: 'editfieldservice/:id', component: EditFieldserviceComponent },
+      { path: 'detailfieldservice/:id', component: DetailFieldserviceComponent },
       {
         path: 'congregationfieldservice',
         component: CongregationFieldserviceComponent

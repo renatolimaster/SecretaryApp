@@ -51,6 +51,13 @@ namespace Secretary.API.Helpers
             CreateMap<Pioneiro, PioneerSimplifiedDto>();
 
             CreateMap<Congregacao, CongregationSimplifiedDto>();
+
+            CreateMap<ServicoCampo, FieldServiceForListDto>();
+
+            CreateMap<Pioneiro, PioneerForDetailDto>();
+
+            CreateMap<Pioneiro, PioneerSimplifiedDto>();
+
         }
     }
 }

@@ -10,7 +10,9 @@ import { Publicador } from '../_models/Publicador';
 export class PublisherService {
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
   getPublishers(): Observable<Publicador[]> {
     return this.http.get<Publicador[]>(this.baseUrl + 'publisher');

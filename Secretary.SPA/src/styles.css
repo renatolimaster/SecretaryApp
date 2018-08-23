@@ -5,21 +5,51 @@
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 @import '../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
+@import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
 @import '~@swimlane/ngx-datatable/release/index.css';
 @import '~@swimlane/ngx-datatable/release/themes/material.css';
 @import '~@swimlane/ngx-datatable/release/assets/icons.css';
 
 .card {
-    margin: 0 auto; /* Added */
-    float: none; /* Added */
-    margin-bottom: 10px; /* Added */
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+  margin-bottom: 10px; /* Added */
 }
 
 .custombutton {
-    width: 100px !important;
+  width: 100px !important;
 }
 
+/* same width to button on datatable*/
 .custombuttonlist {
-    width: 80px !important;
+  width: 70px !important;
+}
+
+.my-custom-cell-global {
+  text-align: center;
+  background: #e6f2ff;
+}
+
+/* row hover color */
+.ngx-datatable.bootstrap:not(.cell-selection) .datatable-body-row:hover,
+.ngx-datatable.material:not(.cell-selection)
+  .datatable-body-row:hover
+  .datatable-row-group {
+  background: lightskyblue;
+}
+
+.ngx-datatable.material
+  .datatable-body
+  .datatable-body-row
+  .datatable-body-cell
+  .datatable-body-cell-label {
+  text-align: center;
+}
+
+.ngx-datatable.material .datatable-header .datatable-header-cell {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: lightskyblue;
 }

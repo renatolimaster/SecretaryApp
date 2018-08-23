@@ -35,17 +35,14 @@ namespace Secretary.API.InterfacesImpl
 
         public async Task<Usuario> GetUserInclude(long id)
         {
-            var user = await _context.Usuario.Include(u => u.Congregacao).Include(u => u.Publicador).FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Usuario.AsNoTracking().Include(u => u.Congregacao).Include(u => u.Publicador).FirstOrDefaultAsync(u => u.Id == id);
 
             return user;
         }
 
         public async Task<IEnumerable<Usuario>> GetUsers()
         {
-            /*
-            var user = await _context.Usuario.Include(u => u.Congregacao).Include(u => u.Publicador).ToListAsync();
-             */
-            var user = await _context.Usuario.Include(u => u.Congregacao).Include(u => u.Publicador).ToListAsync();
+            var user = await _context.Usuario.AsNoTracking().Include(u => u.Congregacao).Include(u => u.Publicador).ToListAsync();
 
             return user;
         }

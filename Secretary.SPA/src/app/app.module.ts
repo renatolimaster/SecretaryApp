@@ -2,12 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -28,6 +29,8 @@ import { ReportsComponent } from './reports/reports.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { EditMembersComponent } from './members/edit-members/edit-members.component';
 import { DetailsMembersComponent } from './members/details-members/details-members.component';
+import { EditFieldserviceComponent } from './fieldservice/edit-fieldservice/edit-fieldservice.component';
+import { DetailFieldserviceComponent } from './fieldservice/detail-fieldservice/detail-fieldservice.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -50,14 +53,18 @@ export function tokenGetter() {
     FooterComponent,
     ReportsComponent,
     EditMembersComponent,
-    DetailsMembersComponent
+    DetailsMembersComponent,
+    EditFieldserviceComponent,
+    DetailFieldserviceComponent
   ],
   imports: [
     NgxDatatableModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {

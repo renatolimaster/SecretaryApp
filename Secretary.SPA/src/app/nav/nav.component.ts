@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
-import { Publicador } from '../_models/Publicador';
 
 @Component({
   selector: 'app-nav',
@@ -24,7 +23,7 @@ export class NavComponent implements OnInit {
   }
 
   login() {
-    // console.log(this.model);
+    console.log(this.model);
     this.authService.login(this.model).subscribe(
       next => {
         this.alertify.success('Logged in successfully');

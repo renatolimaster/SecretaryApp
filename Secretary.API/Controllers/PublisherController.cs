@@ -29,7 +29,6 @@ namespace Secretary.API.Controllers
             _mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> getPublishersAsync()
         {
@@ -41,7 +40,6 @@ namespace Secretary.API.Controllers
             return Ok(pubsToReturn);
         }
 
-        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> getPublisherAsync(long id)
         {

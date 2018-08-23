@@ -39,11 +39,15 @@ namespace Secretary.API
             });
             services.AddCors();
             services.AddAutoMapper();
+            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IAuthRepository, AuthService>();
             services.AddScoped<ICongregationRepository, CongregationService>();
             services.AddScoped<IUserRepository, UserService>();
             services.AddScoped<IPublisherRepository, PublisherService>();
+            services.AddScoped<IFieldServiceRepository, FieldServiceReportService>();
+            services.AddScoped<IPioneerRepository, PioneerService>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

@@ -40,7 +40,7 @@ namespace Secretary.API.InterfacesImpl
             Console.WriteLine("getFieldServiceAsync");
 
             var cong = _repoCong.getCongregationDefaultAsync();
-            var serv = _dbContext.ServicoCampo.AsNoTracking().Where(p => p.CongregacaoId == cong.Id).Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).FirstOrDefaultAsync(p => p.Id == id);
+            var serv = _dbContext.ServicoCampo.AsNoTracking().Where(p => p.CongregacaoId == cong.Id).Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Publicador.Dianteira).FirstOrDefaultAsync(p => p.Id == id);
 
             return serv;
         }

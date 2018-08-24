@@ -7,13 +7,7 @@ import { CongregationService } from '../../_services/congregation.service';
 import { Congregacao } from '../../_models/Congregacao';
 import { PioneerService } from '../../_services/pioneer.service';
 import { Pioneiro } from '../../_models/Pioneiro';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-  NgForm
-} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-fieldservice',
@@ -21,22 +15,17 @@ import {
   styleUrls: ['./edit-fieldservice.component.css']
 })
 export class EditFieldserviceComponent implements OnInit {
-  @ViewChild('editForm')
-  editForm: NgForm;
+  @ViewChild('editForm') editForm: NgForm;
   title = 'Field Service';
   subTitles = 'Edit';
   report: ServicoCampo;
-  congregations: Congregacao[];
-  pioneers: Pioneiro[];
+  congregations: Congregacao[] = [];
+  pioneers: Pioneiro[] = [];
   selectedCongregation: number;
   selectedPioneer: number;
-  // model: any = {};
-  // model: ServicoCampo;
-
-  // myForm: FormGroup;
+  publisherName: string;
 
   constructor(
-    // private fb: FormBuilder,
     private pioneerService: PioneerService,
     private congregationService: CongregationService,
     private reportService: ReportService,
@@ -45,10 +34,9 @@ export class EditFieldserviceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.initForm();
-    this.loadReport();
     this.loadCongregations();
     this.loadPioneers();
+    this.loadReport();
   }
 
   compareCongregationFn(c1: Congregacao, c2: Congregacao): boolean {
@@ -59,36 +47,15 @@ export class EditFieldserviceComponent implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
-  /*
-  initForm() {
-    this.myForm = this.fb.group({
-      nome: ['', [Validators.required]],
-      dataReferencia: ['', [Validators.required]],
-      dataEntrega: ['', [Validators.required]],
-      congregacao: ['', [Validators.required]],
-      publicador: ['', [Validators.required]],
-      pioneiro: ['', [Validators.required]],
-      publicacoes: ['0', [Validators.required]],
-      videosMostrados: ['0', [Validators.required]],
-      horas: ['0', [Validators.required]],
-      revisitas: ['0', [Validators.required]],
-      estudos: ['0', [Validators.required]],
-      horasBetel: ['0', [Validators.required]],
-      creditoHoras: ['0', [Validators.required]],
-      minutos: ['0', [Validators.required]]
-    });
-  }
-*/
   loadReport() {
     this.reportService.getReport(this.route.snapshot.params['id']).subscribe(
       (report: ServicoCampo) => {
         this.report = report;
         this.selectedCongregation = this.report.congregacao.id;
-        console.log('selectedCongregation: ' + this.selectedCongregation);
         this.selectedPioneer = this.report.pioneiro.id;
-        console.log('pioneiro: ' + this.report.pioneiro.id);
         this.report.dataReferencia = new Date(this.report.dataReferencia);
         this.report.dataEntrega = new Date(this.report.dataEntrega);
+        this.publisherName = this.report.publicador.nome;
       },
       error => {
         this.alertifyService.error(error);
@@ -103,7 +70,7 @@ export class EditFieldserviceComponent implements OnInit {
 
   loadCongregations() {
     this.congregationService.getCongregations().subscribe(
-      (congregations: Congregacao[]) => {
+      (congregations: Congregacao[] = []) => {
         this.congregations = congregations;
       },
       error => {
@@ -123,15 +90,8 @@ export class EditFieldserviceComponent implements OnInit {
     );
   }
 
-  updateFieldService() {
-    console.log(this.report);
-    this.alertifyService.success('Field service updated successfully!');
-    this.selectedCongregation = this.report.congregacao.id;
-    console.log('selectedCongregation: ' + this.selectedCongregation);
-    this.selectedPioneer = this.report.pioneiro.id;
-    console.log('pioneiro: ' + this.report.pioneiro.id);
-    this.report.dataReferencia = new Date(this.report.dataReferencia);
-    this.report.dataEntrega = new Date(this.report.dataEntrega);
-    this.editForm.reset(this.report);
+  updateFieldService(report: ServicoCampo) {
+    this.alertifyService.success('Report updated successfully!');
+    this.editForm.resetForm(report);
   }
 }

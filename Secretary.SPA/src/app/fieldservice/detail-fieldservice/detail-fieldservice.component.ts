@@ -13,6 +13,7 @@ export class DetailFieldserviceComponent implements OnInit {
   title = 'Field Service';
   subTitles = 'Details';
   report: ServicoCampo;
+  del: any;
 
   constructor(
     private reportService: ReportService,
@@ -21,6 +22,11 @@ export class DetailFieldserviceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.del = <boolean>this.route.snapshot.params['del'];
+    if (this.del === 'true') {
+      this.subTitles = 'Delete';
+    }
+    console.log('del: ' + this.del);
     this.loadReport();
   }
 
@@ -33,6 +39,11 @@ export class DetailFieldserviceComponent implements OnInit {
         this.alertifyService.error(error);
       }
     );
+  }
+
+  deleteFieldService(id: number) {
+    console.log('delete: ' + id);
+    this.alertifyService.success('Report updated successfully!');
   }
 
 }

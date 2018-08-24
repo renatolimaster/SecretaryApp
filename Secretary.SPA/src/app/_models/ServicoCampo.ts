@@ -24,7 +24,7 @@ export interface ServicoCampo {
   pioneiro: Pioneiro;
   // ForeignKey
   congregacaoId: number;
-  congregacao: Congregacao;
+  congregacao?: Congregacao;
   publicadorId: number;
-  publicador: Publicador;
+  publicador?: Publicador;
 }

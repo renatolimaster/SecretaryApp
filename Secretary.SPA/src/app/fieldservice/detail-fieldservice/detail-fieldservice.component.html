@@ -2,7 +2,7 @@
   <div class="row">
     <h2>{{title}}</h2>
     <div class="col-xs-12 col-md-12">
-      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/members']" routerLinkActive="router-link-active">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/fieldservice']" routerLinkActive="router-link-active">
         <i class="fa fa-arrow-left"></i> List</button>&nbsp;
       <button asp-action="Index" class="btn-sm btn btn-outline-primary">
         <i class="fa fa-plus"></i> Create New</button>
@@ -12,7 +12,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-md-12 mt-3">
-      <h4>{{subTitles}}</h4>
+      <h4 class="text-primary">{{subTitles}}</h4>
       <hr>
     </div>
   </div>
@@ -21,7 +21,7 @@
 <div class="container">
   <div class="card mt-3 w-75">
     <div class="card-header">
-      <label>Publisher</label><h3 class="text-primary">{{ report?.publicador.nome }}</h3>
+      <h3>{{ report?.publicador.dianteira.descricao }}</h3><h3 class="text-primary">{{ report?.publicador.nome }}</h3>
     </div>
     <div class="card-body">
 
@@ -101,7 +101,7 @@
       <hr>
       <button type="button" class="btn btn-warning custombutton" [routerLink]="['/editfieldservice', report?.id]" routerLinkActive="router-link-active">
         <i class="fa fa-pencil-square-o"></i> Edit</button>&nbsp;     
-      <button type="button" class="btn btn-danger custombutton">
+      <button *ngIf="del == 'true'" type="button" class="btn btn-danger custombutton" (click)="deleteFieldService(report.id)">
         <i class="fa fa-times"></i> Delete</button>
     </div>
     &nbsp;

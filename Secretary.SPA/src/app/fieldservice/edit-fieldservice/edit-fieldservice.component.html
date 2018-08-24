@@ -2,7 +2,7 @@
   <div class="row">
     <h2>{{title}}</h2>
     <div class="col-xs-12 col-sm-12">
-      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/members']" routerLinkActive="router-link-active">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/fieldservice']" routerLinkActive="router-link-active">
         <i class="fa fa-arrow-left"></i> List</button>&nbsp;
       <button asp-action="Index" class="btn-sm btn btn-outline-primary">
         <i class="fa fa-plus"></i> Create New</button>
@@ -12,7 +12,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-12 mt-3">
-      <h4>{{subTitles}}</h4>
+      <h4 class="text-primary">{{subTitles}}</h4>
       <hr>
     </div>
   </div>
@@ -20,15 +20,15 @@
 <br />
 <div class="container">
   <div *ngIf="editForm.dirty" class="card mt-3 w-75 alert alert-info">
-      <p class="card-text"><strong>Information:</strong>&nbsp;You have made changes. Any unsave changes will be lost!</p>
+    <p class="card-text"><strong>Information:</strong>&nbsp;You have made changes. Any unsave changes will be lost!</p>
   </div>
 
   <div class="card mt-3 w-75">
     <div class="card-header">
-      <label>Publisher</label><h3 class="text-primary">{{ report?.publicador.nome }}</h3>
+        <h3>{{ report?.publicador.dianteira.descricao }}</h3><h3 class="text-primary">{{ report?.publicador.nome }}</h3>
     </div>
 
-    <form #editForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="updateFieldService()">
+    <form #editForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="updateFieldService(editForm.value)">
       <!-- diagnostic: {{diagnostic}} -->
       <div class="card-body">
 
@@ -39,15 +39,15 @@
             <div class="col-sm">
               <h5 class="card-text">Congregation</h5>
               <select [compareWith]="compareCongregationFn" class="form-control w-75" id="congregacao" name="congregacao" [(ngModel)]="report.congregacao"
-                required>
-                <option *ngFor="let congregation of congregations" [ngValue]="congregation">&nbsp;{{congregation.id}}:{{congregation.nome}}</option>
+                (ngModelChange)="report.congregacao = $event" required>
+                <option *ngFor="let congregation of congregations" [ngValue]="congregation">&nbsp;{{congregation?.id}}:{{congregation?.nome}}</option>
               </select>
             </div>
 
             <div class="col-sm">
               <h5 class="card-text">Pioneer</h5>
               <select [compareWith]="comparePioneerFn" [(ngModel)]="report.pioneiro" class="form-control w-50" name="pioneiro" required>
-                <option *ngFor="let pioneer of pioneers" [ngValue]="pioneer">&nbsp;{{pioneer.descricao}}</option>
+                <option *ngFor="let pioneer of pioneers" [ngValue]="pioneer">&nbsp;{{pioneer?.descricao}}</option>
               </select>
             </div>
 
@@ -59,29 +59,30 @@
 
             <div class="col-md-8">
               <h5 class="card-text">Publisher</h5>
-              <input type="text" class="form-control col-sm-8" id="nome" [(ngModel)]="report.publicador.nome" name="nome"
+              <input type="text" class="form-control col-sm-8" id="nome" [(ngModel)]="report?.publicador.nome" name="nome" (ngModelChange)="report?.publicador.nome = $event"
                 required>
             </div>
-
 
             <div class="col-md-4">
               &nbsp;
             </div>
 
           </div>
+
           <br>
+
           <div class='row'>
 
             <div class="col-sm">
               <h5 class="card-text">Reference</h5>
-              <input [(ngModel)]="report.dataReferencia" type="text" class="form-control mr-sm-2" bsDatepicker
-                [bsValue]="report?.dataReferencia" [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" name="dataReferencia" id="dataReferencia"
-                required>
+              <input [(ngModel)]="report.dataReferencia" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="report?.dataReferencia"
+                [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" name="dataReferencia" id="dataReferencia" required>
             </div>
 
             <div class="col-sm">
               <h5 class="card-text">Delivery</h5>
-              <input [(ngModel)]="report.dataEntrega" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="report?.dataEntrega" [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" id="dataEntrega" name="dataEntrega" required>
+              <input [(ngModel)]="report.dataEntrega" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="report?.dataEntrega"
+                [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" id="dataEntrega" name="dataEntrega" required>
             </div>
 
             <div class="col-sm">
@@ -108,35 +109,40 @@
 
             <div class="col-md-2">
               <h5 class="card-text">Videos</h5>
-              <input type="number" class="form-control text-center col-sm-6" id="videosMostrados" [(ngModel)]="report.videosMostrados" name="videosMostrados">
+              <input type="number" class="form-control text-center col-sm-6" id="videosMostrados" [(ngModel)]="report.videosMostrados"
+                name="videosMostrados">
             </div>
 
             <div class="col-md-2">
               <h5 class="card-text text-center">Hours</h5>
-              <input type="number" class="form-control text-danger text-center col-sm-6" id="horas" [(ngModel)]="report.horas"
-                name="horas" required>
+              <input type="number" class="form-control text-danger text-center col-sm-6" id="horas" [(ngModel)]="report.horas" name="horas"
+                required>
             </div>
 
             <div class="col-md-2">
               <h5 class="card-text text-center">Visits</h5>
-              <input type="number" class="form-control text-center col-sm-6" id="revisitas" [(ngModel)]="report.revisitas"
-                name="revisitas">
+              <input type="number" class="form-control text-center col-sm-6" id="revisitas" [(ngModel)]="report.revisitas" name="revisitas">
             </div>
 
             <div class="col-md-2">
               <h5 class="card-text text-center">Studies</h5>
-              <input type="number" class="form-control text-center col-sm-6" id="estudos" [(ngModel)]="report.estudos"
-                name="estudos">
+              <input type="number" class="form-control text-center col-sm-6" id="estudos" [(ngModel)]="report.estudos" name="estudos">
             </div>
 
             <div class="col-md-2">
               <h5 class="card-text text-center">Minutes</h5>
-              <input type="number" class="form-control text-center text-primary col-sm-6" id="minutos" [(ngModel)]="report.minutos"
-                name="minutos">
+              <input type="number" class="form-control text-center text-primary col-sm-6" id="minutos" [(ngModel)]="report.minutos" name="minutos">
             </div>
           </div>
 
           <br>
+
+
+          <br>
+          <div class="col-12">
+            <h5 class="text-primary">Specials Services</h5>
+            <hr>
+          </div>
 
           <div class="row text-center">
 
@@ -148,7 +154,8 @@
 
             <div class="col-md-2">
               <h5 class="card-text text-center">Credit</h5>
-              <input type="number" class="form-control text-center text-primary col-sm-6" id="creditoHoras" [(ngModel)]="report.creditoHoras" name="creditoHoras">
+              <input type="number" class="form-control text-center text-primary col-sm-6" id="creditoHoras" [(ngModel)]="report.creditoHoras"
+                name="creditoHoras">
             </div>
 
             <div class="col-md-2">
@@ -172,6 +179,7 @@
           <br>
 
         </div>
+
       </div>
 
       <div class="col-12 text-center">

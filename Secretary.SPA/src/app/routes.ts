@@ -29,8 +29,8 @@ export const appRoutes: Routes = [
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },
       { path: 'fieldservice', component: ListFieldserviceComponent },
-      { path: 'editfieldservice/:id', component: EditFieldserviceComponent },
-      { path: 'detailfieldservice/:id', component: DetailFieldserviceComponent },
+      { path: 'editfieldservice/:id', component: EditFieldserviceComponent, canActivate: [AuthGuard] },
+      { path: 'detailfieldservice/:id/:del', component: DetailFieldserviceComponent, canActivate: [AuthGuard] },
       {
         path: 'congregationfieldservice',
         component: CongregationFieldserviceComponent

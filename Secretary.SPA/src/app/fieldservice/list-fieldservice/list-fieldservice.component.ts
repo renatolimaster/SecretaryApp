@@ -9,7 +9,7 @@ import { ReportService } from '../../_services/report.service';
   styleUrls: ['./list-fieldservice.component.css']
 })
 export class ListFieldserviceComponent implements OnInit {
-  title = 'Field Services';
+  title = 'Field Service';
   reports: ServicoCampo[];
 
   rows: any[] = [];

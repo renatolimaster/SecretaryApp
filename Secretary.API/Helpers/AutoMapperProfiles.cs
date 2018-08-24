@@ -12,15 +12,23 @@ namespace Secretary.API.Helpers
         {
             CreateMap<Usuario, UserForListDto>();
 
-            CreateMap<Usuario, UserForDetailsDto>();     
+            CreateMap<Usuario, UserForDetailsDto>();
 
             CreateMap<Publicador, PublisherSimplifiedDto>()
+            .ForMember(dest => dest.PrimeiroNome, opt =>
+                {
+                    opt.ResolveUsing(d => d.Nome.Split(' ')[0]);
+                })
             .ForMember(dest => dest.NomeSobrenome, opt =>
                 {
                     opt.ResolveUsing(d => d.Nome.Split(' ')[0] + ' ' + d.Nome.Split(' ')[d.Nome.Split(' ').Length - 1]);
-                });       
+                });
 
             CreateMap<Publicador, PublisherForListDto>()
+            .ForMember(dest => dest.PrimeiroNome, opt =>
+                {
+                    opt.ResolveUsing(d => d.Nome.Split(' ')[0]);
+                })
             .ForMember(dest => dest.NomeSobrenome, opt =>
                 {
                     opt.ResolveUsing(d => d.Nome.Split(' ')[0] + ' ' + d.Nome.Split(' ')[d.Nome.Split(' ').Length - 1]);
@@ -31,6 +39,10 @@ namespace Secretary.API.Helpers
                 });
 
             CreateMap<Publicador, PublisherForDetailsDto>()
+            .ForMember(dest => dest.PrimeiroNome, opt =>
+                {
+                    opt.ResolveUsing(d => d.Nome.Split(' ')[0]);
+                })
             .ForMember(dest => dest.NomeSobrenome, opt =>
                 {
                     opt.ResolveUsing(d => d.Nome.Split(' ')[0] + ' ' + d.Nome.Split(' ')[d.Nome.Split(' ').Length - 1]);

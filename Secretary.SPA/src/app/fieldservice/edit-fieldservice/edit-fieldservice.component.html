@@ -42,6 +42,7 @@
                 (ngModelChange)="report.congregacao = $event" required>
                 <option *ngFor="let congregation of congregations" [ngValue]="congregation">&nbsp;{{congregation?.id}}:{{congregation?.nome}}</option>
               </select>
+
             </div>
 
             <div class="col-sm">
@@ -59,8 +60,10 @@
 
             <div class="col-md-8">
               <h5 class="card-text">Publisher</h5>
-              <input type="text" class="form-control col-sm-8" id="nome" [(ngModel)]="report?.publicador.nome" name="nome" (ngModelChange)="report?.publicador.nome = $event"
-                required>
+              <select [compareWith]="comparePublisherFn" [(ngModel)]="report.publicador" class="form-control w-50" name="publicador" required>
+                <option *ngFor="let publisher of publishers" [ngValue]="publisher">&nbsp;{{publisher?.nome}}</option>
+              </select>              
+              <input type="hidden" class="form-control col-sm-8" id="id" [(ngModel)]="report.id" name="id">
             </div>
 
             <div class="col-md-4">

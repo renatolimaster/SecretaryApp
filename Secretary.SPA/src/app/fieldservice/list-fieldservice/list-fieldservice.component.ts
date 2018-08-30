@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertifyService } from '../../_services/alertify.service';
 import { ServicoCampo } from '../../_models/ServicoCampo';
 import { ReportService } from '../../_services/report.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-fieldservice',
@@ -19,7 +20,8 @@ export class ListFieldserviceComponent implements OnInit {
 
   constructor(
     private reportService: ReportService,
-    private alertifyService: AlertifyService
+    private alertifyService: AlertifyService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -28,7 +30,16 @@ export class ListFieldserviceComponent implements OnInit {
 
 
   loadReports() {
-    console.log('here');
+    console.log('list loadReports()');
+    this.route.data.subscribe(data => {
+      this.reports = data['reports'];
+      // cache our list
+      this.temp = [...this.reports];
+      // push our inital complete list
+      this.rows = this.reports;
+    });
+
+
     this.reportService.getReports().subscribe(
       (reports: ServicoCampo[]) => {
         this.reports = reports;

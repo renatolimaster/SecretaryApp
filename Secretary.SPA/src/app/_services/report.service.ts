@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ServicoCampo } from '../_models/ServicoCampo';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +10,19 @@ import { Observable } from 'rxjs';
 export class ReportService {
   baseUrl = environment.apiUrl;
 
-constructor(
-  private http: HttpClient
-) { }
+  constructor(private http: HttpClient) {}
 
+  getReports(): Observable<ServicoCampo[]> {
+    return this.http.get<ServicoCampo[]>(this.baseUrl + 'fieldservice');
+  }
 
-getReports(): Observable<ServicoCampo[]> {
-  return this.http.get<ServicoCampo[]>(this.baseUrl + 'fieldservice');
-}
+  getReport(id): Observable<ServicoCampo> {
+    return this.http.get<ServicoCampo>(this.baseUrl + 'fieldservice/' + id);
+  }
 
-getReport(id): Observable<ServicoCampo> {
-  return this.http.get<ServicoCampo>(this.baseUrl + 'fieldservice/' + id);
-}
-
+  updateReport(id: number, report: ServicoCampo) {
+    console.log('id: ' + id);
+    console.log(report);
+    return this.http.put(this.baseUrl + 'fieldservice/' + id, report);
+  }
 }

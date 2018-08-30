@@ -70,6 +70,8 @@ namespace Secretary.API.Helpers
 
             CreateMap<Pioneiro, PioneerSimplifiedDto>();
 
+            CreateMap<FieldServiceForUpdateDto, ServicoCampo>();
+
         }
     }
 }

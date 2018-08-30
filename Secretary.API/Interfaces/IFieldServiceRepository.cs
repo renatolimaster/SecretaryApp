@@ -8,5 +8,6 @@ namespace Secretary.API.Interfaces
     {
         Task<List<ServicoCampo>> getAllFieldServicesAsync();
         Task<ServicoCampo> getFieldServiceAsync(long id);
+        Task<bool> SaveAll();
     }
 }

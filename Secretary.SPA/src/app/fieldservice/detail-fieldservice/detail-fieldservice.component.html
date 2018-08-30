@@ -21,7 +21,7 @@
 <div class="container">
   <div class="card mt-3 w-75">
     <div class="card-header">
-      <h3>{{ report?.publicador.dianteira.descricao }}</h3><h3 class="text-primary">{{ report?.publicador.nome }}</h3>
+      <h3>{{ report.publicador.dianteira.descricao }}</h3><h3 class="text-primary">{{ report.publicador.nome }}</h3>
     </div>
     <div class="card-body">
 
@@ -31,20 +31,20 @@
 
           <div class="col-md">
             <p class="card-text">Reference - Delivery</p>
-            <h5 class="card-title">{{ report?.dataReferencia | date:'MM/yyyy'}} - {{ report?.dataEntrega | date:'MM/yyyy'}}</h5>
+            <h5 class="card-title">{{ report.dataReferencia | date:'MM/yyyy'}} - {{ report.dataEntrega | date:'MM/yyyy'}}</h5>
           </div>
 
           <div class="col-md">
             <p class="card-text">Congregation</p>
-            <h5 class="card-title">{{ report?.congregacao.nome }}</h5>
+            <h5 class="card-title">{{ report.congregacao.nome }}</h5>
           </div>
           <div class="col-md">
             <p class="card-text">Publisher</p>
-            <h5 class="card-title">{{ report?.publicador.nome }}</h5>
+            <h5 class="card-title">{{ report.publicador.nome }}</h5>
           </div>
           <div class="col-md">
             <p class="card-text">Pioneer</p>
-            <h5 class="card-title">{{ report?.pioneiro.descricao }}</h5>
+            <h5 class="card-title">{{ report.pioneiro.descricao }}</h5>
           </div>
 
         </div>
@@ -61,35 +61,35 @@
 
           <div class="col-md">
             <p class="card-text text-center">Colocations</p>
-            <p class="h5 text-center">{{report?.publicacoes}}</p>
+            <p class="h5 text-center">{{report.publicacoes}}</p>
           </div>
           <div class="col-md">
             <p class="card-text text-center">Videos</p>
-            <p class="h5 text-center">{{report?.videosMostrados}}</p>
+            <p class="h5 text-center">{{report.videosMostrados}}</p>
           </div>
           <div class="col-md">
             <p class="card-text text-center">Hours</p>
-            <p class="h5 text-center text-danger">{{report?.horas}}</p>
+            <p class="h5 text-center text-danger">{{report.horas}}</p>
           </div>
           <div class="col-md">
             <p class="card-text text-center">Visits</p>
-            <p class="h5 text-center">{{report?.revisitas}}</p>
+            <p class="h5 text-center">{{report.revisitas}}</p>
           </div>
           <div class="col-md">
             <p class="card-text text-center">Studies</p>
-            <p class="h5 text-center">{{report?.estudos}}</p>
+            <p class="h5 text-center">{{report.estudos}}</p>
           </div>
           <div class="col-md">
             <p class="card-text text-center">Bethel</p>
-            <p class="h5 text-center text-primary">{{report?.horasBetel}}</p>
+            <p class="h5 text-center text-primary">{{report.horasBetel}}</p>
           </div>
           <div class="col-md">
             <p class="card-text text-center">Credit</p>
-            <p class="h5 text-center text-primary">{{report?.creditoHoras}}</p>
+            <p class="h5 text-center text-primary">{{report.creditoHoras}}</p>
           </div>
           <div class="col-md">
             <p class="card-text text-center">Minutes</p>
-            <p class="h5 text-center text-primary">{{report?.minutos}}</p>
+            <p class="h5 text-center text-primary">{{report.minutos}}</p>
           </div>
 
         </div>

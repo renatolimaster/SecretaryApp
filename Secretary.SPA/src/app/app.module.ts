@@ -31,6 +31,10 @@ import { EditMembersComponent } from './members/edit-members/edit-members.compon
 import { DetailsMembersComponent } from './members/details-members/details-members.component';
 import { EditFieldserviceComponent } from './fieldservice/edit-fieldservice/edit-fieldservice.component';
 import { DetailFieldserviceComponent } from './fieldservice/detail-fieldservice/detail-fieldservice.component';
+import { PreventUnsaveChanges } from './_guards/prevent-unsave-changes.guard';
+import { DetailFieldServiceResolver } from './_resolver/detail-fieldservice.resolver';
+import { EditFieldServiceResolver } from './_resolver/edit-fieldservice.resolver';
+import { ListFieldServiceResolver } from './_resolver/list-fieldservice.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -78,7 +82,11 @@ export function tokenGetter() {
     AuthService,
     ErrorInterceptorProvider,
     AlertifyService,
-    AuthGuard
+    AuthGuard,
+    PreventUnsaveChanges,
+    DetailFieldServiceResolver,
+    EditFieldServiceResolver,
+    ListFieldServiceResolver
   ],
   bootstrap: [AppComponent]
 })

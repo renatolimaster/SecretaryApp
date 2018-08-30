@@ -44,5 +44,12 @@ namespace Secretary.API.InterfacesImpl
 
             return serv;
         }
+
+        public async Task<bool> SaveAll()
+        {
+            var back = await _dbContext.SaveChangesAsync();
+            Console.WriteLine("back : " + back);
+            return false;
+        }
     }
 }

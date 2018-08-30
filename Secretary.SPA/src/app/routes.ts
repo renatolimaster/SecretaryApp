@@ -13,6 +13,10 @@ import { EditMembersComponent } from './members/edit-members/edit-members.compon
 import { DetailsMembersComponent } from './members/details-members/details-members.component';
 import { EditFieldserviceComponent } from './fieldservice/edit-fieldservice/edit-fieldservice.component';
 import { DetailFieldserviceComponent } from './fieldservice/detail-fieldservice/detail-fieldservice.component';
+import { PreventUnsaveChanges } from './_guards/prevent-unsave-changes.guard';
+import { DetailFieldServiceResolver } from './_resolver/detail-fieldservice.resolver';
+import { EditFieldServiceResolver } from './_resolver/edit-fieldservice.resolver';
+import { ListFieldServiceResolver } from './_resolver/list-fieldservice.resolver';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,16 +25,17 @@ export const appRoutes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'members', component: ListMembersComponent, canActivate: [AuthGuard] },
-      { path: 'editmembers', component: EditMembersComponent, canActivate: [AuthGuard] },
-      { path: 'detailsmembers/:id', component: DetailsMembersComponent, canActivate: [AuthGuard] },
-      { path: 'editmembers/:id', component: EditMembersComponent, canActivate: [AuthGuard] },
+      { path: 'members', component: ListMembersComponent },
+      { path: 'editmembers', component: EditMembersComponent },
+      { path: 'detailsmembers/:id', component: DetailsMembersComponent },
+      { path: 'editmembers/:id', component: EditMembersComponent },
       { path: 'congregation', component: ListCongregationComponent },
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },
-      { path: 'fieldservice', component: ListFieldserviceComponent },
-      { path: 'editfieldservice/:id', component: EditFieldserviceComponent, canActivate: [AuthGuard] },
-      { path: 'detailfieldservice/:id/:del', component: DetailFieldserviceComponent, canActivate: [AuthGuard] },
+      { path: 'fieldservice', component: ListFieldserviceComponent, resolve: { reports: ListFieldServiceResolver} },
+      { path: 'editfieldservice/:id', component: EditFieldserviceComponent,
+                                      canDeactivate: [PreventUnsaveChanges], resolve: { report: EditFieldServiceResolver} },
+      { path: 'detailfieldservice/:id/:del', component: DetailFieldserviceComponent, resolve: { report: DetailFieldServiceResolver} },
       {
         path: 'congregationfieldservice',
         component: CongregationFieldserviceComponent

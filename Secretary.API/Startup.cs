@@ -31,7 +31,7 @@ namespace Secretary.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
-            optionsAction.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));            
+            optionsAction.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(opt =>
             {
@@ -39,7 +39,7 @@ namespace Secretary.API
             });
             services.AddCors();
             services.AddAutoMapper();
-            
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IAuthRepository, AuthService>();
             services.AddScoped<ICongregationRepository, CongregationService>();
@@ -58,12 +58,6 @@ namespace Secretary.API
                     ValidateAudience = false
                 };
             });
-            /* Está mais em cima
-            services.AddMvc().AddJsonOptions(opt =>
-            {
-                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            });
-            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,22 +69,22 @@ namespace Secretary.API
             }
             else
             {
-                app.UseExceptionHandler(builder =>
-                {
-                    builder.Run(async context =>
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                // app.UseExceptionHandler(builder =>
+                // {
+                //     builder.Run(async context =>
+                //     {
+                //         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                //         var error = context.Features.Get<IExceptionHandlerFeature>();
 
-                        if (error != null)
-                        {
-                            context.Response.AddApplicationError(error.Error.Message);
-                            await context.Response.WriteAsync(error.Error.Message);
-                        }
-                    });
-                });
-                // app.UseHsts();
+                //         if (error != null)
+                //         {
+                //             context.Response.AddApplicationError(error.Error.Message);
+                //             await context.Response.WriteAsync(error.Error.Message);
+                //         }
+                //     });
+                // });
+                app.UseHsts();
             }
 
             // app.UseHttpsRedirection();

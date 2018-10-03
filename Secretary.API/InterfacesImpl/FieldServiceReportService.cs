@@ -47,6 +47,7 @@ namespace Secretary.API.InterfacesImpl
 
         public async Task<bool> SaveAll()
         {
+            // _dbContext.Database.SetCommandTimeout(5);
             var back = await _dbContext.SaveChangesAsync();
             Console.WriteLine("back : " + back);
             return false;

@@ -59,7 +59,7 @@ namespace Secretary.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateReportAsync(long id, FieldServiceForUpdateDto fieldServiceForUpdateDto)
+        public async Task<IActionResult> UpdateReportAsync(long id, [FromBody] FieldServiceForUpdateDto fieldServiceForUpdateDto)
         {
             Console.WriteLine("UpdateReportAsync: " + id + " - " + fieldServiceForUpdateDto);
 
@@ -67,28 +67,28 @@ namespace Secretary.API.Controllers
             // {                
             //     return Unauthorized();
             // }
-            Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.Publicador.Id + " - " + fieldServiceForUpdateDto.Publicador.Nome);
+            Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.PublicadorId);
 
             Console.WriteLine("**************** cong 1 **************************");
 
-            var cong = await _congRepo.getCongregationAsync(fieldServiceForUpdateDto.Congregacao.Id);
+            var cong = await _congRepo.getCongregationAsync(fieldServiceForUpdateDto.CongregacaoId);
 
             Console.WriteLine("cong 2 : " + cong.Id + " - " + cong.Nome);
 
             if (cong == null)
             {
-                throw new Exception($"Failed on save - congregation code {fieldServiceForUpdateDto.Congregacao.Id} doesn't exist!");
+                throw new Exception($"Failed on save - congregation code {fieldServiceForUpdateDto.CongregacaoId} doesn't exist!");
             }
 
             Console.WriteLine("cong 3 : " + cong.Id + " - " + cong.Nome);
 
-            Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.Publicador.Id + " - " + fieldServiceForUpdateDto.Publicador.Nome);
+            Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.PublicadorId);
 
-            var pub = await _pubRepo.getPublisherAsync(fieldServiceForUpdateDto.Publicador.Id);
+            var pub = await _pubRepo.getPublisherAsync(fieldServiceForUpdateDto.PublicadorId);
 
             if (pub == null)
             {
-                throw new Exception($"Failed on save - publisher code {fieldServiceForUpdateDto.Publicador.Id} doesn't exist!");
+                throw new Exception($"Failed on save - publisher code {fieldServiceForUpdateDto.PublicadorId} doesn't exist!");
             }
 
             Console.WriteLine("publ ****************** 2: " + pub.Id + " - " + pub.Nome);
@@ -97,7 +97,7 @@ namespace Secretary.API.Controllers
 
             _mapper.Map(fieldServiceForUpdateDto, reportFromRepo);
 
-            Console.WriteLine("fieldServiceForUpdateDto 2: " + reportFromRepo.Id + " - " + reportFromRepo.DataReferencia + " - " + reportFromRepo.CreditoHoras + " - " + reportFromRepo.HorasBetel + " - " + reportFromRepo.Congregacao.Nome + " - " + reportFromRepo.Publicador.Nome);
+            Console.WriteLine("fieldServiceForUpdateDto 2: " + reportFromRepo.Id + " - " + reportFromRepo.DataReferencia + " - " + reportFromRepo.Horas + " - " +reportFromRepo.CreditoHoras + " - " + reportFromRepo.HorasBetel + " - " + reportFromRepo.Congregacao.Nome + " - " + reportFromRepo.Publicador.Nome);
 
             if (await _fieldServiceRepo.SaveAll())
                 return NoContent();

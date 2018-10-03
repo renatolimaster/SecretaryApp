@@ -21,13 +21,24 @@ namespace Secretary.API.InterfacesImpl
         }
         public async Task<IEnumerable<Publicador>> getAllPublishersAsync()
         {
-            Console.WriteLine("================= getAllPublishersAsync IN =================");
+
 
             var cong = _repoCong.getCongregationDefaultAsync();
 
-            var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).ToListAsync();
+            Console.WriteLine("================= getAllPublishersAsync IN =================");
 
-            Console.WriteLine("================= getAllPublishersAsync OUT =================");
+            Console.WriteLine("Cong: " + cong.Id + " - " + cong.Nome);
+
+            var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Dianteira).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Grupo).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).ToListAsync();
+
+            // var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Congregacao).Include(p => p.Dianteira).Include(p => p.Pioneiro).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).Where(p => p.Grupo.CongregacaoId == cong.Id).ToListAsync();
+
+            // Console.WriteLine("================= getAllPublishersAsync OUT =================");
+
+            pub.ForEach(element =>
+            {
+                Console.WriteLine(element.Id + " - " + element.Nome);
+            });
 
             return pub;
         }

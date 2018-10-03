@@ -25,7 +25,7 @@ export class EditFieldserviceComponent implements OnInit {
   report: ServicoCampo;
   congregations: Congregacao[] = [];
   pioneers: Pioneiro[] = [];
-  publishers: Publicador[] = [];
+  publishers: Publicador[];
   selectedCongregation: number;
   selectedPioneer: number;
   selectedPublisher: number;

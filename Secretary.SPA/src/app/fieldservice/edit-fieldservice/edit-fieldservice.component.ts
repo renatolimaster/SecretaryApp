@@ -71,12 +71,16 @@ export class EditFieldserviceComponent implements OnInit {
     console.log('edit loadReport()');
     this.route.data.subscribe(data => {
       this.report = data['report'];
-      this.selectedCongregation = this.report.congregacao.id;
-      this.selectedPioneer = this.report.pioneiro.id;
-      this.selectedPublisher = this.report.publicador.id;
+      // this.selectedCongregation = this.report.congregacao.id;
+      // this.selectedPioneer = this.report.pioneiro.id;
+      // this.selectedPublisher = this.report.publicador.id;
       this.report.dataReferencia = new Date(this.report.dataReferencia);
       this.report.dataEntrega = new Date(this.report.dataEntrega);
-      this.publisherName = this.report.publicador.nome;
+      // this.publisherName = this.report.publicador.nome;
+      // this.report.pioneiroId = this.report.pioneiro.id;
+      // this.report.congregacaoId = this.report.congregacao.id;
+      // this.report.publicadorId = this.report.publicador.id;
+      console.log('pioneiro: ' + this.report.pioneiroId + ' - ' + this.report.congregacaoId + ' - ' + this.report.publicadorId);
     });
     // this.reportService.getReport(this.route.snapshot.params['id']).subscribe(
     //   (report: ServicoCampo) => {

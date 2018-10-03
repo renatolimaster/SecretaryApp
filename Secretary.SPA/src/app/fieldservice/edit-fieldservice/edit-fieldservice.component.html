@@ -64,6 +64,9 @@
                 <option *ngFor="let publisher of publishers" [ngValue]="publisher">&nbsp;{{publisher?.nome}}</option>
               </select>              
               <input type="hidden" class="form-control col-sm-8" id="id" [(ngModel)]="report.id" name="id">
+              <input type="hidden" class="form-control col-sm-8" id="pioneiroId" [(ngModel)]="report.pioneiroId" name="pioneiroId">
+              <input type="hidden" class="form-control col-sm-8" id="congregacaoId" [(ngModel)]="report.congregacaoId" name="congregacaoId">
+              <input type="hidden" class="form-control col-sm-8" id="publicadorId" [(ngModel)]="report.publicadorId" name="publicadorId">
             </div>
 
             <div class="col-md-4">

@@ -59,51 +59,60 @@ namespace Secretary.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateReportAsync(long id, [FromBody] FieldServiceForUpdateDto fieldServiceForUpdateDto)
+        public async Task<IActionResult> UpdateReportAsync(long id, FieldServiceForUpdateDto fieldServiceForUpdateDto)
         {
             Console.WriteLine("UpdateReportAsync: " + id + " - " + fieldServiceForUpdateDto);
+
+            Verificar por que a data está indo com Horas
+            Verificar consistencias
 
             // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             // {                
             //     return Unauthorized();
             // }
-            Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.PublicadorId);
+            // Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.Publicador.Id);
 
             Console.WriteLine("**************** cong 1 **************************");
 
-            var cong = await _congRepo.getCongregationAsync(fieldServiceForUpdateDto.CongregacaoId);
+            // var cong = await _congRepo.getCongregationAsync(fieldServiceForUpdateDto.Congregacao.Id);
 
-            Console.WriteLine("cong 2 : " + cong.Id + " - " + cong.Nome);
+             // Console.WriteLine("cong 2 : " + cong.Id + " - " + cong.Nome);
 
-            if (cong == null)
-            {
-                throw new Exception($"Failed on save - congregation code {fieldServiceForUpdateDto.CongregacaoId} doesn't exist!");
-            }
+            // if (cong == null)
+            // {
+            //     throw new Exception($"Failed on save - congregation code {fieldServiceForUpdateDto.CongregacaoId} doesn't exist!");
+            // }
 
-            Console.WriteLine("cong 3 : " + cong.Id + " - " + cong.Nome);
+            // Console.WriteLine("cong 3 : " + cong.Id + " - " + cong.Nome);
 
-            Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.PublicadorId);
+            // Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.Publicador.Id);
 
-            var pub = await _pubRepo.getPublisherAsync(fieldServiceForUpdateDto.PublicadorId);
+            // var pub = await _pubRepo.getPublisherAsync(fieldServiceForUpdateDto.Publicador.Id);
 
-            if (pub == null)
-            {
-                throw new Exception($"Failed on save - publisher code {fieldServiceForUpdateDto.PublicadorId} doesn't exist!");
-            }
+            // if (pub == null)
+            // {
+            //     throw new Exception($"Failed on save - publisher code {fieldServiceForUpdateDto.Publicador.Id} doesn't exist!");
+            // }
 
-            Console.WriteLine("publ ****************** 2: " + pub.Id + " - " + pub.Nome);
+            // Console.WriteLine("publ ****************** 2: " + pub.Id + " - " + pub.Nome);
 
-            var reportFromRepo = await _fieldServiceRepo.getFieldServiceAsync(id);
+            var reportFromRepo = await _fieldServiceRepo.getSCSingleOrDefaultAsync(id);
 
             _mapper.Map(fieldServiceForUpdateDto, reportFromRepo);
 
-            Console.WriteLine("fieldServiceForUpdateDto 2: " + reportFromRepo.Id + " - " + reportFromRepo.DataReferencia + " - " + reportFromRepo.Horas + " - " +reportFromRepo.CreditoHoras + " - " + reportFromRepo.HorasBetel + " - " + reportFromRepo.Congregacao.Nome + " - " + reportFromRepo.Publicador.Nome);
+            reportFromRepo.Horas = 222;
+
+            // Console.WriteLine("fieldServiceForUpdateDto 2: " + reportFromRepo.Id + " - " + reportFromRepo.DataReferencia + " - " + reportFromRepo.Horas + " - " +reportFromRepo.PublicadorId + " - " +reportFromRepo.PioneiroId + " - " + reportFromRepo.CongregacaoId + " - " + reportFromRepo.Congregacao.Nome + " - " + reportFromRepo.Publicador.Nome);
+
+            // Console.WriteLine("fieldServiceForUpdateDto 3: " + reportFromRepo.Horas + " - " + reportFromRepo.VideosMostrados + " - " + reportFromRepo.Minutos + " - " +reportFromRepo.HorasBetel + " - " +reportFromRepo.CreditoHoras + " - " + reportFromRepo.Estudos + " - " + reportFromRepo.Revisitas + " - " + reportFromRepo.Publicacoes);
+
+            Console.WriteLine("Save: " + reportFromRepo.Id);
 
             if (await _fieldServiceRepo.SaveAll())
                 return NoContent();
 
-            throw new Exception($"Updating field service {id} failed on save!");
-            // return Ok();
+            // throw new Exception($"Updating field service {id} failed on save!");
+            return Ok();
 
         }
 

@@ -17,16 +17,16 @@ namespace Secretary.API.Models
         public int? Livros { get; set; }
         public int? MesReferencia { get; set; }
         public int? Minutos { get; set; }
-        public string Observacao { get; set; }
-        public long PioneiroId { get; set; }
+        public string Observacao { get; set; }        
         public int? Revisitas { get; set; }
         public int? Revistas { get; set; }
         public int? Publicacoes { get; set; }
         public int? VideosMostrados { get; set; }
         public int HorasBetel { get; set; }
         public int CreditoHoras { get; set; }
-        public Pioneiro Pioneiro { get; set; }
         // ForeignKey
+        public long PioneiroId { get; set; }
+        public Pioneiro Pioneiro { get; set; }
         public long CongregacaoId { get; set; }
         public Congregacao Congregacao { get; set; }
         public long PublicadorId { get; set; }

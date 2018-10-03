@@ -14,17 +14,17 @@ export interface ServicoCampo {
   mesReferencia: number;
   minutos: number;
   observacao: string;
-  pioneiroId: number;
   revisitas: number;
   revistas: number;
   publicacoes: number;
   videosMostrados: number;
   horasBetel: number;
   creditoHoras: number;
-  pioneiro: Pioneiro;
   // ForeignKey
+  pioneiroId: number;
+  // pioneiro: Pioneiro;
   congregacaoId: number;
-  congregacao?: Congregacao;
+  // congregacao?: Congregacao;
   publicadorId: number;
-  publicador?: Publicador;
+  // publicador?: Publicador;
 }

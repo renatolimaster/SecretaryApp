@@ -19,8 +19,11 @@ namespace Secretary.API.Dtos
         public int HorasBetel { get; set; }
         public int CreditoHoras { get; set; }
         // ForeignKey
-        public long PioneiroId { get; set; }        
+        public long PioneiroId { get; set; }
+        // public Pioneiro Pioneiro { get; set; }
         public long CongregacaoId { get; set; }
+        // public Congregacao Congregacao { get; set; }
         public long PublicadorId { get; set; }
+        // public Publicador Publicador { get; set; }
     }
 }

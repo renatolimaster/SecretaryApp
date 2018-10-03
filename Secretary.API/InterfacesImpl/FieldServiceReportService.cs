@@ -24,11 +24,11 @@ namespace Secretary.API.InterfacesImpl
             // ===============  Delimiter period of year field service ===================== //
 
             Console.WriteLine("getAllFieldServicesAsync 1");
-            DateTime dtaRefIni = new DateTime(2018,07,01);
-            DateTime dtaRefFim = new DateTime(2018,07,01);
+            DateTime dtaRefIni = new DateTime(2018, 07, 01);
+            DateTime dtaRefFim = new DateTime(2018, 07, 01);
 
             var congDefault = _repoCong.getCongregationDefaultAsync();
-            
+
             var serv = _dbContext.ServicoCampo.Include(s => s.Congregacao).Include(s => s.Publicador).Include(s => s.Pioneiro).Where(x => x.Publicador.Congregacao.Equals(congDefault)).Where(s => s.DataEntrega >= dtaRefIni).Where(s => s.DataEntrega <= dtaRefFim).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataEntrega).ToListAsync();
 
             Console.WriteLine("getAllFieldServicesAsync 2");
@@ -48,9 +48,31 @@ namespace Secretary.API.InterfacesImpl
         public async Task<bool> SaveAll()
         {
             // _dbContext.Database.SetCommandTimeout(5);
+            // var back = await _dbContext.SaveChangesAsync().ConfigureAwait(continueOnCapturedContext: false);
+
             var back = await _dbContext.SaveChangesAsync();
             Console.WriteLine("back : " + back);
+
             return false;
+        }
+
+        public Task<ServicoCampo> getSingleOrDefaultAsync(long id)
+        {
+            Console.WriteLine("getFieldServiceAsync");
+
+            var cong = _repoCong.getCongregationDefaultAsync();
+            var serv = _dbContext.ServicoCampo.AsNoTracking().Where(p => p.CongregacaoId == cong.Id).Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Publicador.Dianteira).SingleOrDefaultAsync(p => p.Id == id);
+
+            return serv;
+        }
+
+        public Task<ServicoCampo> getSCSingleOrDefaultAsync(long id)
+        {
+            Console.WriteLine("getFieldServiceAsync");
+
+            var serv = _dbContext.ServicoCampo.SingleOrDefaultAsync(p => p.Id == id);
+
+            return serv;
         }
     }
 }

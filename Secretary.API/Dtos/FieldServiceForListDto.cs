@@ -15,6 +15,7 @@ namespace Secretary.API.Dtos
         public int? Minutos { get; set; }
         public int? Revisitas { get; set; }
         public int? Publicacoes { get; set; }
+        public string Observacao { get; set; }
         public int? VideosMostrados { get; set; }
         public int HorasBetel { get; set; }
         public int CreditoHoras { get; set; }

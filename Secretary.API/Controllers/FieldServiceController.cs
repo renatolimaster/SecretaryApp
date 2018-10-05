@@ -39,7 +39,7 @@ namespace Secretary.API.Controllers
         [HttpGet]
         public async Task<IActionResult> getAllFieldServicesAsync()
         {
-            Console.WriteLine("getAllFieldServicesAsync");
+            Console.WriteLine("**** getAllFieldServicesAsync ****");
 
             var servs = await _fieldServiceRepo.getAllFieldServicesAsync();
             var servsToReturn = _mapper.Map<IEnumerable<FieldServiceForListDto>>(servs);
@@ -51,31 +51,27 @@ namespace Secretary.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> getFieldServiceAsync(long id)
         {
-            Console.WriteLine("getFieldServiceAsync: " + id);
+            Console.WriteLine("**** getFieldServiceAsync ****: " + id);
             var serv = await _fieldServiceRepo.getFieldServiceAsync(id);
             var servToReturn = _mapper.Map<FieldServiceForListDto>(serv);
             // await Task.Delay(1000);
             return Ok(servToReturn);
         }
 
-
-        [HttpGet("{deliveryDate:DateTime}")]
+        [HttpGet("initialize/{deliveryDate}")]
         public async Task<IActionResult> initializeFieldServiceAsync(DateTime deliveryDate)
         {
-            Console.WriteLine("initializeFieldServiceAsync: " + deliveryDate);
-            var serv = await _fieldServiceRepo.initializeFieldService(deliveryDate);
-            var servToReturn = _mapper.Map<FieldServiceForListDto>(serv);
+            Console.WriteLine("**** initializeFieldServiceAsync ****: " + deliveryDate);
+            var serv = await _fieldServiceRepo.initializeFieldService(deliveryDate.Date);
+            Console.WriteLine(serv);
             // await Task.Delay(1000);
-            return Ok(servToReturn);
+            return Ok(serv);
         }
- 
+  
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReportAsync(long id, FieldServiceForUpdateDto fieldServiceForUpdateDto)
         {
             Console.WriteLine("UpdateReportAsync: " + id + " - " + fieldServiceForUpdateDto.CongregacaoId);
-
-            // Verificar por que a data está indo com Horas
-            // Verificar consistencias
 
             // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             // {                

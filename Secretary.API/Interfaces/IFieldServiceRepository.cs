@@ -18,6 +18,8 @@ namespace Secretary.API.Interfaces
         Task<double> getMediaYearlyFieldServiceAsync(long id);
         Task<double> getMediaQuarterlyFieldServiceSAsync(long id);
         Task<double> getMediaSemesterFieldServiceAsync(long id);
+
+        Task<double> getMediaFieldServiceAsync(long publisherId, int months);
         Task<bool> SaveAllAsync();
     }
 }

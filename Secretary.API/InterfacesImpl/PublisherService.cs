@@ -123,6 +123,8 @@ namespace Secretary.API.InterfacesImpl
                 status = "Inativo";
             }
 
+            Console.WriteLine("status: " + status);
+
             List<Publicador> publ = _dbContext.Publicador.Where(p => p.Id == publisherId).ToList();
             try
             {
@@ -149,10 +151,15 @@ namespace Secretary.API.InterfacesImpl
             return status;
         }
 
-        public int getMissingFieldService(long publisherId, DateTime? FromDate = null, DateTime? ToDate = null)
+        public int getMissingFieldService(long publisherId, DateTime FromDate, DateTime ToDate)
         {
+            Console.WriteLine("**** getMissingFieldService ****");
+            Console.WriteLine("FromDate: " + FromDate + " - " + ToDate + " - Pbl: " + publisherId);
             int count = 0;
-            count = _dbContext.ServicoCampo.AsNoTracking().Where(e => e.PublicadorId == publisherId).Where(e => e.DataReferencia >= FromDate).Where(e => e.DataReferencia <= ToDate).Where(e => e.Horas == 0 && e.Minutos == 0 && e.HorasBetel == 0 && e.CreditoHoras == 0).ToList().Count;
+            count = _dbContext.ServicoCampo.Where(e => e.DataReferencia >= FromDate).Where(e => e.DataReferencia <= ToDate).Where(e => e.Horas == 0 && e.Minutos == 0 && e.HorasBetel == 0 && e.CreditoHoras == 0).Where(e => e.PublicadorId == publisherId).ToList().Count;
+
+            Console.WriteLine("count ----------> " + count);
+
             return count;
         }
 

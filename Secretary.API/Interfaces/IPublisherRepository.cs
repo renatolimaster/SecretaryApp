@@ -12,7 +12,7 @@ namespace Secretary.API.Interfaces
         DateTime getStartFieldService(long publisherId);
         List<Publicador> getPublisherByCongregation(long congregationId);
         Task<string> setPublisherStatusAsync(long publisherId);
-        int getMissingFieldService(long publisherId, DateTime? FromDate = null, DateTime? ToDate = null);
+        int getMissingFieldService(long publisherId, DateTime FromDate, DateTime ToDate);
         bool verifyPublicadorExists(long publisherId);
     }
 }

@@ -7,11 +7,11 @@ namespace Secretary.API.Dtos
     {
         // public long Id { get; set; }
         public int? AnoReferencia { get; set; }
+        public int? MesReferencia { get; set; }
         public DateTime DataEntrega { get; set; }
         public DateTime DataReferencia { get; set; }
         public int? Estudos { get; set; }
-        public int? Horas { get; set; }
-        public int? MesReferencia { get; set; }
+        public int? Horas { get; set; }        
         public int? Minutos { get; set; }
         public int? Revisitas { get; set; }
         public int? Publicacoes { get; set; }

@@ -22,9 +22,9 @@ export interface ServicoCampo {
   creditoHoras: number;
   // ForeignKey
   pioneiroId: number;
-  // pioneiro: Pioneiro;
+  pioneiro: Pioneiro;
   congregacaoId: number;
-  // congregacao?: Congregacao;
+  congregacao?: Congregacao;
   publicadorId: number;
-  // publicador?: Publicador;
+  publicador?: Publicador;
 }

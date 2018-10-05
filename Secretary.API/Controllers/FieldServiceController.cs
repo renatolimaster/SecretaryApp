@@ -58,13 +58,24 @@ namespace Secretary.API.Controllers
             return Ok(servToReturn);
         }
 
+
+        [HttpGet("{deliveryDate:DateTime}")]
+        public async Task<IActionResult> initializeFieldServiceAsync(DateTime deliveryDate)
+        {
+            Console.WriteLine("initializeFieldServiceAsync: " + deliveryDate);
+            var serv = await _fieldServiceRepo.initializeFieldService(deliveryDate);
+            var servToReturn = _mapper.Map<FieldServiceForListDto>(serv);
+            // await Task.Delay(1000);
+            return Ok(servToReturn);
+        }
+ 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReportAsync(long id, FieldServiceForUpdateDto fieldServiceForUpdateDto)
         {
-            Console.WriteLine("UpdateReportAsync: " + id + " - " + fieldServiceForUpdateDto);
+            Console.WriteLine("UpdateReportAsync: " + id + " - " + fieldServiceForUpdateDto.CongregacaoId);
 
-            Verificar por que a data está indo com Horas
-            Verificar consistencias
+            // Verificar por que a data está indo com Horas
+            // Verificar consistencias
 
             // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             // {                
@@ -74,45 +85,60 @@ namespace Secretary.API.Controllers
 
             Console.WriteLine("**************** cong 1 **************************");
 
-            // var cong = await _congRepo.getCongregationAsync(fieldServiceForUpdateDto.Congregacao.Id);
+            var cong = await _congRepo.getCongregationAsync(fieldServiceForUpdateDto.CongregacaoId);
 
-             // Console.WriteLine("cong 2 : " + cong.Id + " - " + cong.Nome);
+            Console.WriteLine("cong 2 : " + cong.Id + " - " + cong.Nome);
 
-            // if (cong == null)
-            // {
-            //     throw new Exception($"Failed on save - congregation code {fieldServiceForUpdateDto.CongregacaoId} doesn't exist!");
-            // }
+            if (cong == null)
+            {
+                throw new Exception($"Failed on save - congregation code {fieldServiceForUpdateDto.CongregacaoId} doesn't exist!");
+            }
 
             // Console.WriteLine("cong 3 : " + cong.Id + " - " + cong.Nome);
 
             // Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.Publicador.Id);
 
-            // var pub = await _pubRepo.getPublisherAsync(fieldServiceForUpdateDto.Publicador.Id);
+            var pub = await _pubRepo.getPublisherAsync(fieldServiceForUpdateDto.PublicadorId);
 
-            // if (pub == null)
-            // {
-            //     throw new Exception($"Failed on save - publisher code {fieldServiceForUpdateDto.Publicador.Id} doesn't exist!");
-            // }
+            if (pub == null)
+            {
+                throw new Exception($"Failed on save - publisher code {fieldServiceForUpdateDto.PublicadorId} doesn't exist!");
+            }
 
             // Console.WriteLine("publ ****************** 2: " + pub.Id + " - " + pub.Nome);
 
+            // ServicoCampo reportFromRepo = new ServicoCampo();
+
             var reportFromRepo = await _fieldServiceRepo.getSCSingleOrDefaultAsync(id);
 
+            // Date: para evitar timezone
+            fieldServiceForUpdateDto.DataEntrega = fieldServiceForUpdateDto.DataEntrega.Date;
+            fieldServiceForUpdateDto.DataReferencia = fieldServiceForUpdateDto.DataReferencia.Date;
+            fieldServiceForUpdateDto.MesReferencia = fieldServiceForUpdateDto.DataReferencia.Month;
+            fieldServiceForUpdateDto.AnoReferencia = fieldServiceForUpdateDto.DataReferencia.Year;
+
+
+            Console.WriteLine("reportFromRepo ----------------------->: " + fieldServiceForUpdateDto.DataEntrega + " - " + fieldServiceForUpdateDto.Horas);
+
             _mapper.Map(fieldServiceForUpdateDto, reportFromRepo);
-
-            reportFromRepo.Horas = 222;
-
-            // Console.WriteLine("fieldServiceForUpdateDto 2: " + reportFromRepo.Id + " - " + reportFromRepo.DataReferencia + " - " + reportFromRepo.Horas + " - " +reportFromRepo.PublicadorId + " - " +reportFromRepo.PioneiroId + " - " + reportFromRepo.CongregacaoId + " - " + reportFromRepo.Congregacao.Nome + " - " + reportFromRepo.Publicador.Nome);
 
             // Console.WriteLine("fieldServiceForUpdateDto 3: " + reportFromRepo.Horas + " - " + reportFromRepo.VideosMostrados + " - " + reportFromRepo.Minutos + " - " +reportFromRepo.HorasBetel + " - " +reportFromRepo.CreditoHoras + " - " + reportFromRepo.Estudos + " - " + reportFromRepo.Revisitas + " - " + reportFromRepo.Publicacoes);
 
             Console.WriteLine("Save: " + reportFromRepo.Id);
 
-            if (await _fieldServiceRepo.SaveAll())
+            if (await _fieldServiceRepo.SaveAllAsync())
+            {
+                if (fieldServiceForUpdateDto.Horas > 0)
+                {
+                    var media = _fieldServiceRepo.getMediaQuarterlyFieldServiceSAsync(reportFromRepo.PublicadorId);                    
+                    Console.WriteLine("Horas: " + fieldServiceForUpdateDto.Horas);
+                }
                 return NoContent();
+            }
 
-            // throw new Exception($"Updating field service {id} failed on save!");
-            return Ok();
+
+            throw new Exception($"Updating field service {id} failed on save!");
+            // return Ok();
 
         }
 

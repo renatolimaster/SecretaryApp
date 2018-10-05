@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Secretary.API.Models;
@@ -8,5 +9,10 @@ namespace Secretary.API.Interfaces
     {
         Task<IEnumerable<Publicador>> getAllPublishersAsync();
         Task<Publicador> getPublisherAsync(long id);
+        DateTime getStartFieldService(long publisherId);
+        List<Publicador> getPublisherByCongregation(long congregationId);
+        Task<string> setPublisherStatusAsync(long publisherId);
+        int getMissingFieldService(long publisherId, DateTime? FromDate = null, DateTime? ToDate = null);
+        bool verifyPublicadorExists(long publisherId);
     }
 }

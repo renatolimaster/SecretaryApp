@@ -80,7 +80,6 @@ export class EditFieldserviceComponent implements OnInit {
       this.report.pioneiroId = this.report.pioneiro.id;
       this.report.congregacaoId = this.report.congregacao.id;
       this.report.publicadorId = this.report.publicador.id;
-      console.log('observacao: ' + this.report.observacao);
     });
     // this.reportService.getReport(this.route.snapshot.params['id']).subscribe(
     //   (report: ServicoCampo) => {

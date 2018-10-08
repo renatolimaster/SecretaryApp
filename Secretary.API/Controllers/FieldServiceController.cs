@@ -67,6 +67,18 @@ namespace Secretary.API.Controllers
             // await Task.Delay(1000);
             return Ok(serv);
         }
+
+        [HttpGet("byperiod/{fromDate}&{toDate}")]
+        public async Task<IActionResult> getFieldServiceByPeriodAsync(DateTime fromDate, DateTime toDate)
+        {
+            fromDate = fromDate.Date;
+            toDate = toDate.Date;
+            Console.WriteLine("**** getFieldServiceByPeriodAsync ****: " + fromDate + " - " + toDate);
+            var serv = await _fieldServiceRepo.getFieldServiceByPeriodAsync(fromDate, toDate);
+            var servToReturn = _mapper.Map<IEnumerable<FieldServiceForListDto>>(serv);
+            // await Task.Delay(1000);
+            return Ok(servToReturn);
+        }
   
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReportAsync(long id, FieldServiceForUpdateDto fieldServiceForUpdateDto)

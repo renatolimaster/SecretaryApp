@@ -13,12 +13,12 @@ namespace Secretary.API.Interfaces
         Task<ServicoCampo> getSCSingleOrDefaultAsync(long id);
         Task<string> initializeFieldService(DateTime deliveryDate);
         bool VerifyExistFieldServiceByPublisher(DateTime deliveryDate, long publisherId);
+        Task<List<ServicoCampo>> getFieldServiceByPeriodAsync(DateTime fromDate, DateTime toDate);
         Task<ServicoCampo> getFieldServiceByPublisherIdAsync(long publisherId);
 
         Task<double> getMediaYearlyFieldServiceAsync(long id);
         Task<double> getMediaQuarterlyFieldServiceSAsync(long id);
         Task<double> getMediaSemesterFieldServiceAsync(long id);
-
         Task<double> getMediaFieldServiceAsync(long publisherId, int months);
         Task<bool> SaveAllAsync();
     }

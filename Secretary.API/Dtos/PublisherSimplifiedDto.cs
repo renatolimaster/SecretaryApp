@@ -10,6 +10,7 @@ namespace Secretary.API.Dtos
         public string PrimeiroNome { get; set; }
         public string NomeSobrenome { get; set; }
         public string TelCelular { get; set; } 
+        public string SituacaoServicoCampo { get; set; }
 
     }
 }

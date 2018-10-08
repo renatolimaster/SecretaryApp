@@ -28,6 +28,7 @@
     <div class="card-header">
       <h3>{{ report?.publicador.dianteira.descricao }}</h3>
       <h3 class="text-primary">{{ report?.publicador.nome }}</h3>
+      <h5 class="text-danger">{{report?.publicador.situacaoServicoCampo}}</h5>
     </div>
 
     <form #editForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="updateFieldService(editForm.value)">

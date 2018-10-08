@@ -3,6 +3,7 @@ import { AlertifyService } from '../../_services/alertify.service';
 import { ServicoCampo } from '../../_models/ServicoCampo';
 import { ReportService } from '../../_services/report.service';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-list-fieldservice',
@@ -18,13 +19,22 @@ export class ListFieldserviceComponent implements OnInit {
   expanded: any = {};
   timeout: any;
 
+  myForm: FormGroup;
+
   constructor(
+    private fb: FormBuilder,
     private reportService: ReportService,
     private alertifyService: AlertifyService,
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    const d = new Date();
+    const monthNow = d.getMonth();
+    const yearNow = d.getFullYear();
+    this.myForm = this.fb.group({
+      fecha: { year: yearNow, month: monthNow }
+    });
     this.loadReports();
   }
 

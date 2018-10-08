@@ -35,6 +35,9 @@ import { PreventUnsaveChanges } from './_guards/prevent-unsave-changes.guard';
 import { DetailFieldServiceResolver } from './_resolver/detail-fieldservice.resolver';
 import { EditFieldServiceResolver } from './_resolver/edit-fieldservice.resolver';
 import { ListFieldServiceResolver } from './_resolver/list-fieldservice.resolver';
+import { MonthDatePickerComponent } from './month-date-picker/month-date-picker.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -59,7 +62,8 @@ export function tokenGetter() {
     EditMembersComponent,
     DetailsMembersComponent,
     EditFieldserviceComponent,
-    DetailFieldserviceComponent
+    DetailFieldserviceComponent,
+    MonthDatePickerComponent
   ],
   imports: [
     NgxDatatableModule,
@@ -76,7 +80,8 @@ export function tokenGetter() {
         whitelistedDomains: ['localhost:5000'],
         blacklistedRoutes: ['localhost:5000/api/auth']
       }
-    })
+    }),
+    NgbModule.forRoot(),
   ],
   providers: [
     AuthService,

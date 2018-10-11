@@ -20,6 +20,11 @@ export class ReportService {
     return this.http.get<ServicoCampo>(this.baseUrl + 'fieldservice/' + id);
   }
 
+  getReportsByPeriod(fromDate, toDate): Observable<ServicoCampo[]> {
+    console.log('period: ' + fromDate + ' - ' + toDate);
+    return this.http.get<ServicoCampo[]>(this.baseUrl + 'fieldservice/byperiod/' + fromDate + '&' + toDate);
+  }
+
   updateReport(id: number, report: ServicoCampo) {
     console.log('id: ' + id);
     console.log(report);

@@ -7,6 +7,8 @@ import { Publicador } from './_models/Publicador';
 import { Usuario } from './_models/Usuario';
 import { UserService } from './_services/user.service';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

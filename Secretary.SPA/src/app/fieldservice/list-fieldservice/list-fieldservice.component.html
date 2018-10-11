@@ -19,37 +19,50 @@
 
 <div class="container">
 
+  <div class="card mt-6">
 
-  <div class='row'>
-
-    <div class="col-sm-6">
-        <h5 class="card-text">Publisher</h5>
-      <input type='text' style='width:100%;' class="form-control" placeholder='Type to filter by publisher column...'
-        (keyup)='updateFilter($event)' />
+    <div class="card-header">
+      <h3>Filters</h3>
     </div>
-    |
-    <div class="col-sm-2">
-      <h5 class="card-text">From</h5>
-      <input type="text" class="form-control mr-sm-2" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" name="dataReferencia"
-        id="dataReferencia"  required>
-    </div>
+    <div class="card-body">
+      <form #myForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="loadReportsFromPeriod(myForm.value)">
+        <div class='row'>
+          <div class="col-sm-4">
+            <h5 class="card-text">From</h5>
+            <input [(ngModel)]="date.fromDate" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="date?.fromDate"
+              [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" name="fromDate" id="fromDate" required>
+          </div>
 
-    <div class="col-sm-2">
-      <h5 class="card-text">To</h5>
-      <input type="text" class="form-control mr-sm-2" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" id="dataEntrega"
-        name="dataEntrega" required>  
-        <form [formGroup]="myForm" novalidate>
-        <app-month-date-picker name="fecha" formControlName="fecha"></app-month-date-picker>
-          </form>
-    </div>
+          <div class="col-sm-4">
+            <h5 class="card-text">To</h5>
+            <input [(ngModel)]="date.toDate" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="date?.toDate"
+              [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" id="toDate" name="toDate" required>
+          </div>
 
-    <div class="col-sm-2">
-      <button type="button" class="btn btn-success custombutton"><i class="fa fa-floppy-o"></i> Search</button>
-    </div>
+          <div class="col-sm-4">
+            <button type="submit" class="btn btn-success custombutton" [disabled]="!myForm.dirty"><i class="fa fa-filter"></i>
+              Filter</button>
+          </div>
 
+        </div>
+
+      </form>
+
+
+
+      <br>
+      <div class='row'>
+        <div class="col-sm-12">
+          <h5 class="card-text">Publisher</h5>
+          <input type='text' style='width:100%;' class="form-control" placeholder='Type to filter by publisher column...'
+            (keyup)='updateFilter($event)' />
+        </div>
+      </div>
+    </div>
   </div>
 
-<br>
+
+  <br>
 
   <ngx-datatable #table class='material' [limit]="10" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
     [rowHeight]="'auto'" [rows]='rows'>

@@ -5,6 +5,13 @@ import { ReportService } from '../../_services/report.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
+import * as moment from 'moment';
+
+interface Idate {
+  fromDate: Date;
+  toDate: Date;
+}
+
 @Component({
   selector: 'app-list-fieldservice',
   templateUrl: './list-fieldservice.component.html',
@@ -14,6 +21,7 @@ export class ListFieldserviceComponent implements OnInit {
   title = 'Field Service';
   reports: ServicoCampo[];
 
+  date: Idate;
   rows: any[] = [];
   temp = [];
   expanded: any = {};
@@ -21,23 +29,24 @@ export class ListFieldserviceComponent implements OnInit {
 
   myForm: FormGroup;
 
+  year: number;
+  month: number;
+
   constructor(
-    private fb: FormBuilder,
     private reportService: ReportService,
     private alertifyService: AlertifyService,
-    private route: ActivatedRoute,
-  ) { }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    const d = new Date();
-    const monthNow = d.getMonth();
-    const yearNow = d.getFullYear();
-    this.myForm = this.fb.group({
-      fecha: { year: yearNow, month: monthNow }
-    });
+    this.date = {
+      fromDate: new Date(2018, 5, 1),
+      toDate: new Date(2018, 5, 1)
+    };
+
+    console.log('Datas: ' + new Date(2018, 5, 1));
     this.loadReports();
   }
-
 
   loadReports() {
     console.log('list loadReports()');
@@ -48,7 +57,6 @@ export class ListFieldserviceComponent implements OnInit {
       // push our inital complete list
       this.rows = this.reports;
     });
-
 
     this.reportService.getReports().subscribe(
       (reports: ServicoCampo[]) => {
@@ -64,6 +72,37 @@ export class ListFieldserviceComponent implements OnInit {
     );
   }
 
+  loadReportsFromPeriod(report: Idate) {
+    // console.log('list loadReportsFromPeriod(): from ' + report);
+    console.log(
+      'list loadReportsFromPeriod(): from ' +
+        moment(report.fromDate).format('YYYY-MM-DD') +
+        ' - to ' +
+        moment(report.toDate).format('YYYY-MM-DD')
+    );
+    const fromDate = moment(report.fromDate).format('YYYY-MM-DD');
+    const toDate = moment(report.toDate).format('YYYY-MM-DD');
+    this.route.data.subscribe(data => {
+      this.reports = data['reports'];
+      // cache our list
+      this.temp = [...this.reports];
+      // push our inital complete list
+      this.rows = this.reports;
+    });
+
+    this.reportService.getReportsByPeriod(fromDate, toDate).subscribe(
+      (reports: ServicoCampo[]) => {
+        this.reports = reports;
+        // cache our list
+        this.temp = [...reports];
+        // push our inital complete list
+        this.rows = reports;
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+  }
 
   onPage(event) {
     clearTimeout(this.timeout);
@@ -71,7 +110,6 @@ export class ListFieldserviceComponent implements OnInit {
       console.log('paged!', event);
     }, 100);
   }
-
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
@@ -95,5 +133,4 @@ export class ListFieldserviceComponent implements OnInit {
   onDetailToggle(event) {
     console.log('Detail Toggled', event);
   }
-
 }

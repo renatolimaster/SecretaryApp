@@ -79,7 +79,7 @@ namespace Secretary.API.Controllers
             // await Task.Delay(1000);
             return Ok(servToReturn);
         }
-  
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReportAsync(long id, FieldServiceForUpdateDto fieldServiceForUpdateDto)
         {
@@ -115,9 +115,14 @@ namespace Secretary.API.Controllers
 
             // Console.WriteLine("publ ****************** 2: " + pub.Id + " - " + pub.Nome);
 
-            // ServicoCampo reportFromRepo = new ServicoCampo();
+            // ServicoCampo reportFromRepo = new ServicoCampo();            
 
             var reportFromRepo = await _fieldServiceRepo.getSCSingleOrDefaultAsync(id);
+
+            if (Object.Equals(fieldServiceForUpdateDto, reportFromRepo)) {
+                throw new Exception("No change amde!");
+            }
+
 
             // Date: para evitar timezone
             fieldServiceForUpdateDto.DataEntrega = fieldServiceForUpdateDto.DataEntrega.Date;
@@ -132,14 +137,21 @@ namespace Secretary.API.Controllers
 
             // Console.WriteLine("fieldServiceForUpdateDto 3: " + reportFromRepo.Horas + " - " + reportFromRepo.VideosMostrados + " - " + reportFromRepo.Minutos + " - " +reportFromRepo.HorasBetel + " - " +reportFromRepo.CreditoHoras + " - " + reportFromRepo.Estudos + " - " + reportFromRepo.Revisitas + " - " + reportFromRepo.Publicacoes);
 
-            Console.WriteLine("Save: " + reportFromRepo.Id);
+            Console.WriteLine("Save: " + reportFromRepo.Id + " - " + reportFromRepo.PublicadorId);
 
             if (await _fieldServiceRepo.SaveAllAsync())
             {
                 if (fieldServiceForUpdateDto.Horas > 0)
                 {
-                    var media = _fieldServiceRepo.getMediaQuarterlyFieldServiceSAsync(reportFromRepo.PublicadorId);                    
-                    Console.WriteLine("Horas: " + fieldServiceForUpdateDto.Horas);
+                    // var media = _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId);
+                    //update publisher status, medias
+                    var status = "";
+                    status = await _pubRepo.setPublisherStatusAsync(reportFromRepo.PublicadorId);
+                    //medias                    
+                    var media3 = await _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId, -3);
+                    var media6 = await _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId, -6);
+                    var media12 = await _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId, -12);
+                    Console.WriteLine("Horas: " + fieldServiceForUpdateDto.Horas + " - status: " + status);
                 }
                 return NoContent();
             }
@@ -149,7 +161,6 @@ namespace Secretary.API.Controllers
             // return Ok();
 
         }
-
 
 
     }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CongregationAssistanceOrderByMeeting" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="397c2ea5-187b-479b-b09b-6277ecc15103">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[c2VjcmV0YXJ5LmNvbmdyZWdhY2FvICwzNDEsMTUsNjBiNjM0MGMtZDk4Mi00ZjZjLThkMjctMWI4
+ZTQwZTgxMTY0O3NlY3JldGFyeS5hc3Npc3RlbmNpYXJldW5pYW8gLDE1LDE2LDdlNTRjMWY4LTBj
+ZjUtNDRmNC04MDQxLTRiNDIzNmZhODRmZDtzZWNyZXRhcnkucmV1bmlhbyAsMTcyLDE3Miw1NGRh
+NmZjMS1hYTYxLTQxMDMtOTEyYi01MTQ1Nzk1MDY4OTA7
+]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="225"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="767"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Secretary"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="541"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="445"/>
+	<parameter name="dtaInicial" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2017-09-01]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dtaFinal" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2018-09-01]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT secretary.congregacao.id,
+	secretary.congregacao.nome,
+	secretary.reuniao.id,
+	secretary.reuniao.descricao,
+	secretary.congregacao.id,
+	secretary.congregacao.nome,
+	secretary.reuniao.id,
+	secretary.reuniao.descricao,
+	secretary.assistenciareuniao.data_referencia,
+	secretary.assistenciareuniao.semana1,
+	secretary.assistenciareuniao.estrangeiros1,
+	secretary.assistenciareuniao.semana2,
+	secretary.assistenciareuniao.estrangeiros2,
+	secretary.assistenciareuniao.semana3,
+	secretary.assistenciareuniao.estrangeiros3,
+	secretary.assistenciareuniao.semana4,
+	secretary.assistenciareuniao.estrangeiros4,
+	secretary.assistenciareuniao.semana5,
+	secretary.assistenciareuniao.estrangeiros5,
+	secretary.assistenciareuniao.total,
+	secretary.assistenciareuniao.media,
+	secretary.assistenciareuniao.id
+FROM secretary.assistenciareuniao
+	inner join secretary.reuniao ON 
+	 secretary.assistenciareuniao.reuniao_id = secretary.reuniao.id 
+	inner join secretary.congregacao ON 
+	 secretary.reuniao.congregacao_id = secretary.congregacao.id 
+WHERE 
+	 secretary.congregacao.id = 1 
+	 AND ( 
+	 secretary.assistenciareuniao.data_referencia BETWEEN $P{dtaInicial} AND $P{dtaFinal}) 
+ORDER BY secretary.reuniao.descricao DESC,
+	secretary.assistenciareuniao.data_referencia DESC]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

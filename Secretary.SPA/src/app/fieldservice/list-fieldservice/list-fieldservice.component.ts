@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import * as moment from 'moment';
+import { DateTimeExtensions } from 'src/app/_services/DateTimeExtensions';
 
 interface Idate {
   fromDate: Date;
@@ -27,12 +28,15 @@ export class ListFieldserviceComponent implements OnInit {
   expanded: any = {};
   timeout: any;
 
+  val: string;
+
   myForm: FormGroup;
 
   year: number;
   month: number;
 
   constructor(
+    private dateTimeExtensions: DateTimeExtensions,
     private reportService: ReportService,
     private alertifyService: AlertifyService,
     private route: ActivatedRoute
@@ -40,23 +44,25 @@ export class ListFieldserviceComponent implements OnInit {
 
   ngOnInit() {
     this.date = {
-      fromDate: new Date(2018, 5, 1),
-      toDate: new Date(2018, 5, 1)
+      fromDate: this.dateTimeExtensions.FirstDayOfMonth(new Date()),
+      toDate: this.dateTimeExtensions.FirstDayOfMonth(new Date())
     };
 
-    console.log('Datas: ' + new Date(2018, 5, 1));
-    this.loadReports();
+    console.log('Datas: ' + this.date.fromDate);
+    // this.loadReports();
+
+    this.loadReportsFromPeriod(this.date);
   }
 
   loadReports() {
     console.log('list loadReports()');
-    this.route.data.subscribe(data => {
-      this.reports = data['reports'];
-      // cache our list
-      this.temp = [...this.reports];
-      // push our inital complete list
-      this.rows = this.reports;
-    });
+    // this.route.data.subscribe(data => {
+    //   this.reports = data['reports'];
+    //   // cache our list
+    //   this.temp = [...this.reports];
+    //   // push our inital complete list
+    //   this.rows = this.reports;
+    // });
 
     this.reportService.getReports().subscribe(
       (reports: ServicoCampo[]) => {
@@ -113,6 +119,8 @@ export class ListFieldserviceComponent implements OnInit {
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
+    this.val = val;
+    console.log('val: ' + val);
 
     // filter our data
     const temp = this.temp.filter(function(d) {

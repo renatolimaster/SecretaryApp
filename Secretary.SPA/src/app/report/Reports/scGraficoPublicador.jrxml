@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="scGraficoPublicador" language="groovy" pageWidth="595" pageHeight="337" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0" uuid="8cf8a31b-646d-47c4-b270-089209f10827">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="congregacaoId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="publicadorId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataReferenciaIni" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataReferenciaFim" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+c."Id" as "CongregacaoId",
+pb."Id" as "PublicadorId",
+sc."DataReferencia",
+sc."Horas"
+from
+secretary."ServicoCampo" sc
+LEFT JOIN secretary."Publicador" pb on sc."PublicadorId" = pb."Id"
+LEFT JOIN secretary."Congregacao" c on pb."CongregacaoId" = c."Id"
+where
+c."Id" = 1 and
+sc."PublicadorId" = 1 and
+(sc."DataReferencia" between '2017-09-01' and '2018-08-01')
+order by
+sc."DataReferencia"]]>
+	</queryString>
+	<field name="CongregacaoId" class="java.lang.Long"/>
+	<field name="PublicadorId" class="java.lang.Long"/>
+	<field name="DataReferencia" class="java.sql.Timestamp"/>
+	<field name="Horas" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="267" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="34" width="585" height="233" uuid="9de754b8-0667-4f3e-9333-4b8f4a7b4762"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Top"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Horas"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MMM/yyyy").format($F{DataReferencia}) + " (" + $F{Horas} + ")"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Horas}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot labelRotation="-45.0"/>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="-45.0">
+						<axisFormat>
+							<labelFont>
+								<font size="3"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="5"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<staticText>
+				<reportElement x="0" y="0" width="585" height="20" uuid="dc5ac26e-332e-40f2-93c6-75ee3e4f01fb"/>
+				<textElement textAlignment="Center">
+					<font size="12" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Gráfico Ano de Serviço]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

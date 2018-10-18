@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CongregationAssistanceOrderByMeetingDescriptionDate" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3b5c2732-158c-425f-a425-af03b3c3f948">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dtaStart" class="java.util.Date"/>
+	<parameter name="dtaEnd" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT secretary.congregacao.id,
+	secretary.congregacao.nome,
+	secretary.reuniao.id,
+	secretary.reuniao.descricao,
+	secretary.congregacao.id,
+	secretary.congregacao.nome,
+	secretary.reuniao.id,
+	secretary.reuniao.descricao,
+	secretary.assistenciareuniao.data_referencia,
+	secretary.assistenciareuniao.semana1,
+	secretary.assistenciareuniao.estrangeiros1,
+	secretary.assistenciareuniao.semana2,
+	secretary.assistenciareuniao.estrangeiros2,
+	secretary.assistenciareuniao.semana3,
+	secretary.assistenciareuniao.estrangeiros3,
+	secretary.assistenciareuniao.semana4,
+	secretary.assistenciareuniao.estrangeiros4,
+	secretary.assistenciareuniao.semana5,
+	secretary.assistenciareuniao.estrangeiros5,
+	secretary.assistenciareuniao.total,
+	secretary.assistenciareuniao.media,
+	secretary.assistenciareuniao.id
+FROM secretary.assistenciareuniao
+	inner join secretary.reuniao ON
+	 secretary.assistenciareuniao.reuniao_id = secretary.reuniao.id
+	inner join secretary.congregacao ON
+	 secretary.reuniao.congregacao_id = secretary.congregacao.id
+WHERE
+	 secretary.congregacao.id = 1
+	 AND (
+	 secretary.assistenciareuniao.data_referencia BETWEEN $P{dtaStart} AND $P{dtaEnd})
+ORDER BY secretary.reuniao.descricao,
+	secretary.assistenciareuniao.data_referencia DESC]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="data_referencia" class="java.sql.Timestamp"/>
+	<field name="semana1" class="java.lang.Integer"/>
+	<field name="estrangeiros1" class="java.lang.Integer"/>
+	<field name="semana2" class="java.lang.Integer"/>
+	<field name="estrangeiros2" class="java.lang.Integer"/>
+	<field name="semana3" class="java.lang.Integer"/>
+	<field name="estrangeiros3" class="java.lang.Integer"/>
+	<field name="semana4" class="java.lang.Integer"/>
+	<field name="estrangeiros4" class="java.lang.Integer"/>
+	<field name="semana5" class="java.lang.Integer"/>
+	<field name="estrangeiros5" class="java.lang.Integer"/>
+	<field name="total" class="java.lang.Integer"/>
+	<field name="media" class="java.lang.Double"/>
+	<variable name="total_1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="media_1" class="java.lang.Double" resetType="Page" calculation="Average">
+		<variableExpression><![CDATA[$F{media}]]></variableExpression>
+	</variable>
+	<variable name="total_2" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="media_2" class="java.lang.Double" calculation="Average">
+		<variableExpression><![CDATA[$F{media}]]></variableExpression>
+	</variable>
+	<variable name="total_3" class="java.lang.Integer" calculation="Average">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="total_4" class="java.lang.Integer" resetType="Group" resetGroup="nome" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="total_5" class="java.lang.Integer" resetType="Group" resetGroup="descricao" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<group name="nome">
+		<groupExpression><![CDATA[$F{descricao}]]></groupExpression>
+	</group>
+	<group name="descricao">
+		<groupExpression><![CDATA[$F{descricao}]]></groupExpression>
+		<groupFooter>
+			<band height="25">
+				<textField>
+					<reportElement x="455" y="2" width="53" height="20" forecolor="#CC3300" uuid="20dcff7d-796b-451d-b9da-77d9b1808308"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_5}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="406" y="2" width="49" height="20" forecolor="#0000CC" uuid="bf45fdfa-e404-4de3-95c6-c4f0691ed1d3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Total: ]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="24" width="555" height="1" uuid="f55752ee-f43a-43e2-ad7f-56c7dd3b5479"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="51" splitType="Stretch">
+			<rectangle>
+				<reportElement x="3" y="2" width="56" height="46" backcolor="#4A6DA7" uuid="a9b03c6f-aaa2-41fc-af5e-efbf90c7ccdb"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="11" y="6" width="38" height="30" forecolor="#FFFFFF" uuid="c613dd2b-6e77-4aa2-a73a-7c71ffd03d9b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="32" width="38" height="16" forecolor="#FFFFFF" uuid="7c4e29e0-d135-4636-a042-3cd6043b4e16"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[.ORG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="27" width="555" height="20" uuid="79d3ddfc-eed2-427e-b729-6b896d920d19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Meetings of Vitoria English Congregation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="f12b9e1e-4820-4a4b-aed9-3c27b4a605ae"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jehovah’s Witnesses]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="50" width="555" height="1" uuid="dcf25744-70e1-4f77-b0f6-00f1558ab402"/>
+			</line>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="390" y="0" width="165" height="20" uuid="3ec0ed99-8a99-4fd8-95fb-ced977337a78"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM-yy">
+				<reportElement x="462" y="29" width="40" height="20" forecolor="#CC3300" uuid="e626a750-bf7e-45b8-9330-0b46dac000de"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dtaStart}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM-yy">
+				<reportElement x="525" y="29" width="29" height="20" forecolor="#CC3300" uuid="462bb6df-1b8d-415f-8032-1da45ee7ac2e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dtaEnd}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="504" y="29" width="23" height="20" forecolor="#CC3300" uuid="a8a88d61-bc6b-442b-a135-8ae4af19d9db"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[thru]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="134" height="20" uuid="5cf376fb-7bd6-40c9-98e7-6bcc183559ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Meeting]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="2" width="53" height="20" uuid="5554a45f-974e-4780-bd0f-de370c473c04"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="508" y="2" width="47" height="20" uuid="81e32733-69b8-4e99-9dba-cbee140aec07"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Media]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="195" y="2" width="49" height="20" uuid="6b8aa54b-be73-4c71-9a2b-b35b18fc23c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Week 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="2" width="49" height="20" uuid="b8362c39-9582-4260-8c9a-116fc434f8f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Week 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="293" y="2" width="49" height="20" uuid="63c271f0-9b04-424c-a2be-458115b2c0f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Week 3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="2" width="49" height="20" uuid="17d1d1a5-b170-4345-92d5-b9cbad5dedaf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Week 4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="2" width="49" height="20" uuid="f11985f2-ad44-4fc6-9392-dbc2451e8942"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Week 5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="2" width="61" height="20" uuid="c0fb623d-0f24-49c0-96cd-02a919277493"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="22" width="555" height="1" uuid="cdb96e28-11c8-4d69-b069-1af7ecb475e3"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="0" width="133" height="20" uuid="471817a9-a171-4e8e-bb7c-133affd95a66"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="1" width="53" height="20" uuid="de159fa5-5404-45e5-85cb-971d3a84b385"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="508" y="1" width="47" height="20" uuid="a591c16a-7634-48cb-b009-56a93eecbefe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{media}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="1" width="49" height="20" uuid="345a557b-f74b-48b8-a9da-cb37dcf890ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{semana1}+"/"+$F{estrangeiros1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="244" y="1" width="49" height="20" uuid="cd288f77-bef4-4606-8ed8-e44117ef545c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{semana2}+"/"+$F{estrangeiros2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="293" y="1" width="49" height="20" uuid="e0fb3be9-8eed-4c0a-a477-37aee3bafee9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{semana3}+"/"+$F{estrangeiros3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="342" y="1" width="49" height="20" uuid="8a9f14a7-a0af-4489-8bca-269c4fe22f05"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{semana4}+"/"+$F{estrangeiros4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="391" y="1" width="49" height="20" uuid="e8460d17-0c2c-4c48-9cd0-84fe5fcdfbc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{semana5}+"/"+$F{estrangeiros5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM-yy">
+				<reportElement x="134" y="1" width="61" height="20" uuid="dbd71e94-55b8-4e1f-a52e-31776796a42c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{data_referencia}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" uuid="adeaf302-6ca4-477a-9806-c95d6d0efde0"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="21">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="21" uuid="734cd2bf-7864-4fe2-b641-f4a93b1e285f"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[English Congregation - Vitória ES (123356) - Rua Francisco Fundão, 249 - B. República - Vitória, ES - 29070-165
+]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

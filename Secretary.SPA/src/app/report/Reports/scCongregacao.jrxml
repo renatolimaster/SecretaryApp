@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="scCongregacao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ee3147-96b6-43be-aa45-2b5f090601ec">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataReferencia" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+c.id as congregacaoId,
+c.nome,
+c.coordenador,
+c.numero,
+pb.id as publicadorId,
+pb.nome as pbNome,
+d.descricao as "dianteira",
+gr.id as grupoId,
+gr.superintendente_id,
+p.id as publicadorId,
+p.descricao as pioneiro,
+sc.data_referencia,
+sc.data_entrega,
+sc.livros,
+sc.folhetos_brochuras,
+sc.horas,
+sc.revistas,
+sc.revisitas,
+sc.estudos,
+(sc.livros + sc.folhetos_brochuras + sc.revistas) as publicacoes,
+(select p.nome from [secretary].[secretary].grupo g inner join [secretary].[secretary].publicador p ON g.id = p.grupo_id and g.superintendente_id = p.id
+	  where g.id = gr.id and g.superintendente_id = gr.superintendente_id) as superintendente,
+(select p.nome from [secretary].[secretary].grupo g inner join [secretary].[secretary].publicador p ON g.id = p.grupo_id and g.ajudante_id = p.id
+	  where g.id = gr.id and g.ajudante_id = gr.ajudante_id) as ajudante
+from
+[secretary].[secretary].[servico_campo] sc
+LEFT JOIN [secretary].[secretary].publicador pb on sc.publicador_id = pb.id
+LEFT JOIN [secretary].[secretary].pioneiro p on sc.pioneiro_id = p.id
+LEFT JOIN [secretary].[secretary].grupo gr on pb.grupo_id = gr.id
+LEFT JOIN [secretary].[secretary].congregacao c on pb.congregacao_id = c.id
+LEFT JOIN [secretary].[secretary].dianteira d on pb.dianteira_id = d.id
+where
+sc.data_referencia = '2018-05-01'
+and c.id = 1
+order by
+gr.id ,p.id desc, pb.nome]]>
+	</queryString>
+	<field name="congregacaoId" class="java.lang.Long"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="coordenador" class="java.lang.String"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="publicadorId" class="java.lang.Long"/>
+	<field name="pbNome" class="java.lang.String"/>
+	<field name="dianteira" class="java.lang.String"/>
+	<field name="grupoId" class="java.lang.Long"/>
+	<field name="superintendente_id" class="java.lang.Long"/>
+	<field name="pioneiro" class="java.lang.String"/>
+	<field name="data_referencia" class="java.sql.Timestamp"/>
+	<field name="data_entrega" class="java.sql.Timestamp"/>
+	<field name="livros" class="java.lang.Integer"/>
+	<field name="folhetos_brochuras" class="java.lang.Integer"/>
+	<field name="horas" class="java.lang.Integer"/>
+	<field name="revistas" class="java.lang.Integer"/>
+	<field name="revisitas" class="java.lang.Integer"/>
+	<field name="estudos" class="java.lang.Integer"/>
+	<field name="publicacoes" class="java.lang.Integer"/>
+	<field name="superintendente" class="java.lang.String"/>
+	<field name="ajudante" class="java.lang.String"/>
+	<variable name="horas_1" class="java.lang.Integer" resetType="Group" resetGroup="grupoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{horas}]]></variableExpression>
+	</variable>
+	<variable name="horas_2" class="java.lang.Integer" resetType="Group" resetGroup="congregacaoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{horas}]]></variableExpression>
+	</variable>
+	<variable name="revisitas_1" class="java.lang.Integer" resetType="Group" resetGroup="grupoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{revisitas}]]></variableExpression>
+	</variable>
+	<variable name="revisitas_2" class="java.lang.Integer" resetType="Group" resetGroup="congregacaoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{revisitas}]]></variableExpression>
+	</variable>
+	<variable name="estudos_1" class="java.lang.Integer" resetType="Group" resetGroup="grupoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{estudos}]]></variableExpression>
+	</variable>
+	<variable name="estudos_2" class="java.lang.Integer" resetType="Group" resetGroup="congregacaoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{estudos}]]></variableExpression>
+	</variable>
+	<variable name="publicadorId_1" class="java.lang.Long" resetType="Group" resetGroup="grupoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{publicadorId}]]></variableExpression>
+	</variable>
+	<variable name="publicadorId_2" class="java.lang.Long" resetType="Group" resetGroup="congregacaoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{publicadorId}]]></variableExpression>
+	</variable>
+	<variable name="pbNome_1" class="java.lang.Integer" resetType="Group" resetGroup="grupoId" calculation="Count">
+		<variableExpression><![CDATA[$F{pbNome}]]></variableExpression>
+	</variable>
+	<variable name="publicadorId_3" class="java.lang.Integer" resetType="Group" resetGroup="grupoId" calculation="Count">
+		<variableExpression><![CDATA[$F{publicadorId}]]></variableExpression>
+	</variable>
+	<variable name="publicadorId_4" class="java.lang.Integer" resetType="Group" resetGroup="congregacaoId" calculation="Count">
+		<variableExpression><![CDATA[$F{publicadorId}]]></variableExpression>
+	</variable>
+	<variable name="publicacoes_1" class="java.lang.Long" resetType="Group" resetGroup="grupoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{publicacoes}]]></variableExpression>
+	</variable>
+	<variable name="publicacoes_2" class="java.lang.Long" resetType="Group" resetGroup="congregacaoId" calculation="Sum">
+		<variableExpression><![CDATA[$F{publicacoes}]]></variableExpression>
+	</variable>
+	<group name="congregacaoId">
+		<groupExpression><![CDATA[$F{congregacaoId}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="27" backcolor="#CCFFCC" uuid="6c4a179c-5423-40f5-8464-c55db76fb7bb"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="3" y="4" width="83" height="20" uuid="17b22168-31ff-45f8-9ea5-19e962f8b1d7"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Congregação:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="403" y="7" width="148" height="20" uuid="da07f4b1-c650-4a52-b003-84f7b132423b"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+					<textFieldExpression><![CDATA[$F{coordenador}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="452" y="0" width="100" height="15" uuid="600d766b-7284-4d13-adf2-f906e42717f4"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Coordenador]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="95" y="4" width="297" height="20" uuid="1e2c8ec6-4807-4fe1-93d9-608bd1fcd9a0"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome} + " - " + $F{numero}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="23" backcolor="#009999" uuid="05d18269-e3df-4c24-b425-af56e414c7fa"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<textField>
+					<reportElement x="374" y="1" width="60" height="20" uuid="4e3104db-0b13-4619-8e81-6088323df419"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{horas_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="435" y="2" width="60" height="20" uuid="c625ee70-ce5e-400e-9f62-6de3f366b6d0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{revisitas_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="496" y="2" width="60" height="20" uuid="d265ffeb-d63e-4adb-8cca-e7fc2b2c4087"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{estudos_2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="205" y="2" width="97" height="20" uuid="1937aa24-5ec4-4fb6-81c8-94d348f80106"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Total Congregação:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="157" y="2" width="29" height="20" uuid="b3f2c092-e3d5-41a6-b523-02583dc9b67d"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{publicadorId_4}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="17" y="2" width="138" height="20" uuid="cac13b9d-7e5d-414b-88fb-47c74765017c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Qtd. Pub. da Congregação: ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="313" y="3" width="60" height="20" uuid="8b20d8a3-85f1-4824-9bd3-726facc63c23"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{publicacoes_2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="grupoId">
+		<groupExpression><![CDATA[$F{grupoId}]]></groupExpression>
+		<groupHeader>
+			<band height="43">
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="21" backcolor="#33FF99" uuid="b5aa4962-c6ae-41bc-a4fc-8e23c67ebb70"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<textField>
+					<reportElement x="64" y="0" width="393" height="20" uuid="5795fbc5-0167-4b59-b219-daf13538726b"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{superintendente}  + " - " + $F{ajudante}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="17" y="21" width="100" height="20" uuid="96d25ba5-c870-47e3-adfd-643dfaa2e55e"/>
+					<textElement verticalAlignment="Bottom"/>
+					<text><![CDATA[Publicadores]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="0" width="62" height="20" uuid="9393eb16-efc6-4f5a-a373-6cb8a34ab4a0"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Grupo:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="20" width="555" height="1" uuid="4c4a4cb4-b12b-4d92-9369-67495fecf2d5"/>
+				</line>
+				<line>
+					<reportElement x="1" y="42" width="555" height="1" uuid="deef82ce-06e2-4a89-aac7-2d1380d5dc36"/>
+				</line>
+				<staticText>
+					<reportElement x="313" y="21" width="60" height="20" uuid="77a34047-6967-4551-bfa2-7bfefb35db34"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+					<text><![CDATA[Publicações]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="21" width="60" height="20" uuid="fd6647fa-4d61-40be-8d12-21f032e0db6f"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+					<text><![CDATA[Horas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="435" y="21" width="60" height="20" uuid="54280827-3c85-45bd-8b6c-9c9656dacdd6"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+					<text><![CDATA[Revisitas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="496" y="21" width="60" height="20" uuid="68623f69-a219-4877-aa0d-97b033d78282"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+					<text><![CDATA[Estudos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="191" y="21" width="60" height="20" uuid="06688b26-f04d-4a07-993f-878feca024d2"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+					<text><![CDATA[Dianteira]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="130" y="21" width="60" height="20" uuid="5f367890-5798-49a3-a53f-ccb055800429"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+					<text><![CDATA[Pioneiro]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="23" backcolor="#00CC99" uuid="f473d6c0-efdc-4447-ac5d-a6fc0ee62835"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<textField>
+					<reportElement x="376" y="1" width="58" height="20" uuid="4d9fb5b1-963b-4999-a7ae-46ebad4431ac"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{horas_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="435" y="1" width="60" height="20" uuid="d4980077-ce6d-40de-ab51-02a6c336387e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{revisitas_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="496" y="1" width="59" height="20" uuid="9b8bc8d8-2f15-47c1-8afd-4e948d2aa0ae"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{estudos_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="202" y="1" width="100" height="20" uuid="7b88afd6-59c0-4675-bfd8-df6bdec35a71"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Total do grupo:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="157" y="1" width="29" height="20" uuid="9df2cc41-d47b-4bb4-9f8c-ea5bb60f2f98"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{publicadorId_3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="17" y="1" width="138" height="20" uuid="6a370252-3193-4fb8-a874-ecdcf4295c34"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Qtd. Pub.do Grupo: ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="313" y="1" width="60" height="20" uuid="4df369ba-5dd8-4be8-b991-324a579a8108"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{publicacoes_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="56" height="46" backcolor="#003399" uuid="baa8e148-9963-4be5-8953-b534cd1a5b32"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="386" y="25" width="165" height="20" uuid="d15a4c26-3a8b-4f0c-9faf-d678f3444941"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="2" width="38" height="30" forecolor="#FFFFFF" uuid="699b6e75-79d6-4275-9f43-73cf1c007f12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="28" width="38" height="16" forecolor="#FFFFFF" uuid="9a5fd11d-6e5f-46dc-8256-75b070cf0f20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[.ORG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="25" width="193" height="20" uuid="ad8fe52a-febf-4729-9f85-bb926b5935f0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Serviço de Campo por Grupo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="2" width="404" height="30" uuid="13667eea-6e36-4929-9241-ed460475b688"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Testemunhas Cristãs de Jeová]]></text>
+			</staticText>
+			<textField pattern="MMMMM/yyyy">
+				<reportElement x="333" y="26" width="100" height="20" forecolor="#FF3333" uuid="dc41e12c-ea5b-4aee-af26-73acb61468de"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data_referencia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="17" y="3" width="100" height="20" forecolor="#0000CC" uuid="ff31194f-fa7d-4e4a-9e46-24390d55f026"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pbNome}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="3" width="61" height="20" uuid="9997c875-7fa9-42fd-a1b0-3866a7b47850"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dianteira}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="3" width="60" height="20" uuid="fe9478be-631e-451d-af89-658315bbf8ee">
+					<printWhenExpression><![CDATA[$F{pioneiro} != "Não"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pioneiro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="3" width="60" height="20" uuid="393612cd-23cb-44d4-899c-24fce4e4ec1d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{horas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="3" width="60" height="20" uuid="78a1a8b1-1c8c-4984-b14f-f21b42ae975d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{revisitas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="496" y="3" width="59" height="20" uuid="dfa7451d-37d0-4c50-8688-b14f970aedff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{estudos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="3" width="60" height="20" uuid="493aa38b-547c-4771-9291-979c45ad307f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{publicacoes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="10" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="454" y="0" width="100" height="20" uuid="db50f5f7-3a56-402d-a245-97414586af6d"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="196f8853-80e4-44a9-9ffa-d7acb65bc6c7"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

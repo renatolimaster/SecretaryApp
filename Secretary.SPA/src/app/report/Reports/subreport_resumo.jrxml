@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreport_resumo" language="groovy" pageWidth="595" pageHeight="144" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="390f3d8b-433a-4e6d-843a-e4a789c835bc">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="66"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="congregacaoId" class="java.lang.String"/>
+	<parameter name="dataReferencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+(select count(p.id) from [secretary].[secretary].publicador p where p.congregacao_id =1 and p.situacao_id in (1,5)) as totalPub,
+c.id as congregacaoId,
+COUNT(p.descricao) as TOTAL,
+p.descricao as pioneiro,
+sc.data_referencia,
+SUM(sc.livros) AS livros,
+SUM(sc.folhetos_brochuras) as folhetos,
+SUM(sc.horas) AS horas,
+SUM(sc.revistas) AS revistas,
+SUM(sc.publicacoes) as publicacoes,
+SUM(sc.revisitas) AS revisitas,
+SUM(sc.estudos) AS estudos
+from
+[secretary].[secretary].servico_campo sc
+LEFT JOIN [secretary].[secretary].publicador pb on sc.publicador_id = pb.id
+LEFT JOIN [secretary].[secretary].pioneiro p on sc.pioneiro_id = p.id
+LEFT JOIN [secretary].[secretary].grupo gr on pb.grupo_id = gr.id
+LEFT JOIN [secretary].[secretary].congregacao c on pb.congregacao_id = c.id
+LEFT JOIN [secretary].[secretary].dianteira d on pb.dianteira_id = d.id
+where
+c.id = $P{congregacaoId} and sc.horas > 0 and
+sc.data_referencia = $P{dataReferencia}
+group by c.id, p.descricao, sc.data_referencia, p.id
+order by
+p.id]]>
+	</queryString>
+	<field name="totalPub" class="java.lang.Integer"/>
+	<field name="congregacaoId" class="java.lang.Long"/>
+	<field name="TOTAL" class="java.lang.Integer"/>
+	<field name="pioneiro" class="java.lang.String"/>
+	<field name="data_referencia" class="java.sql.Timestamp"/>
+	<field name="livros" class="java.lang.Integer"/>
+	<field name="folhetos" class="java.lang.Integer"/>
+	<field name="horas" class="java.lang.Integer"/>
+	<field name="revistas" class="java.lang.Integer"/>
+	<field name="publicacoes" class="java.lang.Integer"/>
+	<field name="revisitas" class="java.lang.Integer"/>
+	<field name="estudos" class="java.lang.Integer"/>
+	<variable name="TOTAL_1" class="java.lang.Long" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
+	</variable>
+	<variable name="livros_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{livros}]]></variableExpression>
+	</variable>
+	<variable name="folhetos_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{folhetos}]]></variableExpression>
+	</variable>
+	<variable name="horas_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{horas}]]></variableExpression>
+	</variable>
+	<variable name="revistas_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{revistas}]]></variableExpression>
+	</variable>
+	<variable name="publicacoes_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{publicacoes}]]></variableExpression>
+	</variable>
+	<variable name="revisitas_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{revisitas}]]></variableExpression>
+	</variable>
+	<variable name="estudos_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{estudos}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="3" y="0" width="58" height="18" forecolor="#0000FF" uuid="e5c45413-4502-444d-85f9-fa6ea181f872"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="31" width="595" height="1" uuid="2fbaef23-9dbc-4685-89e7-2fee8943b7ed"/>
+			</line>
+			<staticText>
+				<reportElement x="262" y="16" width="60" height="16" forecolor="#000000" uuid="addb05b7-228d-4e20-85bb-ca67ba105a0a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Publicações]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="373" y="16" width="60" height="16" forecolor="#0000FF" uuid="c00d6087-fef0-4407-aab2-e10c78bb03a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Revisitas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="433" y="16" width="60" height="16" forecolor="#0000FF" uuid="525fed10-d2c2-403d-a583-f4150b7ec603"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Estudos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="16" width="50" height="16" uuid="56da7889-2033-4431-b186-d3316dee9c76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Relataram]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="16" width="50" height="16" forecolor="#0000FF" uuid="245ffd1f-4fad-4994-bc5d-c24e32c7aeff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Horas]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="0" width="200" height="20" forecolor="#CC0000" uuid="6ae573e9-9653-48b6-9252-922f6006eaa3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPub} + " publicadores ativos"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="3" y="0" width="100" height="20" uuid="eb24ead3-ad8f-4720-9bb5-37efe200ae00">
+					<printWhenExpression><![CDATA[!$F{pioneiro}.equals("Não")]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pioneiro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="0" width="50" height="20" uuid="841816f1-ff26-4bbf-b581-50b7a9f427d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="323" y="0" width="50" height="20" forecolor="#0000FF" uuid="5c2a5f77-a615-42e2-a4ea-39c15ef10ed9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="0" width="60" height="20" forecolor="#000000" uuid="02348317-e8ed-48fd-a04a-f96b1340163d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{publicacoes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="0" width="60" height="20" forecolor="#0000FF" uuid="214656e8-70a8-45a2-bc9c-057706cb994a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{revisitas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="433" y="0" width="60" height="20" forecolor="#0000FF" uuid="12d64b1e-8ad2-4dda-a0b9-6da8c322e421"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{estudos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="0" width="98" height="20" uuid="f488d08a-c736-4f06-b92f-dcce8f142311">
+					<printWhenExpression><![CDATA[$F{pioneiro}.equals("Não")]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Publicadores]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="105" y="6" width="50" height="20" uuid="324a0951-4743-4b90-bf04-2955761ce80f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TOTAL_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="323" y="6" width="50" height="20" forecolor="#CC0000" uuid="2ad8a108-1b9c-4808-9e31-9a8f3fa91f43"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{horas_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="6" width="60" height="20" forecolor="#000000" uuid="9bd26df4-9506-4e30-b536-56a27ca685f0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{publicacoes_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="6" width="60" height="20" forecolor="#CC0000" uuid="99e73548-a87c-4a6f-934f-531ab9ecacf8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{revisitas_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="433" y="6" width="60" height="20" forecolor="#CC0000" uuid="43ec3378-7fc4-479a-b392-73e30a4bd0a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{estudos_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="6" width="100" height="20" uuid="353e8ac0-cb4a-4f45-b8bd-3d6413a4cea0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totais:  ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="3" width="595" height="1" uuid="9d902a02-f4cf-4f70-964e-102c9fcc40cf"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

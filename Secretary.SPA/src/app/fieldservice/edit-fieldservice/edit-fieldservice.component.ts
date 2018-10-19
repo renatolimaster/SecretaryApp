@@ -1,7 +1,13 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  HostListener,
+  ChangeDetectorRef
+} from '@angular/core';
 import { ServicoCampo } from '../../_models/ServicoCampo';
 import { ReportService } from '../../_services/report.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from '../../_services/alertify.service';
 import { CongregationService } from '../../_services/congregation.service';
 import { Congregacao } from '../../_models/Congregacao';
@@ -30,6 +36,7 @@ export class EditFieldserviceComponent implements OnInit {
   selectedPioneer: number;
   selectedPublisher: number;
   publisherName: string;
+  situacaoServicoCampo: string;
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -39,12 +46,14 @@ export class EditFieldserviceComponent implements OnInit {
   }
 
   constructor(
+    private cdRef: ChangeDetectorRef,
     private authService: AuthService,
     private publisherService: PublisherService,
     private pioneerService: PioneerService,
     private congregationService: CongregationService,
     private reportService: ReportService,
     private route: ActivatedRoute,
+    private router: Router,
     private alertifyService: AlertifyService
   ) {}
 
@@ -80,6 +89,7 @@ export class EditFieldserviceComponent implements OnInit {
       this.report.pioneiroId = this.report.pioneiro.id;
       this.report.congregacaoId = this.report.congregacao.id;
       this.report.publicadorId = this.report.publicador.id;
+      this.situacaoServicoCampo = this.report.publicador.situacaoServicoCampo;
     });
   }
 
@@ -126,29 +136,39 @@ export class EditFieldserviceComponent implements OnInit {
   }
 
   updateFieldService(report: ServicoCampo) {
-    // report = this.report;
-    // this.reportService
-    //   .updateReport(this.authService.decodedToken.nameid, report)
-    //   .subscribe(
-    //     next => {
-    //       this.alertifyService.success('Report updated successfully!');
-    //       this.editForm.resetForm(report);
-    //     },
-    //     error => {
-    //       this.alertifyService.error(error);
-    //     }
-    //   );
-    console.log('dataEntrega: ' + report.dataEntrega + ' - dataReferencia: ' + report.dataReferencia);
-      this.reportService
-      .updateReport(report.id, report)
-      .subscribe(
-        next => {
-          this.alertifyService.success('Report updated successfully!');
-          this.editForm.resetForm(report);
-        },
-        error => {
-          this.alertifyService.error(error);
-        }
-      );
+    this.reportService.updateReport(report.id, report).subscribe(
+      next => {
+        this.getReport(report.id);
+        this.alertifyService.success('Report updated successfully!');
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+  }
+
+  getReport(id: number) {
+    this.reportService.getReport(id).subscribe(
+      (reports: ServicoCampo) => {
+        this.report = reports;
+        this.selectedCongregation = this.report.congregacao.id;
+        this.selectedPioneer = this.report.pioneiro.id;
+        this.selectedPublisher = this.report.publicador.id;
+        this.report.dataReferencia = new Date(this.report.dataReferencia);
+        this.report.dataEntrega = new Date(this.report.dataEntrega);
+        this.publisherName = this.report.publicador.nome;
+        this.report.pioneiroId = this.report.pioneiro.id;
+        this.report.congregacaoId = this.report.congregacao.id;
+        this.report.publicadorId = this.report.publicador.id;
+        this.situacaoServicoCampo = this.report.publicador.situacaoServicoCampo;
+        this.cdRef.detectChanges();
+        this.editForm.control.markAsUntouched();
+        this.editForm.control.markAsPristine();
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+    console.log('status: ' + this.editForm.dirty);
   }
 }

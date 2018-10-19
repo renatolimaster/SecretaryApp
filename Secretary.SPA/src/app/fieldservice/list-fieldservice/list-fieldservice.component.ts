@@ -43,9 +43,22 @@ export class ListFieldserviceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // this.date = {
+    //   fromDate: this.dateTimeExtensions.FirstDayOfMonth(new Date()),
+    //   toDate: this.dateTimeExtensions.FirstDayOfMonth(new Date())
+    // };
+
     this.date = {
-      fromDate: this.dateTimeExtensions.FirstDayOfMonth(new Date()),
-      toDate: this.dateTimeExtensions.FirstDayOfMonth(new Date())
+      fromDate: this.dateTimeExtensions.CreateDate(
+        1,
+        new Date().getMonth() - 1,
+        new Date().getFullYear()
+      ),
+      toDate: this.dateTimeExtensions.CreateDate(
+        1,
+        new Date().getMonth() - 1,
+        new Date().getFullYear()
+      )
     };
 
     console.log('Datas: ' + this.date.fromDate);
@@ -86,8 +99,29 @@ export class ListFieldserviceComponent implements OnInit {
         ' - to ' +
         moment(report.toDate).format('YYYY-MM-DD')
     );
-    const fromDate = moment(report.fromDate).format('YYYY-MM-DD');
-    const toDate = moment(report.toDate).format('YYYY-MM-DD');
+    const fromDate = moment(
+      this.dateTimeExtensions.FirstDayOfMonth(report.fromDate)
+    ).format('YYYY-MM-DD');
+    const toDate = moment(
+      this.dateTimeExtensions.FirstDayOfMonth(report.toDate)
+    ).format('YYYY-MM-DD');
+
+    if (
+      moment(this.dateTimeExtensions.FirstDayOfMonth(report.fromDate)).isAfter(
+        moment(this.dateTimeExtensions.FirstDayOfMonth(report.toDate))
+      )
+    ) {
+      const from = moment(report.fromDate).format('DD/MMM/YYYY');
+      const to = moment(report.toDate).format('DD/MMM/YYYY');
+      alert(
+        from +
+          ' must be lesser than ' +
+          to +
+          '!\n keep in mind that the dates will set up automatically to the first day of the month'
+      );
+      return;
+    }
+
     this.route.data.subscribe(data => {
       this.reports = data['reports'];
       // cache our list

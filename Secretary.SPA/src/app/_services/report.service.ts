@@ -26,7 +26,7 @@ export class ReportService {
   }
 
   updateReport(id: number, report: ServicoCampo) {
-    console.log('id: ' + id);
+    console.log('id: ' + id + ' reportId: ' + report.congregacao.id + ' - ' + report.congregacaoId);
     console.log(report);
     return this.http.put(this.baseUrl + 'fieldservice/' + id, report);
   }

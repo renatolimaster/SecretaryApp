@@ -427,5 +427,46 @@ namespace Secretary.API.InterfacesImpl
             return serv;
         }
 
+        public async Task<List<ServicoCampo>> getFieldServicePioneerByPeriodAsync(DateTime fromDate, DateTime toDate, long pioneerId)
+        {
+
+            Console.WriteLine("getFieldServicePioneerByPeriodAsync Service");
+
+            var cong = _repoCong.getCongregationDefaultAsync();
+            var serv = await _dbContext.ServicoCampo.AsNoTracking()
+            .Include(p => p.Pioneiro)
+            .Include(p => p.Publicador)
+            .Include(p => p.Congregacao)
+            .Include(p => p.Pioneiro)
+            .Include(p => p.Publicador.Dianteira)
+            .Include(p => p.Publicador.Grupo)
+            .Where(p => p.CongregacaoId == cong.Id)
+            .Where(e => e.DataReferencia >= fromDate)
+            .Where(e => e.DataReferencia <= toDate)
+            .OrderBy(s => s.Publicador.Nome)
+            .OrderByDescending(p => p.PioneiroId)
+            .OrderByDescending(s => s.DataEntrega).ToListAsync();
+
+            if (pioneerId > 0)
+            {
+                Console.WriteLine("============= 0 =============");
+                serv = await _dbContext.ServicoCampo.AsNoTracking()
+                .Include(p => p.Pioneiro)
+                .Include(p => p.Publicador)
+                .Include(p => p.Congregacao)
+                .Include(p => p.Pioneiro)
+                .Include(p => p.Publicador.Dianteira)
+                .Where(p => p.CongregacaoId == cong.Id)
+                .Where(e => e.DataReferencia >= fromDate)
+                .Where(e => e.DataReferencia <= toDate)
+                .Where(p => p.PioneiroId == pioneerId)
+                .OrderBy(s => s.Publicador.Nome)
+                .OrderByDescending(p => p.PioneiroId)
+                .OrderByDescending(s => s.DataEntrega).ToListAsync();
+            }
+
+
+            return serv;
+        }
     }
 }

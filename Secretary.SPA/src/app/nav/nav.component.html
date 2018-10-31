@@ -20,6 +20,26 @@
       </div>
     </div>
 
+
+    <div class="nav-item">&nbsp;&nbsp;</div>
+
+
+    <div *ngIf="loggedIn()" class="dropdown" dropdown>
+      <a class="dropdown-toggle text-light" dropdownToggle>
+        Reports
+      </a>
+
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" [routerLink]="['/congregationfieldservice']" routerLinkActive="active">
+          <i class="fa fa-home"></i> Congregation Field Service
+        </a>
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-exchange"></i> Transfer</a>        
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-users"></i> Meetings</a>
+      </div>
+    </div>
+
     <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/members']">Members

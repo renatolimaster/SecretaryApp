@@ -1,3 +1,207 @@
-<p>
-  congregation-fieldservice works!
-</p>
+<div class="container mt-3">
+  <div class="row">
+    <h2>{{title}}</h2>
+    <div class="col-xs-12 col-md-12">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary">
+        <i class="fa fa-plus"></i> Create New</button>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-12 mt-3">
+      <h4 class="text-primary">Congregation's Report</h4>
+      <hr>
+    </div>
+  </div>
+</div>
+<br />
+
+<div class="container">
+  <div class="card-body">
+    <form #myForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="loadReportsFromPeriod(myForm.value)">
+      <div class='row'>
+        <div class="col-sm-4">
+          <h5 class="card-text">Month</h5>
+          <input [(ngModel)]="date.fromDate" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="date?.fromDate"
+            [bsConfig]="{ dateInputFormat: 'MM/YYYY'}" name="fromDate" id="fromDate" required>
+        </div>
+
+        <div class="col-sm-4">
+          <h5 class="card-text">&nbsp;</h5>
+          <button type="submit" class="btn btn-success custombutton" [disabled]="!myForm.dirty"><i class="fa fa-filter"></i>
+            Filter</button> &nbsp; &nbsp;
+            <button type="button" class="btn btn-danger" (click)="generatePdf()"><i class="fa fa-file-pdf-o"></i> PDf</button>
+        </div>
+
+      </div>
+
+    </form>
+    
+  </div>
+
+</div>
+
+
+
+<div class="container">
+
+  <div class="card mt-6">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        <h3 class="text-primary text-center"> {{ title }}</h3>
+      </div>
+      <div class="panel-body">
+        <h5 class="text-success text-center"> {{ totalPublisherDelivered }} delivered of {{ totalPublisher }}
+          publishers</h5>
+        <h6 class="text-info text-center"> {{ date.fromDate | date:'MMM/yyyy' }} </h6>
+      </div>
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Pioneer</th>
+            <th scope="col">Colocations</th>
+            <th scope="col">Video</th>
+            <th scope="col">Hours</th>
+            <th scope="col">Bethel</th>
+            <th scope="col">Credit</th>
+            <th scope="col">Returns</th>
+            <th scope="col">Studies</th>
+            <th scope="col">Obs</th>
+            <th scope="col">Status</th>
+            <th scope="col">Group</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of reports">
+            <td>{{ item.publicador.nomeSobrenome }}</td>
+            <td>{{ item.pioneiro.descricao }}</td>
+            <td class="text-center">{{ item.publicacoes }}</td>
+            <td class="text-center">{{ item.videosMostrados }}</td>
+            <td *ngIf="item.horas > 0" class="text-center text-primary "><strong>{{ item.horas }}</strong></td>
+            <td *ngIf="item.horas == 0" class="text-center text-danger "><strong>{{ item.horas }}</strong></td>
+            <td class="text-center text-info "><strong>{{ item.horasBetel }}</strong></td>
+            <td class="text-center text-info "><strong>{{ item.creditoHoras }}</strong></td>
+            <td class="text-center">{{ item.revisitas }}</td>
+            <td class="text-center">{{ item.estudos }}</td>
+            <td class="text-center small">{{ item.observacao }}</td>
+            <td class="text-center">{{ item.publicador.situacaoServicoCampo }}</td>
+            <td class="text-center">{{ item.publicador.grupo.local }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card mt-6">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        <br>
+        <h3 class="text-primary text-center">Total of {{ title }}</h3>
+      </div>
+      <div class="panel-body">
+        <h5 class="text-success text-center"> {{ totalPublisherDelivered }} delivered of {{ totalPublisher }}
+          publishers </h5>
+      </div>
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="text-center text-primary" scope="col">Pioneer</th>
+            <th class="text-center text-primary" scope="col">Colocations</th>
+            <th class="text-center text-primary" scope="col">Video</th>
+            <th class="text-center text-danger" scope="col">Hours</th>
+            <th class="text-center text-primary" scope="col">Returns</th>
+            <th class="text-center text-primary" scope="col">Studies</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="totalsEspecial.description === 'Especial'">
+            <td class="text-center text-info">{{ totalsEspecial.description }} ({{ totalEspecial }})</td>
+            <td class="text-center">{{ totalsEspecial.colocations }}</td>
+            <td class="text-center">{{ totalsEspecial.videos }}</td>
+            <td class="text-center text-danger">{{ totalsEspecial.hours }}</td>
+            <td class="text-center">{{ totalsEspecial.returns }}</td>
+            <td class="text-center">{{ totalsEspecial.studies }}</td>
+          </tr>
+          <tr *ngIf="totalsRegular.description === 'Regular'">
+            <td class="text-center text-info">{{ totalsRegular.description }} ({{ totalRegular }})</td>
+            <td class="text-center">{{ totalsRegular.colocations }}</td>
+            <td class="text-center">{{ totalsRegular.videos }}</td>
+            <td class="text-center text-danger">{{ totalsRegular.hours }}</td>
+            <td class="text-center">{{ totalsRegular.returns }}</td>
+            <td class="text-center">{{ totalsRegular.studies }}</td>
+          </tr>
+          <tr *ngIf="totalsAuxiliarRegular.description === 'Auxiliar Regular'">
+            <td class="text-center text-info">{{ totalsAuxiliarRegular.description }} ({{ totalAuxiliarRegular }})</td>
+            <td class="text-center">{{ totalsAuxiliarRegular.colocations }}</td>
+            <td class="text-center">{{ totalsAuxiliarRegular.videos }}</td>
+            <td class="text-center text-danger">{{ totalsAuxiliarRegular.hours }}</td>
+            <td class="text-center">{{ totalsAuxiliarRegular.returns }}</td>
+            <td class="text-center">{{ totalsAuxiliarRegular.studies }}</td>
+          </tr>
+          <tr *ngIf="totalsAuxiliar.description === 'Auxiliar'">
+            <td class="text-center text-info">{{ totalsAuxiliar.description }} ({{ totalAuxiliar }})</td>
+            <td class="text-center">{{ totalsAuxiliar.colocations }}</td>
+            <td class="text-center">{{ totalsAuxiliar.videos }}</td>
+            <td class="text-center text-danger">{{ totalsAuxiliar.hours }}</td>
+            <td class="text-center">{{ totalsAuxiliar.returns }}</td>
+            <td class="text-center">{{ totalsAuxiliar.studies }}</td>
+          </tr>
+          <tr *ngIf="totalsAuxiliar30.description === 'Auxiliar 30 horas'">
+            <td class="text-center text-info">{{ totalsAuxiliar30.description }} ({{ totalAuxiliar30 }})</td>
+            <td class="text-center">{{ totalsAuxiliar30.colocations }}</td>
+            <td class="text-center">{{ totalsAuxiliar30.videos }}</td>
+            <td class="text-center text-danger">{{ totalsAuxiliar30.hours }}</td>
+            <td class="text-center">{{ totalsAuxiliar30.returns }}</td>
+            <td class="text-center">{{ totalsAuxiliar30.studies }}</td>
+          </tr>
+          <tr *ngIf="totalsPublishers.description === 'Não'">
+            <td class="text-center text-info">{{ totalsPublishers.description }} ({{ totalPublishers }})</td>
+            <td class="text-center">{{ totalsPublishers.colocations }}</td>
+            <td class="text-center">{{ totalsPublishers.videos }}</td>
+            <td class="text-center text-danger">{{ totalsPublishers.hours }}</td>
+            <td class="text-center">{{ totalsPublishers.returns }}</td>
+            <td class="text-center">{{ totalsPublishers.studies }}</td>
+          </tr>
+          <tr *ngIf="totals.betelHours > 0">
+              <td class="text-center text-info">Bethel</td>
+              <td class="text-center">&nbsp;</td>
+              <td class="text-center">&nbsp;</td>
+              <td class="text-center text-danger">{{ totals.betelHours }}</td>
+              <td class="text-center">&nbsp;</td>
+              <td class="text-center">&nbsp;</td>
+            </tr>
+            <tr *ngIf="totals.creditHours > 0">
+                <td class="text-center text-info">Credit</td>
+                <td class="text-center">&nbsp;</td>
+                <td class="text-center">&nbsp;</td>
+                <td class="text-center text-danger">{{ totals.creditHours }} </td>
+                <td class="text-center">&nbsp;</td>
+                <td class="text-center">&nbsp;</td>
+              </tr>
+          <tr *ngIf="totals.description === 'Total'">
+            <td class="text-center text-info"><strong>{{ totals.description }} ({{ totalDelivered }})</strong></td>
+            <td class="text-center"><strong>{{ totals.colocations }}</strong></td>
+            <td class="text-center"><strong>{{ totals.videos }}</strong></td>
+            <td class="text-center text-danger"><strong>{{ totals.hours }}</strong></td>
+            <td class="text-center"><strong>{{ totals.returns }}</strong></td>
+            <td class="text-center"><strong>{{ totals.studies }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

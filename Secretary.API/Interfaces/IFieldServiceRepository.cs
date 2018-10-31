@@ -14,6 +14,7 @@ namespace Secretary.API.Interfaces
         Task<string> initializeFieldService(DateTime deliveryDate);
         bool VerifyExistFieldServiceByPublisher(DateTime deliveryDate, long publisherId);
         Task<List<ServicoCampo>> getFieldServiceByPeriodAsync(DateTime fromDate, DateTime toDate);
+        Task<List<ServicoCampo>> getFieldServicePioneerByPeriodAsync(DateTime fromDate, DateTime toDate, long pioneerId);
         Task<ServicoCampo> getFieldServiceByPublisherIdAsync(long publisherId);
 
         Task<double> getMediaYearlyFieldServiceAsync(long id);

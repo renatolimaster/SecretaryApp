@@ -80,6 +80,19 @@ namespace Secretary.API.Controllers
             return Ok(servToReturn);
         }
 
+        [HttpGet("pioneerfieldservicebyperiod/{fromDate}&{toDate}&{pioneerId}")]
+        public async Task<IActionResult> getPioneerFieldServiceByPeriodAsync(DateTime fromDate, DateTime toDate, long pioneerId)
+        {
+            fromDate = fromDate.Date;
+            toDate = toDate.Date;
+            Console.WriteLine("**** getPioneerFieldServiceByPeriodAsync ****: " + fromDate + " - " + toDate);
+            var serv = await _fieldServiceRepo.getFieldServicePioneerByPeriodAsync(fromDate, toDate, pioneerId);
+            var servToReturn = _mapper.Map<IEnumerable<FieldServiceForListDto>>(serv);
+            // await Task.Delay(1000);
+            return Ok(servToReturn);
+        }
+
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReportAsync(long id, FieldServiceForUpdateDto fieldServiceForUpdateDto)
         {

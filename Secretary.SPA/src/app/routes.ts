@@ -32,15 +32,30 @@ export const appRoutes: Routes = [
       { path: 'congregation', component: ListCongregationComponent },
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },
-      { path: 'fieldservice', component: ListFieldserviceComponent, resolve: { reports: ListFieldServiceResolver} },
-      { path: 'editfieldservice/:id', component: EditFieldserviceComponent,
-                                      canDeactivate: [PreventUnsaveChanges], resolve: { report: EditFieldServiceResolver} },
-      { path: 'detailfieldservice/:id/:del', component: DetailFieldserviceComponent, resolve: { report: DetailFieldServiceResolver} },
+      {
+        path: 'fieldservice',
+        component: ListFieldserviceComponent,
+        resolve: { reports: ListFieldServiceResolver }
+      },
+      {
+        path: 'editfieldservice/:id',
+        component: EditFieldserviceComponent,
+        canDeactivate: [PreventUnsaveChanges],
+        resolve: { report: EditFieldServiceResolver }
+      },
+      {
+        path: 'detailfieldservice/:id/:del',
+        component: DetailFieldserviceComponent,
+        resolve: { report: DetailFieldServiceResolver }
+      },
       {
         path: 'congregationfieldservice',
         component: CongregationFieldserviceComponent
       },
-      { path: 'publisherfieldservice', component: PublisherFieldserviceComponent },
+      {
+        path: 'publisherfieldservice',
+        component: PublisherFieldserviceComponent
+      },
       { path: 'reports', component: ReportsComponent }
     ]
   },

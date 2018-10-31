@@ -11,6 +11,7 @@ namespace Secretary.API.Dtos
         public string NomeSobrenome { get; set; }
         public string TelCelular { get; set; } 
         public string SituacaoServicoCampo { get; set; }
+        public GroupSimplifiedDto Grupo { get; set; }
 
     }
 }

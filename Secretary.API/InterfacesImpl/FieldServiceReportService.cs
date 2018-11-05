@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Secretary.API.Data;
+using Secretary.API.Dtos;
 using Secretary.API.Helpers;
 using Secretary.API.Interfaces;
 using Secretary.API.Models;
@@ -451,7 +452,6 @@ namespace Secretary.API.InterfacesImpl
             {
                 Console.WriteLine("============= 0 =============");
                 serv = await _dbContext.ServicoCampo.AsNoTracking()
-                .Include(p => p.Pioneiro)
                 .Include(p => p.Publicador)
                 .Include(p => p.Congregacao)
                 .Include(p => p.Pioneiro)
@@ -468,5 +468,50 @@ namespace Secretary.API.InterfacesImpl
 
             return serv;
         }
+
+        public async Task<List<TotalFieldServiceReportDto>> getSumFieldServicePioneerByPeriodAsync(DateTime fromDate, DateTime toDate, long pioneerId)
+        {
+            Console.WriteLine("////////////// getSumFieldServicePioneerByPeriodAsync /////////////// ");
+
+            Console.WriteLine("////////////// Parameters /////////////// " + fromDate + " - " + toDate + " - " + pioneerId);
+
+            // var congDefault = _repoCong.getCongregationDefaultAsync();
+
+            // Console.WriteLine("////////////// list /////////////// " + congDefault.Nome);
+
+            var list = await _dbContext.ServicoCampo.AsNoTracking().Where(s => s.CongregacaoId == 1).Where(s => s.Horas > 0 || s.Minutos > 0).Where(s => s.DataEntrega == fromDate && s.DataReferencia == toDate).GroupBy(s => s.Pioneiro.Id).Select(
+           t => new
+           {
+               description = t.Key,
+               placements = t.Sum(s => s.Publicacoes),
+               hours = t.Sum(s => s.Horas),
+               hoursBetel = t.Sum(s => s.HorasBetel),
+               credits = t.Sum(s => s.CreditoHoras),
+               returns = t.Sum(s => s.Revisitas),
+               studies = t.Sum(s => s.Estudos)
+           }
+           ).OrderByDescending(t => t.description).ToListAsync();
+
+
+            // var list = await _dbContext.ServicoCampo.Where(s => s.CongregacaoId == 1).Where(s => s.Horas > 0 || s.Minutos > 0).Where(s => s.DataEntrega == fromDate && s.DataReferencia == toDate).GroupBy(t => new {t.Pioneiro.Descricao, t.Horas}).
+            // Select(t => new
+            // {
+            //     description = t.Key, 
+            //     horas = t.Sum(h => h.Horas)
+
+            // }).ToListAsync();
+
+            Console.WriteLine("////////////// list after /////////////// " + list.Count);
+
+            List<TotalFieldServiceReportDto> sumReport = new List<TotalFieldServiceReportDto>();
+            foreach (var item in list)
+            {
+                Console.WriteLine("Horas ========================== > " + item.description + " - " + item.placements + " - " + item.hours);
+                // sumReport.Add(new TotalFieldServiceReportDto { description = item.description, colocations = item.placements.Value, hours = item.hours.Value, betelHours = item.hoursBetel, creditHours = item.credits, studies = item.studies.Value, returns = item.returns.Value });
+            }
+
+            return sumReport;
+        }
+
     }
 }

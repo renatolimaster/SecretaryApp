@@ -72,6 +72,10 @@ namespace Secretary.API.Helpers
 
             CreateMap<FieldServiceForUpdateDto, ServicoCampo>();
 
+            CreateMap<TotalFieldServiceReportDto, ServicoCampo>();
+
+            
+
         }
     }
 }

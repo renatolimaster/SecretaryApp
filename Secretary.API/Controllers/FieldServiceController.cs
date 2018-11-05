@@ -86,9 +86,13 @@ namespace Secretary.API.Controllers
             fromDate = fromDate.Date;
             toDate = toDate.Date;
             Console.WriteLine("**** getPioneerFieldServiceByPeriodAsync ****: " + fromDate + " - " + toDate);
-            var serv = await _fieldServiceRepo.getFieldServicePioneerByPeriodAsync(fromDate, toDate, pioneerId);
+            var serv = await _fieldServiceRepo.getFieldServicePioneerByPeriodAsync(fromDate, toDate, pioneerId);            
             var servToReturn = _mapper.Map<IEnumerable<FieldServiceForListDto>>(serv);
+            // fetch sum from type of pioneer
+            // var sumtotal = _fieldServiceRepo.getSumFieldServicePioneerByPeriodAsync(fromDate, toDate, pioneerId);
+            // var sumtotalToReturn = _mapper.Map<IEnumerable<TotalFieldServiceReportDto>>(sumtotal);
             // await Task.Delay(1000);
+            // return Ok(servToReturn);
             return Ok(servToReturn);
         }
 

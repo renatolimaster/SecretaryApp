@@ -31,13 +31,13 @@
           <h5 class="card-text">&nbsp;</h5>
           <button type="submit" class="btn btn-success custombutton" [disabled]="!myForm.dirty"><i class="fa fa-filter"></i>
             Filter</button> &nbsp; &nbsp;
-            <button type="button" class="btn btn-danger" (click)="generatePdf()"><i class="fa fa-file-pdf-o"></i> PDf</button>
+          <button type="button" class="btn btn-danger" (click)="generatePdf()"><i class="fa fa-file-pdf-o"></i> PDf</button>
         </div>
 
       </div>
 
     </form>
-    
+
   </div>
 
 </div>
@@ -59,7 +59,7 @@
         <h6 class="text-info text-center"> {{ date.fromDate | date:'MMM/yyyy' }} </h6>
       </div>
 
-      <!-- Table -->
+      <!-- Table nova -->
       <table class="table">
         <thead>
           <tr>
@@ -78,23 +78,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of reports">
-            <td>{{ item.publicador.nomeSobrenome }}</td>
-            <td>{{ item.pioneiro.descricao }}</td>
-            <td class="text-center">{{ item.publicacoes }}</td>
-            <td class="text-center">{{ item.videosMostrados }}</td>
-            <td *ngIf="item.horas > 0" class="text-center text-primary "><strong>{{ item.horas }}</strong></td>
-            <td *ngIf="item.horas == 0" class="text-center text-danger "><strong>{{ item.horas }}</strong></td>
-            <td class="text-center text-info "><strong>{{ item.horasBetel }}</strong></td>
-            <td class="text-center text-info "><strong>{{ item.creditoHoras }}</strong></td>
-            <td class="text-center">{{ item.revisitas }}</td>
-            <td class="text-center">{{ item.estudos }}</td>
-            <td class="text-center small">{{ item.observacao }}</td>
-            <td class="text-center">{{ item.publicador.situacaoServicoCampo }}</td>
-            <td class="text-center">{{ item.publicador.grupo.local }}</td>
+          <tr *ngFor="let item of reportLine">
+            <td *ngIf="item.Name === 'Total' || item.Name === 'Geral'" class="text-center text-primary ">
+              <h4><strong>{{ item.Name }}({{item.Counter}})</strong></h4>
+            </td>
+            <td *ngIf="item.Name !== 'Total' && item.Name !== 'Geral'">{{ item.Name }}</td>
+            <td>{{ item.Pioneer }}</td>
+            <td class="text-center">{{ item.Colocations }}</td>
+            <td class="text-center">{{ item.Video }}</td>
+            <td *ngIf="item.Hours > 0" class="text-center text-primary "><strong>{{ item.Hours }}</strong></td>
+            <td *ngIf="item.Hours == 0" class="text-center text-danger "><strong>{{ item.Hours }}</strong></td>
+            <td class="text-center text-info "><strong>{{ item.Bethel }}</strong></td>
+            <td class="text-center text-info "><strong>{{ item.Credit }}</strong></td>
+            <td class="text-center">{{ item.Returns }}</td>
+            <td class="text-center">{{ item.Studies }}</td>
+            <td class="text-center small">{{ item.Obs }}</td>
+            <td class="text-center">{{ item.Status }}</td>
+            <td class="text-center">{{ item.Group }}</td>
           </tr>
         </tbody>
       </table>
+      <!-- Fim Table nova -->
+
     </div>
   </div>
 </div>
@@ -110,17 +115,18 @@
         <h3 class="text-primary text-center">Total of {{ title }}</h3>
       </div>
       <div class="panel-body">
-        <h5 class="text-success text-center"> {{ totalPublisherDelivered }} delivered of {{ totalPublisher }}
+        <h5 class="text-success text-center"> {{ counterTotal }} delivered of {{ totalPublisher }}
           publishers </h5>
       </div>
 
-      <!-- Table -->
+
+      <!-- Table Nova -->
       <table class="table">
         <thead>
           <tr>
             <th class="text-center text-primary" scope="col">Pioneer</th>
             <th class="text-center text-primary" scope="col">Colocations</th>
-            
+
             <th class="text-center text-danger" scope="col">Hours</th>
             <th class="text-center text-primary" scope="col">Returns</th>
             <th class="text-center text-primary" scope="col">Studies</th>
@@ -128,77 +134,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="totalsEspecial.description === 'Especial'">
-            <td class="text-center text-info">{{ totalsEspecial.description }} ({{ totalEspecial }})</td>
-            <td class="text-center">{{ totalsEspecial.colocations }}</td>
-            
-            <td class="text-center text-danger">{{ totalsEspecial.hours }}</td>
-            <td class="text-center">{{ totalsEspecial.returns }}</td>
-            <td class="text-center">{{ totalsEspecial.studies }}</td>
-          </tr>
-          <tr *ngIf="totalsRegular.description === 'Regular'">
-            <td class="text-center text-info">{{ totalsRegular.description }} ({{ totalRegular }})</td>
-            <td class="text-center">{{ totalsRegular.colocations }}</td>
-            
-            <td class="text-center text-danger">{{ totalsRegular.hours }}</td>
-            <td class="text-center">{{ totalsRegular.returns }}</td>
-            <td class="text-center">{{ totalsRegular.studies }}</td>
-          </tr>
-          <tr *ngIf="totalsAuxiliarRegular.description === 'Auxiliar Regular'">
-            <td class="text-center text-info">{{ totalsAuxiliarRegular.description }} ({{ totalAuxiliarRegular }})</td>
-            <td class="text-center">{{ totalsAuxiliarRegular.colocations }}</td>
-            
-            <td class="text-center text-danger">{{ totalsAuxiliarRegular.hours }}</td>
-            <td class="text-center">{{ totalsAuxiliarRegular.returns }}</td>
-            <td class="text-center">{{ totalsAuxiliarRegular.studies }}</td>
-          </tr>
-          <tr *ngIf="totalsAuxiliar.description === 'Auxiliar'">
-            <td class="text-center text-info">{{ totalsAuxiliar.description }} ({{ totalAuxiliar }})</td>
-            <td class="text-center">{{ totalsAuxiliar.colocations }}</td>
-            
-            <td class="text-center text-danger">{{ totalsAuxiliar.hours }}</td>
-            <td class="text-center">{{ totalsAuxiliar.returns }}</td>
-            <td class="text-center">{{ totalsAuxiliar.studies }}</td>
-          </tr>
-          <tr *ngIf="totalsAuxiliar30.description === 'Auxiliar 30 horas'">
-            <td class="text-center text-info">{{ totalsAuxiliar30.description }} ({{ totalAuxiliar30 }})</td>
-            <td class="text-center">{{ totalsAuxiliar30.colocations }}</td>
-            
-            <td class="text-center text-danger">{{ totalsAuxiliar30.hours }}</td>
-            <td class="text-center">{{ totalsAuxiliar30.returns }}</td>
-            <td class="text-center">{{ totalsAuxiliar30.studies }}</td>
-          </tr>
-          <tr *ngIf="totalsPublishers.description === 'Não'">
-            <td class="text-center text-info">{{ totalsPublishers.description }} ({{ totalPublishers }})</td>
-            <td class="text-center">{{ totalsPublishers.colocations }}</td>
-            
-            <td class="text-center text-danger">{{ totalsPublishers.hours }}</td>
-            <td class="text-center">{{ totalsPublishers.returns }}</td>
-            <td class="text-center">{{ totalsPublishers.studies }}</td>
-          </tr>
-          <tr *ngIf="totals.betelHours > 0">
-              <td class="text-center text-info">Bethel</td>
-              <td class="text-center">&nbsp;</td>
-              
-              <td class="text-center text-danger">{{ totals.betelHours }}</td>
-              <td class="text-center">&nbsp;</td>
-              <td class="text-center">&nbsp;</td>
-            </tr>
-            <tr *ngIf="totals.creditHours > 0">
-                <td class="text-center text-info">Credit</td>
-                <td class="text-center">&nbsp;</td>
-                
-                <td class="text-center text-danger">{{ totals.creditHours }} </td>
-                <td class="text-center">&nbsp;</td>
-                <td class="text-center">&nbsp;</td>
-              </tr>
-          <tr *ngIf="totals.description === 'Total'">
-            <td class="text-center text-info"><strong>{{ totals.description }} ({{ totalDelivered }})</strong></td>
-            <td class="text-center"><strong>{{ totals.colocations }}</strong></td>
-            
-            <td class="text-center text-danger"><strong>{{ totals.hours }}</strong></td>
-            <td class="text-center"><strong>{{ totals.returns }}</strong></td>
-            <td class="text-center"><strong>{{ totals.studies }}</strong></td>
+          <tr *ngFor="let item of reportLineGeral">
+              <td *ngIf="item.Pioneer === 'Geral'" class="text-center text-danger"><h4><strong>{{ item.Pioneer }} ({{ item.Counter }})</strong></h4></td>
+              <td *ngIf="item.Pioneer !== 'Geral'" class="text-center text-info">{{ item.Pioneer }} ({{ item.Counter }})</td>
+              <td class="text-center">{{ item.Colocations }}</td>
+              <td class="text-center text-danger">{{ item.Hours }}</td>
+              <td class="text-center">{{ item.Returns }}</td>
+              <td class="text-center">{{ item.Studies }}</td>
           </tr>
         </tbody>
       </table>

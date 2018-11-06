@@ -57,6 +57,30 @@ export class CongregationFieldserviceComponent implements OnInit {
   totalDelivered = 0;
   totalHourBetelCredit = 0;
 
+  // new conception
+  reportRegular = [];
+  reportNao = [];
+  reportLine: IFieldServiceReportPdf[];
+  reportLineGeral: IFieldServiceReportPdf[];
+  descricao = '';
+  hours = 0;
+  hoursBethel = 0;
+  creditHours = 0;
+  colocations = 0;
+  videos = 0;
+  returns = 0;
+  studies = 0;
+
+  // COUNTER
+  counter1 = 0;
+  counter2 = 0;
+  counter3 = 0;
+  counter4 = 0;
+  counter5 = 0;
+  counter6 = 0;
+  counterTotal = 0;
+  //
+
   myForm: FormGroup;
 
   constructor(
@@ -88,6 +112,11 @@ export class CongregationFieldserviceComponent implements OnInit {
   }
 
   initializeValues() {
+    // new conception
+    this.reportRegular = [];
+    this.reportLine = [];
+    this.reportLineGeral = [];
+    //
     this.totalPublisherDelivered = 0;
     this.totalPublishers = 0;
     this.totalAuxiliar = 0;
@@ -107,6 +136,7 @@ export class CongregationFieldserviceComponent implements OnInit {
     this.totalEspecialReport = [];
 
     this.dataReport = {
+      Counter: 0,
       Name: '',
       Pioneer: '',
       Colocations: 0,
@@ -240,11 +270,12 @@ export class CongregationFieldserviceComponent implements OnInit {
           this.reports = reports;
           this.totalPublisher = this.reports.length;
           this.initializeValues();
+          this.setReportLine(this.reports);
           this.reports.forEach(element => {
             if (element.horas > 0) {
               this.totalPublisherDelivered = this.totalPublisherDelivered + 1;
             }
-            this.totalizer(element);
+            // this.totalizer(element);
           });
 
           if (this.totalsEspecial.description !== '') {
@@ -306,9 +337,6 @@ export class CongregationFieldserviceComponent implements OnInit {
               this.totalsPublishers.studies
             ]);
           }
-
-          console.log(this.totalReport);
-
           this.totals.description = 'Total';
           this.totals.colocations =
             this.totalsPublishers.colocations +
@@ -408,16 +436,207 @@ export class CongregationFieldserviceComponent implements OnInit {
       );
   }
 
+  setReportLine(report: ServicoCampo[]) {
+    this.descricao = '';
+    this.hours = 0;
+    this.hoursBethel = 0;
+    this.creditHours = 0;
+    this.colocations = 0;
+    this.videos = 0;
+    this.returns = 0;
+    this.studies = 0;
+
+    // COUNTER
+    this.counter1 = 0;
+    this.counter2 = 0;
+    this.counter3 = 0;
+    this.counter4 = 0;
+    this.counter5 = 0;
+    this.counter6 = 0;
+    this.counterTotal = 0;
+
+    // REGULAR
+    this.reportRegular = report.filter(
+      (service: ServicoCampo) => service.pioneiro.descricao === 'Regular'
+    );
+
+    if (this.reportRegular.length > 0) {
+      this.descricao = '';
+      this.hours = 0;
+      this.hoursBethel = 0;
+      this.creditHours = 0;
+      this.colocations = 0;
+      this.videos = 0;
+      this.returns = 0;
+      this.studies = 0;
+      this.counter5 = 0;
+      this.reportRegular.forEach(element => {
+        if (
+          element.horas > 0 ||
+          element.horasBetel > 0 ||
+          element.creditoHoras > 0
+        ) {
+          this.counter5++;
+        }
+        this.reportLine.push({
+          Counter: this.counter5,
+          Name: element.publicador.nome,
+          Pioneer: element.pioneiro.descricao,
+          Colocations: element.publicacoes,
+          Hours: element.horas,
+          Bethel: element.horasBetel,
+          Credit: element.creditoHoras,
+          Video: element.videosMostrados,
+          Returns: element.revisitas,
+          Studies: element.estudos,
+          Obs: element.observacao,
+          Status: element.publicador.situacaoServicoCampo,
+          Group: element.publicador.grupo.local
+        });
+        this.descricao = element.pioneiro.descricao;
+        this.colocations = this.colocations + element.publicacoes;
+        this.hours =
+        this.hours + element.horas + element.horasBetel + element.creditoHoras;
+        this.hoursBethel = this.hoursBethel + element.horasBetel;
+        this.creditHours = this.creditHours + element.creditoHoras;
+        this.videos = this.videos + element.videosMostrados;
+        this.returns = this.returns + element.revisitas;
+        this.studies = this.studies + element.estudos;
+      });
+      this.reportLine.push({
+        Counter: this.counter5,
+        Name: 'Total',
+        Pioneer: this.descricao,
+        Colocations: this.colocations,
+        Hours: this.hours,
+        Bethel: this.hoursBethel,
+        Credit: this.creditHours,
+        Video: this.videos,
+        Returns: this.returns,
+        Studies: this.studies,
+        Obs: ' ',
+        Status: ' ',
+        Group: ' '
+      });
+    }
+    // FIM REGULAR
+
+    // NÃO
+    this.reportRegular = report.filter(
+      (service: ServicoCampo) => service.pioneiro.descricao === 'Não'
+    );
+
+    if (this.reportRegular.length > 0) {
+      this.descricao = '';
+      this.hours = 0;
+      this.hoursBethel = 0;
+      this.creditHours = 0;
+      this.colocations = 0;
+      this.videos = 0;
+      this.returns = 0;
+      this.studies = 0;
+      this.counter1 = 0;
+      this.reportRegular.forEach(element => {
+        if (
+          element.horas > 0 ||
+          element.horasBetel > 0 ||
+          element.creditoHoras > 0
+        ) {
+          this.counter1++;
+        }
+        this.reportLine.push({
+          Counter: this.counter1,
+          Name: element.publicador.nome,
+          Pioneer: element.pioneiro.descricao,
+          Colocations: element.publicacoes,
+          Hours: element.horas,
+          Bethel: element.horasBetel,
+          Credit: element.creditoHoras,
+          Video: element.videosMostrados,
+          Returns: element.revisitas,
+          Studies: element.estudos,
+          Obs: element.observacao,
+          Status: element.publicador.situacaoServicoCampo,
+          Group: element.publicador.grupo.local
+        });
+        this.descricao = element.pioneiro.descricao;
+        this.colocations = this.colocations + element.publicacoes;
+        this.hours =
+        this.hours + element.horas + element.horasBetel + element.creditoHoras;
+        this.hoursBethel = this.hoursBethel + element.horasBetel;
+        this.creditHours = this.creditHours + element.creditoHoras;
+        this.videos = this.videos + element.videosMostrados;
+        this.returns = this.returns + element.revisitas;
+        this.studies = this.studies + element.estudos;
+      });
+
+      this.reportLine.push({
+        Counter: this.counter1,
+        Name: 'Total',
+        Pioneer: this.descricao,
+        Colocations: this.colocations,
+        Hours: this.hours,
+        Bethel: this.hoursBethel,
+        Credit: this.creditHours,
+        Video: this.videos,
+        Returns: this.returns,
+        Studies: this.studies,
+        Obs: ' ',
+        Status: ' ',
+        Group: ' '
+      });
+    }
+    // FIM NÃO
+
+    // finalizacao
+
+    this.reportLineGeral = this.reportLine.filter(
+      (service: IFieldServiceReportPdf) => service.Name === 'Total'
+    );
+
+    let totalColocations = 0;
+    let totalVideos = 0;
+    let totalHours = 0;
+    let totalReturns = 0;
+    let totalStudies = 0;
+    let totalBethel = 0;
+    let totalCredit = 0;
+    this.counterTotal = 0;
+
+    this.reportLineGeral.forEach(element => {
+      (this.counterTotal = this.counterTotal + element.Counter),
+        (totalColocations = totalColocations + element.Colocations);
+      totalVideos = totalVideos + element.Video;
+      totalHours = totalHours + element.Hours;
+      totalReturns = totalReturns + element.Returns;
+      totalStudies = totalStudies + element.Studies;
+      totalBethel = totalBethel + element.Bethel;
+      totalCredit = totalCredit + element.Credit;
+    });
+
+    this.reportLineGeral.push({
+      Counter: this.counterTotal,
+      Name: 'Geral',
+      Pioneer: 'Geral',
+      Colocations: totalColocations,
+      Hours: totalHours,
+      Bethel: totalBethel,
+      Credit: totalCredit,
+      Video: totalVideos,
+      Returns: totalReturns,
+      Studies: totalStudies,
+      Obs: ' ',
+      Status: ' ',
+      Group: ' '
+    });
+  }
+
   totalizer(element: any) {
-    //   totalPublishersReport = [];
-    // totalAuxiliarReport = [];
-    // totalAuxiliar30Report = [];
-    // totalAuxiliarRegularReport = [];
-    // totalRegularReport = [];
-    // totalEspecialReport = [];
     if (element.pioneiro.id === 1) {
+      if (element.horas > 0) {
+        this.totalPublishers = this.totalPublishers + 1;
+      }
       this.totalsPublishers.description = element.pioneiro.descricao;
-      this.totalPublishers = this.totalPublishers + 1;
       this.totalsPublishers.colocations =
         this.totalsPublishers.colocations + element.publicacoes;
       this.totalsPublishers.studies =
@@ -434,7 +653,9 @@ export class CongregationFieldserviceComponent implements OnInit {
       this.totalsPublishers.creditHours =
         this.totalsPublishers.creditHours + element.creditoHoras;
     } else if (element.pioneiro.id === 2) {
-      this.totalAuxiliar30 = this.totalAuxiliar30 + 1;
+      if (element.horas > 0) {
+        this.totalAuxiliar30 = this.totalAuxiliar30 + 1;
+      }
       this.totalsAuxiliar30.description = element.pioneiro.descricao;
       this.totalsAuxiliar30.colocations =
         this.totalsAuxiliar30.colocations + element.publicacoes;
@@ -452,7 +673,9 @@ export class CongregationFieldserviceComponent implements OnInit {
       this.totalsAuxiliar30.creditHours =
         this.totalsAuxiliar30.creditHours + element.creditoHoras;
     } else if (element.pioneiro.id === 3) {
-      this.totalAuxiliar = this.totalAuxiliar + 1;
+      if (element.horas > 0) {
+        this.totalAuxiliar = this.totalAuxiliar + 1;
+      }
       this.totalsAuxiliar.description = element.pioneiro.descricao;
       this.totalsAuxiliar.colocations =
         this.totalsAuxiliar.colocations + element.publicacoes;
@@ -469,7 +692,9 @@ export class CongregationFieldserviceComponent implements OnInit {
       this.totalsAuxiliar.creditHours =
         this.totalsAuxiliar.creditHours + element.creditoHoras;
     } else if (element.pioneiro.id === 4) {
-      this.totalAuxiliarRegular = this.totalAuxiliarRegular + 1;
+      if (element.horas > 0) {
+        this.totalAuxiliarRegular = this.totalAuxiliarRegular + 1;
+      }
       this.totalsAuxiliarRegular.description = element.pioneiro.descricao;
       this.totalsAuxiliarRegular.colocations =
         this.totalsAuxiliarRegular.colocations + element.publicacoes;
@@ -488,12 +713,16 @@ export class CongregationFieldserviceComponent implements OnInit {
       this.totalsAuxiliarRegular.creditHours =
         this.totalsAuxiliarRegular.creditHours + element.creditoHoras;
     } else if (element.pioneiro.id === 5) {
-      this.totalRegular = this.totalRegular + 1;
+      if (element.horas > 0) {
+        this.totalRegular = this.totalRegular + 1;
+      }
+
       this.totalsRegular.description = 'Regular';
       this.totalsRegular.colocations =
         this.totalsRegular.colocations + element.publicacoes;
       this.totalsRegular.studies = this.totalsRegular.studies + element.estudos;
       this.totalsRegular.hours = this.totalsRegular.hours + element.horas;
+
       this.totalsRegular.returns =
         this.totalsRegular.returns + element.revisitas;
       this.totalsRegular.obs = this.totalsRegular.obs + element.observacao;
@@ -504,7 +733,9 @@ export class CongregationFieldserviceComponent implements OnInit {
       this.totalsRegular.creditHours =
         this.totalsRegular.creditHours + element.creditoHoras;
     } else if (element.pioneiro.id === 6) {
-      this.totalEspecial = this.totalEspecial + 1;
+      if (element.horas > 0) {
+        this.totalEspecial = this.totalEspecial + 1;
+      }
       this.totalsEspecial.description = element.pioneiro.descricao;
       this.totalsEspecial.colocations =
         this.totalsEspecial.colocations + element.publicacoes;
@@ -529,7 +760,7 @@ export class CongregationFieldserviceComponent implements OnInit {
         title: 'CongregationFieldService',
         author: 'Renato Lima',
         subject: 'Congregation Field Service Report',
-        keywords: 'Field Service Report',
+        keywords: 'Field Service Report'
       },
       pageSize: 'A4',
       pageMargins: [25, 80, 25, 25],
@@ -541,9 +772,12 @@ export class CongregationFieldserviceComponent implements OnInit {
         },
         {
           columns: [
-            {text: '', style: 'subheader'},
-            {text: 'Field Service Report', style: 'subheader'},
-            {text: moment(Date.now()).format('MMM/DD/YYYY'), style: 'subsubheader'}
+            { text: '', style: 'subheader' },
+            { text: 'Field Service Report', style: 'subheader' },
+            {
+              text: moment(Date.now()).format('MMM/DD/YYYY'),
+              style: 'subsubheader'
+            }
           ]
         },
         {
@@ -591,7 +825,7 @@ export class CongregationFieldserviceComponent implements OnInit {
       },
 
       content: [
-        table(this.reports, [
+        table(this.reportLine, [
           'Name',
           'Pioneer',
           'Colocations',
@@ -613,7 +847,7 @@ export class CongregationFieldserviceComponent implements OnInit {
           text: ' ',
           style: 'subheader'
         },
-        tableSummarize(this.totalReport, [
+        tableSummarize(this.reportLineGeral, [
           'Description',
           'Colocations',
           'Hours',
@@ -697,38 +931,45 @@ export class CongregationFieldserviceComponent implements OnInit {
           dataReport = row;
 
           if (column === 'Name') {
-            dataRow.push({
-              text: row.publicador.nomeSobrenome,
-              color: 'blue',
-              alignment: 'left'
-            });
-          } else if (column === 'Pioneer') {
-            dataRow.push(row.pioneiro.descricao);
-          } else if (column === 'Colocations') {
-            dataRow.push(row.publicacoes);
-          } else if (column === 'Video') {
-            dataRow.push(row.videosMostrados);
-          } else if (column === 'Hours') {
-            if (row.horas > 0) {
-              dataRow.push({ text: row.horas, color: 'blue' });
+            if (row.Name === 'Total') {
+              dataRow.push({
+                text: row.Name,
+                color: 'red',
+                alignment: 'left'
+              });
             } else {
-              dataRow.push({ text: row.horas, color: 'red' });
+              dataRow.push({
+                text: row.Name,
+                color: 'blue',
+                alignment: 'left'
+              });
+            }
+          } else if (column === 'Pioneer') {
+            dataRow.push(row.Pioneer);
+          } else if (column === 'Colocations') {
+            dataRow.push(row.Colocations);
+          } else if (column === 'Video') {
+            dataRow.push(row.Video);
+          } else if (column === 'Hours') {
+            if (row.Hours > 0) {
+              dataRow.push({ text: row.Hours, color: 'blue' });
+            } else {
+              dataRow.push({ text: row.Hours, color: 'red' });
             }
           } else if (column === 'Bethel') {
-            dataRow.push(row.horasBetel);
+            dataRow.push(row.Bethel);
           } else if (column === 'Credit') {
-            dataRow.push(row.creditoHoras);
+            dataRow.push(row.Credit);
           } else if (column === 'Returns') {
-            dataRow.push(row.revisitas);
+            dataRow.push(row.Returns);
           } else if (column === 'Studies') {
-            dataRow.push(row.estudos);
+            dataRow.push(row.Studies);
           } else if (column === 'Status') {
-            dataRow.push(row.publicador.situacaoServicoCampo);
+            dataRow.push(row.Status);
           } else if (column === 'Group') {
-            dataRow.push(row.publicador.grupo.local);
+            dataRow.push(row.Group);
           }
         });
-
         body.push(dataRow);
       });
 
@@ -766,30 +1007,27 @@ export class CongregationFieldserviceComponent implements OnInit {
 
           if (column === 'Description') {
             dataRow.push({
-              text: row[0],
+              text: row.Pioneer,
               color: 'blue',
               alignment: 'left'
             });
           } else if (column === 'Colocations') {
-            dataRow.push(row[1]);
+            dataRow.push(row.Colocations);
           } else if (column === 'Hours') {
-            if (row[2] > 0) {
-              dataRow.push({ text: row[2], color: 'blue' });
+            if (row.Hours > 0) {
+              dataRow.push({ text: row.Hours, color: 'blue' });
             } else {
-              dataRow.push({ text: row[2], color: 'red' });
+              dataRow.push({ text: row.Hours, color: 'red' });
             }
           } else if (column === 'Returns') {
-            dataRow.push(row[3]);
+            dataRow.push(row.Returns);
           } else if (column === 'Studies') {
-            dataRow.push(row[4]);
+            dataRow.push(row.Studies);
           }
         });
-        console.log(dataRow);
 
         body.push(dataRow);
       });
-
-      console.log(body);
 
       return body;
     }

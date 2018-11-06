@@ -1,4 +1,5 @@
 export interface IFieldServiceReportPdf {
+  Counter: number;
   Name: string;
   Pioneer: string;
   Colocations: number;

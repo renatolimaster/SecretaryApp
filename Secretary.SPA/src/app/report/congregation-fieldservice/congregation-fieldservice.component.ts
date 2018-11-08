@@ -12,6 +12,7 @@ import { IFieldServiceReportPdf } from 'src/app/_interfaces/IFieldServiceReportP
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { element } from 'protractor';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -70,6 +71,8 @@ export class CongregationFieldserviceComponent implements OnInit {
   videos = 0;
   returns = 0;
   studies = 0;
+  publisherType = [];
+  //
 
   // COUNTER
   counter1 = 0;
@@ -102,6 +105,15 @@ export class CongregationFieldserviceComponent implements OnInit {
         new Date().getFullYear()
       )
     };
+
+    this.publisherType = [
+      'Especial',
+      'Regular',
+      'Auxiliar Regular',
+      'Auxiliar',
+      'Auxiliar 30 horas',
+      'Não'
+    ];
 
     this.initializeValues();
 
@@ -270,165 +282,7 @@ export class CongregationFieldserviceComponent implements OnInit {
           this.reports = reports;
           this.totalPublisher = this.reports.length;
           this.initializeValues();
-          this.setReportLine(this.reports);
-          this.reports.forEach(element => {
-            if (element.horas > 0) {
-              this.totalPublisherDelivered = this.totalPublisherDelivered + 1;
-            }
-            // this.totalizer(element);
-          });
-
-          if (this.totalsEspecial.description !== '') {
-            this.totalReport.push([
-              this.totalsEspecial.description,
-              this.totalsEspecial.colocations,
-              this.totalsEspecial.hours,
-              this.totalsEspecial.returns,
-              this.totalsEspecial.studies
-            ]);
-          }
-
-          if (this.totalsRegular.description !== '') {
-            this.totalReport.push([
-              this.totalsRegular.description,
-              this.totalsRegular.colocations,
-              this.totalsRegular.hours,
-              this.totalsRegular.returns,
-              this.totalsRegular.studies
-            ]);
-          }
-
-          if (this.totalsAuxiliarRegular.description !== '') {
-            this.totalReport.push([
-              this.totalsAuxiliarRegular.description,
-              this.totalsAuxiliarRegular.colocations,
-              this.totalsAuxiliarRegular.hours,
-              this.totalsAuxiliarRegular.returns,
-              this.totalsAuxiliarRegular.studies
-            ]);
-          }
-
-          if (this.totalsAuxiliar.description !== '') {
-            this.totalReport.push([
-              this.totalsAuxiliar.description,
-              this.totalsAuxiliar.colocations,
-              this.totalsAuxiliar.hours,
-              this.totalsAuxiliar.returns,
-              this.totalsAuxiliar.studies
-            ]);
-          }
-
-          if (this.totalsAuxiliar30.description !== '') {
-            this.totalReport.push([
-              this.totalsAuxiliar30.description,
-              this.totalsAuxiliar30.colocations,
-              this.totalsAuxiliar30.hours,
-              this.totalsAuxiliar30.returns,
-              this.totalsAuxiliar30.studies
-            ]);
-          }
-
-          if (this.totalsPublishers.description !== '') {
-            this.totalReport.push([
-              this.totalsPublishers.description,
-              this.totalsPublishers.colocations,
-              this.totalsPublishers.hours,
-              this.totalsPublishers.returns,
-              this.totalsPublishers.studies
-            ]);
-          }
-          this.totals.description = 'Total';
-          this.totals.colocations =
-            this.totalsPublishers.colocations +
-            this.totalsAuxiliar.colocations +
-            this.totalsAuxiliar30.colocations +
-            this.totalsAuxiliarRegular.colocations +
-            this.totalsEspecial.colocations +
-            this.totalsRegular.colocations;
-
-          this.totals.videos =
-            this.totalsPublishers.videos +
-            this.totalsAuxiliar.videos +
-            this.totalsAuxiliar30.videos +
-            this.totalsAuxiliarRegular.videos +
-            this.totalsEspecial.videos +
-            this.totalsRegular.videos;
-
-          this.totals.hours =
-            this.totalsPublishers.hours +
-            this.totalsPublishers.betelHours +
-            this.totalsPublishers.creditHours +
-            this.totalsAuxiliar.hours +
-            this.totalsAuxiliar.betelHours +
-            this.totalsAuxiliar.creditHours +
-            this.totalsAuxiliar30.hours +
-            this.totalsAuxiliar30.betelHours +
-            this.totalsAuxiliar30.creditHours +
-            this.totalsAuxiliarRegular.hours +
-            this.totalsAuxiliarRegular.betelHours +
-            this.totalsAuxiliarRegular.creditHours +
-            this.totalsEspecial.hours +
-            this.totalsEspecial.betelHours +
-            this.totalsEspecial.creditHours +
-            this.totalsRegular.hours +
-            this.totalsRegular.betelHours +
-            this.totalsRegular.creditHours;
-
-          this.totals.betelHours =
-            this.totalsPublishers.betelHours +
-            this.totalsAuxiliar.betelHours +
-            this.totalsAuxiliar30.betelHours +
-            this.totalsAuxiliarRegular.betelHours +
-            this.totalsEspecial.betelHours +
-            this.totalsRegular.betelHours;
-
-          if (this.totals.betelHours > 0) {
-            this.totalReport.push(['Bethel', 0, this.totals.betelHours, 0, 0]);
-          }
-
-          this.totals.creditHours =
-            this.totalsPublishers.creditHours +
-            this.totalsAuxiliar.creditHours +
-            this.totalsAuxiliar30.creditHours +
-            this.totalsAuxiliarRegular.creditHours +
-            this.totalsEspecial.creditHours +
-            this.totalsRegular.creditHours;
-
-          if (this.totals.creditHours > 0) {
-            this.totalReport.push(['Credit', 0, this.totals.creditHours, 0, 0]);
-          }
-
-          this.totals.returns =
-            this.totalsPublishers.returns +
-            this.totalsAuxiliar.returns +
-            this.totalsAuxiliar30.returns +
-            this.totalsAuxiliarRegular.returns +
-            this.totalsEspecial.returns +
-            this.totalsRegular.returns;
-
-          this.totals.studies =
-            this.totalsPublishers.studies +
-            this.totalsAuxiliar.studies +
-            this.totalsAuxiliar30.studies +
-            this.totalsAuxiliarRegular.studies +
-            this.totalsEspecial.studies +
-            this.totalsRegular.studies;
-
-          this.totalDelivered =
-            this.totalRegular +
-            this.totalAuxiliar +
-            this.totalAuxiliar30 +
-            this.totalAuxiliarRegular +
-            this.totalEspecial +
-            this.totalPublishers;
-
-          this.totalReport.push([
-            'Total',
-            { text: this.totals.colocations, color: 'red' },
-            { text: this.totals.hours, color: 'red' },
-            { text: this.totals.returns, color: 'red' },
-            { text: this.totals.studies, color: 'red' }
-          ]);
+          this.setReportLine(this.reports, this.publisherType);
         },
         error => {
           this.alertifyService.error(error);
@@ -436,7 +290,7 @@ export class CongregationFieldserviceComponent implements OnInit {
       );
   }
 
-  setReportLine(report: ServicoCampo[]) {
+  setReportLine(report: ServicoCampo[], publisherType: any) {
     this.descricao = '';
     this.hours = 0;
     this.hoursBethel = 0;
@@ -455,138 +309,77 @@ export class CongregationFieldserviceComponent implements OnInit {
     this.counter6 = 0;
     this.counterTotal = 0;
 
-    // REGULAR
-    this.reportRegular = report.filter(
-      (service: ServicoCampo) => service.pioneiro.descricao === 'Regular'
-    );
+    publisherType.forEach(item => {
+      //
+      this.reportRegular = report.filter(
+        (service: ServicoCampo) => service.pioneiro.descricao === item
+      );
 
-    if (this.reportRegular.length > 0) {
-      this.descricao = '';
-      this.hours = 0;
-      this.hoursBethel = 0;
-      this.creditHours = 0;
-      this.colocations = 0;
-      this.videos = 0;
-      this.returns = 0;
-      this.studies = 0;
-      this.counter5 = 0;
-      this.reportRegular.forEach(element => {
-        if (
-          element.horas > 0 ||
-          element.horasBetel > 0 ||
-          element.creditoHoras > 0
-        ) {
-          this.counter5++;
-        }
+      if (this.reportRegular.length > 0) {
+        this.descricao = '';
+        this.hours = 0;
+        this.hoursBethel = 0;
+        this.creditHours = 0;
+        this.colocations = 0;
+        this.videos = 0;
+        this.returns = 0;
+        this.studies = 0;
+        this.counter5 = 0;
+
+        this.reportRegular.forEach(element => {
+          if (
+            element.horas > 0 ||
+            element.horasBetel > 0 ||
+            element.creditoHoras > 0
+          ) {
+            this.counter5++;
+          }
+          this.reportLine.push({
+            Counter: this.counter5,
+            Name: element.publicador.nome,
+            Pioneer: element.pioneiro.descricao,
+            Colocations: element.publicacoes,
+            Hours: element.horas,
+            Bethel: element.horasBetel,
+            Credit: element.creditoHoras,
+            Video: element.videosMostrados,
+            Returns: element.revisitas,
+            Studies: element.estudos,
+            Obs: element.observacao,
+            Status: element.publicador.situacaoServicoCampo,
+            Group: element.publicador.grupo.local
+          });
+          this.descricao = element.pioneiro.descricao;
+          this.colocations = this.colocations + element.publicacoes;
+          this.hours =
+            this.hours +
+            element.horas +
+            element.horasBetel +
+            element.creditoHoras;
+          this.hoursBethel = this.hoursBethel + element.horasBetel;
+          this.creditHours = this.creditHours + element.creditoHoras;
+          this.videos = this.videos + element.videosMostrados;
+          this.returns = this.returns + element.revisitas;
+          this.studies = this.studies + element.estudos;
+        });
         this.reportLine.push({
           Counter: this.counter5,
-          Name: element.publicador.nome,
-          Pioneer: element.pioneiro.descricao,
-          Colocations: element.publicacoes,
-          Hours: element.horas,
-          Bethel: element.horasBetel,
-          Credit: element.creditoHoras,
-          Video: element.videosMostrados,
-          Returns: element.revisitas,
-          Studies: element.estudos,
-          Obs: element.observacao,
-          Status: element.publicador.situacaoServicoCampo,
-          Group: element.publicador.grupo.local
+          Name: 'Total',
+          Pioneer: this.descricao,
+          Colocations: this.colocations,
+          Hours: this.hours,
+          Bethel: this.hoursBethel,
+          Credit: this.creditHours,
+          Video: this.videos,
+          Returns: this.returns,
+          Studies: this.studies,
+          Obs: ' ',
+          Status: ' ',
+          Group: ' '
         });
-        this.descricao = element.pioneiro.descricao;
-        this.colocations = this.colocations + element.publicacoes;
-        this.hours =
-        this.hours + element.horas + element.horasBetel + element.creditoHoras;
-        this.hoursBethel = this.hoursBethel + element.horasBetel;
-        this.creditHours = this.creditHours + element.creditoHoras;
-        this.videos = this.videos + element.videosMostrados;
-        this.returns = this.returns + element.revisitas;
-        this.studies = this.studies + element.estudos;
-      });
-      this.reportLine.push({
-        Counter: this.counter5,
-        Name: 'Total',
-        Pioneer: this.descricao,
-        Colocations: this.colocations,
-        Hours: this.hours,
-        Bethel: this.hoursBethel,
-        Credit: this.creditHours,
-        Video: this.videos,
-        Returns: this.returns,
-        Studies: this.studies,
-        Obs: ' ',
-        Status: ' ',
-        Group: ' '
-      });
-    }
-    // FIM REGULAR
-
-    // NÃO
-    this.reportRegular = report.filter(
-      (service: ServicoCampo) => service.pioneiro.descricao === 'Não'
-    );
-
-    if (this.reportRegular.length > 0) {
-      this.descricao = '';
-      this.hours = 0;
-      this.hoursBethel = 0;
-      this.creditHours = 0;
-      this.colocations = 0;
-      this.videos = 0;
-      this.returns = 0;
-      this.studies = 0;
-      this.counter1 = 0;
-      this.reportRegular.forEach(element => {
-        if (
-          element.horas > 0 ||
-          element.horasBetel > 0 ||
-          element.creditoHoras > 0
-        ) {
-          this.counter1++;
-        }
-        this.reportLine.push({
-          Counter: this.counter1,
-          Name: element.publicador.nome,
-          Pioneer: element.pioneiro.descricao,
-          Colocations: element.publicacoes,
-          Hours: element.horas,
-          Bethel: element.horasBetel,
-          Credit: element.creditoHoras,
-          Video: element.videosMostrados,
-          Returns: element.revisitas,
-          Studies: element.estudos,
-          Obs: element.observacao,
-          Status: element.publicador.situacaoServicoCampo,
-          Group: element.publicador.grupo.local
-        });
-        this.descricao = element.pioneiro.descricao;
-        this.colocations = this.colocations + element.publicacoes;
-        this.hours =
-        this.hours + element.horas + element.horasBetel + element.creditoHoras;
-        this.hoursBethel = this.hoursBethel + element.horasBetel;
-        this.creditHours = this.creditHours + element.creditoHoras;
-        this.videos = this.videos + element.videosMostrados;
-        this.returns = this.returns + element.revisitas;
-        this.studies = this.studies + element.estudos;
-      });
-
-      this.reportLine.push({
-        Counter: this.counter1,
-        Name: 'Total',
-        Pioneer: this.descricao,
-        Colocations: this.colocations,
-        Hours: this.hours,
-        Bethel: this.hoursBethel,
-        Credit: this.creditHours,
-        Video: this.videos,
-        Returns: this.returns,
-        Studies: this.studies,
-        Obs: ' ',
-        Status: ' ',
-        Group: ' '
-      });
-    }
-    // FIM NÃO
+      }
+      // FIM ESPECIAL
+    });
 
     // finalizacao
 
@@ -631,129 +424,6 @@ export class CongregationFieldserviceComponent implements OnInit {
     });
   }
 
-  totalizer(element: any) {
-    if (element.pioneiro.id === 1) {
-      if (element.horas > 0) {
-        this.totalPublishers = this.totalPublishers + 1;
-      }
-      this.totalsPublishers.description = element.pioneiro.descricao;
-      this.totalsPublishers.colocations =
-        this.totalsPublishers.colocations + element.publicacoes;
-      this.totalsPublishers.studies =
-        this.totalsPublishers.studies + element.estudos;
-      this.totalsPublishers.hours = this.totalsPublishers.hours + element.horas;
-      this.totalsPublishers.returns =
-        this.totalsPublishers.returns + element.revisitas;
-      this.totalsPublishers.obs =
-        this.totalsPublishers.obs + element.observacao;
-      this.totalsPublishers.videos =
-        this.totalsPublishers.videos + element.videosMostrados;
-      this.totalsPublishers.betelHours =
-        this.totalsPublishers.betelHours + element.horasBetel;
-      this.totalsPublishers.creditHours =
-        this.totalsPublishers.creditHours + element.creditoHoras;
-    } else if (element.pioneiro.id === 2) {
-      if (element.horas > 0) {
-        this.totalAuxiliar30 = this.totalAuxiliar30 + 1;
-      }
-      this.totalsAuxiliar30.description = element.pioneiro.descricao;
-      this.totalsAuxiliar30.colocations =
-        this.totalsAuxiliar30.colocations + element.publicacoes;
-      this.totalsAuxiliar30.studies =
-        this.totalsAuxiliar30.studies + element.estudos;
-      this.totalsAuxiliar30.hours = this.totalsAuxiliar30.hours + element.horas;
-      this.totalsAuxiliar30.returns =
-        this.totalsAuxiliar30.returns + element.revisitas;
-      this.totalsAuxiliar30.obs =
-        this.totalsAuxiliar30.obs + element.observacao;
-      this.totalsAuxiliar30.videos =
-        this.totalsAuxiliar30.videos + element.videosMostrados;
-      this.totalsAuxiliar30.betelHours =
-        this.totalsAuxiliar30.betelHours + element.horasBetel;
-      this.totalsAuxiliar30.creditHours =
-        this.totalsAuxiliar30.creditHours + element.creditoHoras;
-    } else if (element.pioneiro.id === 3) {
-      if (element.horas > 0) {
-        this.totalAuxiliar = this.totalAuxiliar + 1;
-      }
-      this.totalsAuxiliar.description = element.pioneiro.descricao;
-      this.totalsAuxiliar.colocations =
-        this.totalsAuxiliar.colocations + element.publicacoes;
-      this.totalsAuxiliar.studies =
-        this.totalsAuxiliar.studies + element.estudos;
-      this.totalsAuxiliar.hours = this.totalsAuxiliar.hours + element.horas;
-      this.totalsAuxiliar.returns =
-        this.totalsAuxiliar.returns + element.revisitas;
-      this.totalsAuxiliar.obs = this.totalsAuxiliar.obs + element.observacao;
-      this.totalsAuxiliar.videos =
-        this.totalsAuxiliar.videos + element.videosMostrados;
-      this.totalsAuxiliar.betelHours =
-        this.totalsAuxiliar.betelHours + element.horasBetel;
-      this.totalsAuxiliar.creditHours =
-        this.totalsAuxiliar.creditHours + element.creditoHoras;
-    } else if (element.pioneiro.id === 4) {
-      if (element.horas > 0) {
-        this.totalAuxiliarRegular = this.totalAuxiliarRegular + 1;
-      }
-      this.totalsAuxiliarRegular.description = element.pioneiro.descricao;
-      this.totalsAuxiliarRegular.colocations =
-        this.totalsAuxiliarRegular.colocations + element.publicacoes;
-      this.totalsAuxiliarRegular.studies =
-        this.totalsAuxiliarRegular.studies + element.estudos;
-      this.totalsAuxiliarRegular.hours =
-        this.totalsAuxiliarRegular.hours + element.horas;
-      this.totalsAuxiliarRegular.returns =
-        this.totalsAuxiliarRegular.returns + element.revisitas;
-      this.totalsAuxiliarRegular.obs =
-        this.totalsAuxiliarRegular.obs + element.observacao;
-      this.totalsAuxiliarRegular.videos =
-        this.totalsAuxiliarRegular.videos + element.videosMostrados;
-      this.totalsAuxiliarRegular.betelHours =
-        this.totalsAuxiliarRegular.betelHours + element.horasBetel;
-      this.totalsAuxiliarRegular.creditHours =
-        this.totalsAuxiliarRegular.creditHours + element.creditoHoras;
-    } else if (element.pioneiro.id === 5) {
-      if (element.horas > 0) {
-        this.totalRegular = this.totalRegular + 1;
-      }
-
-      this.totalsRegular.description = 'Regular';
-      this.totalsRegular.colocations =
-        this.totalsRegular.colocations + element.publicacoes;
-      this.totalsRegular.studies = this.totalsRegular.studies + element.estudos;
-      this.totalsRegular.hours = this.totalsRegular.hours + element.horas;
-
-      this.totalsRegular.returns =
-        this.totalsRegular.returns + element.revisitas;
-      this.totalsRegular.obs = this.totalsRegular.obs + element.observacao;
-      this.totalsRegular.videos =
-        this.totalsRegular.videos + element.videosMostrados;
-      this.totalsRegular.betelHours =
-        this.totalsRegular.betelHours + element.horasBetel;
-      this.totalsRegular.creditHours =
-        this.totalsRegular.creditHours + element.creditoHoras;
-    } else if (element.pioneiro.id === 6) {
-      if (element.horas > 0) {
-        this.totalEspecial = this.totalEspecial + 1;
-      }
-      this.totalsEspecial.description = element.pioneiro.descricao;
-      this.totalsEspecial.colocations =
-        this.totalsEspecial.colocations + element.publicacoes;
-      this.totalsEspecial.studies =
-        this.totalsEspecial.studies + element.estudos;
-      this.totalsEspecial.hours = this.totalsEspecial.hours + element.horas;
-      this.totalsEspecial.returns =
-        this.totalsEspecial.returns + element.revisitas;
-      this.totalsEspecial.obs = this.totalsEspecial.obs + element.observacao;
-      this.totalsEspecial.videos =
-        this.totalsEspecial.videos + element.videosMostrados;
-      this.totalsEspecial.betelHours =
-        this.totalsEspecial.betelHours + element.horasBetel;
-      this.totalsEspecial.creditHours =
-        this.totalsEspecial.creditHours + element.creditoHoras;
-    }
-  }
-
   generatePdf() {
     const docDefinition = {
       info: {
@@ -763,7 +433,7 @@ export class CongregationFieldserviceComponent implements OnInit {
         keywords: 'Field Service Report'
       },
       pageSize: 'A4',
-      pageMargins: [25, 80, 25, 25],
+      pageMargins: [15, 80, 15, 15],
       header: [
         {
           text: 'Vitória English Congregation',
@@ -858,11 +528,25 @@ export class CongregationFieldserviceComponent implements OnInit {
 
       styles: {
         header: {
-          fontSize: 18,
+          fontSize: 16,
           bold: true,
           alignment: 'center',
           margin: [0, 0, 0, 0],
           color: 'blue'
+        },
+        totalHeader: {
+          fontSize: 14,
+          bold: true,
+          alignment: 'center',
+          margin: [0, 0, 0, 0],
+          color: 'red'
+        },
+        subTotalHeader: {
+          fontSize: 12,
+          bold: true,
+          alignment: 'center',
+          margin: [0, 0, 0, 0],
+          color: 'red'
         },
         subheader: {
           fontSize: 12,
@@ -930,44 +614,71 @@ export class CongregationFieldserviceComponent implements OnInit {
         columns.forEach(function(column) {
           dataReport = row;
 
-          if (column === 'Name') {
-            if (row.Name === 'Total') {
+          if (row.Name === 'Total') {
+            if (column === 'Name') {
               dataRow.push({
-                text: row.Name,
+                text: row.Name + '(' + row.Counter + ')',
                 color: 'red',
-                alignment: 'left'
+                alignment: 'left',
+                style: 'subTotalHeader'
               });
-            } else {
+            } else if (column === 'Pioneer') {
+              dataRow.push({ text: row.Pioneer, style: 'subTotalHeader' });
+            } else if (column === 'Colocations') {
+              dataRow.push({ text: row.Colocations, style: 'subTotalHeader' });
+            } else if (column === 'Video') {
+              dataRow.push({ text: row.Video, style: 'subTotalHeader' });
+            } else if (column === 'Hours') {
+              dataRow.push({ text: row.Hours, style: 'subTotalHeader' });
+            } else if (column === 'Bethel') {
+              dataRow.push({ text: row.Bethel, style: 'subTotalHeader' });
+            } else if (column === 'Credit') {
+              dataRow.push({ text: row.Credit, style: 'subTotalHeader' });
+            } else if (column === 'Returns') {
+              dataRow.push({ text: row.Returns, style: 'subTotalHeader' });
+            } else if (column === 'Studies') {
+              dataRow.push({ text: row.Studies, style: 'subTotalHeader' });
+            } else if (column === 'Status') {
+              dataRow.push({ text: row.Status, style: 'subTotalHeader' });
+            } else if (column === 'Group') {
+              dataRow.push({ text: row.Group, style: 'subTotalHeader' });
+            }
+          } else {
+            console.log('Name: ' + column);
+            if (column === 'Name') {
               dataRow.push({
-                text: row.Name,
+                text:
+                  row.Name.split(' ')[0] +
+                  ' ' +
+                  row.Name.split(' ')[row.Name.split(' ').length - 1],
                 color: 'blue',
                 alignment: 'left'
               });
+            } else if (column === 'Pioneer') {
+              dataRow.push(row.Pioneer);
+            } else if (column === 'Colocations') {
+              dataRow.push(row.Colocations);
+            } else if (column === 'Video') {
+              dataRow.push(row.Video);
+            } else if (column === 'Hours') {
+              if (row.Hours > 0) {
+                dataRow.push({ text: row.Hours, color: 'blue' });
+              } else {
+                dataRow.push({ text: row.Hours, color: 'red' });
+              }
+            } else if (column === 'Bethel') {
+              dataRow.push(row.Bethel);
+            } else if (column === 'Credit') {
+              dataRow.push(row.Credit);
+            } else if (column === 'Returns') {
+              dataRow.push(row.Returns);
+            } else if (column === 'Studies') {
+              dataRow.push(row.Studies);
+            } else if (column === 'Status') {
+              dataRow.push(row.Status);
+            } else if (column === 'Group') {
+              dataRow.push(row.Group);
             }
-          } else if (column === 'Pioneer') {
-            dataRow.push(row.Pioneer);
-          } else if (column === 'Colocations') {
-            dataRow.push(row.Colocations);
-          } else if (column === 'Video') {
-            dataRow.push(row.Video);
-          } else if (column === 'Hours') {
-            if (row.Hours > 0) {
-              dataRow.push({ text: row.Hours, color: 'blue' });
-            } else {
-              dataRow.push({ text: row.Hours, color: 'red' });
-            }
-          } else if (column === 'Bethel') {
-            dataRow.push(row.Bethel);
-          } else if (column === 'Credit') {
-            dataRow.push(row.Credit);
-          } else if (column === 'Returns') {
-            dataRow.push(row.Returns);
-          } else if (column === 'Studies') {
-            dataRow.push(row.Studies);
-          } else if (column === 'Status') {
-            dataRow.push(row.Status);
-          } else if (column === 'Group') {
-            dataRow.push(row.Group);
           }
         });
         body.push(dataRow);
@@ -996,7 +707,6 @@ export class CongregationFieldserviceComponent implements OnInit {
     function buildTableSummarizeBody(data, columns) {
       const body = [];
       let dataReport: IFieldServiceReportPdf;
-      const columnsR = [];
       body.push(columns);
 
       data.forEach(function(row) {
@@ -1005,24 +715,55 @@ export class CongregationFieldserviceComponent implements OnInit {
         columns.forEach(function(column) {
           dataReport = row;
 
-          if (column === 'Description') {
-            dataRow.push({
-              text: row.Pioneer,
-              color: 'blue',
-              alignment: 'left'
-            });
-          } else if (column === 'Colocations') {
-            dataRow.push(row.Colocations);
-          } else if (column === 'Hours') {
-            if (row.Hours > 0) {
-              dataRow.push({ text: row.Hours, color: 'blue' });
-            } else {
-              dataRow.push({ text: row.Hours, color: 'red' });
+          if (row.Name === 'Total') {
+            if (column === 'Description') {
+              dataRow.push({
+                text: row.Pioneer + '(' + row.Counter + ')',
+                color: 'blue',
+                alignment: 'left'
+              });
+            } else if (column === 'Colocations') {
+              dataRow.push(row.Colocations);
+            } else if (column === 'Hours') {
+              if (row.Hours > 0) {
+                dataRow.push({ text: row.Hours, color: 'blue' });
+              } else {
+                dataRow.push({ text: row.Hours, color: 'red' });
+              }
+            } else if (column === 'Returns') {
+              dataRow.push(row.Returns);
+            } else if (column === 'Studies') {
+              dataRow.push(row.Studies);
             }
-          } else if (column === 'Returns') {
-            dataRow.push(row.Returns);
-          } else if (column === 'Studies') {
-            dataRow.push(row.Studies);
+          } else {
+            if (column === 'Description') {
+              dataRow.push({
+                text: row.Pioneer,
+                alignment: 'left',
+                style: 'totalHeader'
+              });
+            } else if (column === 'Colocations') {
+              dataRow.push({
+                text: row.Colocations,
+                style: 'totalHeader'
+              });
+            } else if (column === 'Hours') {
+              if (row.Hours > 0) {
+                dataRow.push({
+                  text: row.Hours,
+                  style: 'totalHeader'
+                });
+              } else {
+                dataRow.push({
+                  text: row.Hours,
+                  style: 'totalHeader'
+                });
+              }
+            } else if (column === 'Returns') {
+              dataRow.push({ text: row.Returns, style: 'totalHeader' });
+            } else if (column === 'Studies') {
+              dataRow.push({ text: row.Studies, style: 'totalHeader' });
+            }
           }
         });
 
@@ -1044,12 +785,13 @@ export class CongregationFieldserviceComponent implements OnInit {
     }
 
     // open the PDF in a new window .download('optionalName.pdf');
-    // pdfMake.createPdf(docDefinition).open();
+    pdfMake.createPdf(docDefinition).open();
 
     // print the PDF
     // pdfMake.createPdf(docDefinition).print();
 
     // download the PDF
-    pdfMake.createPdf(docDefinition).download('CongregationFieldservice.pdf');
+    // const date = moment(this.datePdf).format('MMM-YYYY');
+    // pdfMake.createPdf(docDefinition).download('CongregationFieldservice_' + date + '.pdf');
   }
 }

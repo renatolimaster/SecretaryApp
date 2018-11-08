@@ -513,5 +513,14 @@ namespace Secretary.API.InterfacesImpl
             return sumReport;
         }
 
+        public async Task<List<ServicoCampo>> getMissingFieldServiceByPeriodAsync(DateTime fromDate, DateTime toDate)
+        {
+            Console.WriteLine("getMissingFieldServiceByPeriodAsync Service");
+
+            var cong = _repoCong.getCongregationDefaultAsync();
+            var serv = await _dbContext.ServicoCampo.AsNoTracking().Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Publicador.Dianteira).Where(p => p.CongregacaoId == cong.Id).Where(g => g.Horas == 0 && g.HorasBetel == 0 && g.CreditoHoras == 0 && g.Minutos == 0).Where(e => e.DataReferencia >= fromDate).Where(e => e.DataReferencia <= toDate).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataEntrega).ToListAsync();
+
+            return serv;
+        }
     }
 }

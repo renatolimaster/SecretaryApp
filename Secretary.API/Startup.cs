@@ -37,6 +37,10 @@ namespace Secretary.API
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            // MAILTOOKIT
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
+            
             services.AddCors();
             services.AddAutoMapper();
 

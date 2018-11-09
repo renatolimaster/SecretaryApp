@@ -67,27 +67,30 @@ namespace Secretary.API.Controllers
         {
             Console.WriteLine("**** initializeFieldServiceAsync ****: " + referenceDate);
             var serv = await _fieldServiceRepo.getMissingFieldServiceByPeriodAsync(referenceDate.Date, referenceDate.Date);
+            var publisherName = "";
 
             if (serv.Count > 0)
             {
-                EmailAddress list1 = new EmailAddress();
-                EmailAddress list2 = new EmailAddress();
-                EmailAddress list3 = new EmailAddress();
-                list1.Name = "Renato";
-                list2.Name = "Renato";
-                list2.Address = "fsr.vec@gmail.com";
-                list3.Name = "Renato";
-                list3.Address = "renatolimaster@gmail.com";
+                EmailAddress to = new EmailAddress();
+                EmailAddress from = new EmailAddress();
+                EmailAddress cc = new EmailAddress();
+                to.Name = "Renato";
+                from.Name = "Renato";
+                from.Address = "fsr.vec@gmail.com";
+                cc.Name = "Renato";
+                cc.Address = "renatolimaster@gmail.com";
                 EmailMessage msg = new EmailMessage();
 
                 foreach (var item in serv)
-                {
-                    Console.WriteLine("e-mail --------------------> : " + item.Publicador.Email);
-                    list1.Address = item.Publicador.Email;
+                {                    
+                    publisherName = item.Publicador.Nome.Split(' ')[0] + " "  + item.Publicador.Nome.Split(' ')[item.Publicador.Nome.Split(' ').Length - 1];
+                    
+                    to.Name = publisherName;
+                    to.Address = item.Publicador.Email;
 
-                    msg.ToAddresses.Add(list1);
-                    msg.FromAddresses.Add(list2);
-                    msg.Cc.Add(list3);
+                    msg.ToAddresses.Add(to);
+                    msg.FromAddresses.Add(from);
+                    msg.Cc.Add(cc);
                     
                     msg.Subject = "Field Service Report";
                     msg.Content = "<div class='container'> <div class='row'> <div class='col-xs-12 col-md-12 mt-3'> <h4 class='text-primary'>Congregation's Report</h4><hr></div></div></div>";
@@ -112,7 +115,7 @@ namespace Secretary.API.Controllers
 
                     msg.Content += "<tr>";
                     msg.Content += "<td style = \"width: 60px;\"> &nbsp;</td>";
-                    msg.Content += "<td style = \"width: 992px;\"> Hi dear " + list1.Name + ",</td>";
+                    msg.Content += "<td style = \"width: 992px;\"> Hi dear " + to.Name + ",</td>";
                     msg.Content += "</tr>";
                     msg.Content += "<tr>";
                     msg.Content += "<td style = \"width: 60px;\"> &nbsp;</td>";

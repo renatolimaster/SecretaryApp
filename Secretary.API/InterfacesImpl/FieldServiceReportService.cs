@@ -273,12 +273,12 @@ namespace Secretary.API.InterfacesImpl
             return serv;
         }
 
-        public async Task<string> initializeFieldService(DateTime deliveryDate)
+        public async Task<List<ServicoCampo>> initializeFieldService(DateTime deliveryDate)
         {
             Console.WriteLine("**** initializeFieldServiceAsync ****");
             var i = 0;
             //var y = 0;
-            var msg = "";
+            List<ServicoCampo> serv = null;
             var congDefault = _repoCong.getCongregationDefaultAsync();
             deliveryDate = deliveryDate.Date;
             List<Publicador> publishers = _publisherService.getPublisherByCongregation(congDefault.Id);
@@ -334,28 +334,30 @@ namespace Secretary.API.InterfacesImpl
                         catch (DbUpdateConcurrencyException)
                         {
                             Console.WriteLine("InitializeFieldService Error");
-                            return "Initialize Field Service Error!";
                         }
                         i++;
                     }
                 }
+                // GET FIELD SERVICES
+                serv = await getFieldServiceByPeriodAsync(deliveryDate, deliveryDate);
             }
             else
             {
-                return "Initialized Error: " + countPublishers + " publishers!";
+                Console.WriteLine("Initialized Error: " + countPublishers + " publishers!");
             }
 
             if (i == 0)
             {
-                msg = "All Field Services of \"" + deliveryDate.ToString("MM/yyyy") + "\" already initialized!";
+                Console.WriteLine("All Field Services of \"" + deliveryDate.ToString("MM/yyyy") + "\" already initialized!");
             }
             else
             {
-                msg = i + " Field Service(s) of \"" + deliveryDate.ToString("MM/yyyy") + "\" initialized!";
+                Console.WriteLine(i + " Field Service(s) of \"" + deliveryDate.ToString("MM/yyyy") + "\" initialized!");
+
             }
 
 
-            return msg;
+            return serv;
         }
 
         public bool VerifyExistFieldServiceByPublisher(DateTime deliveryDate, long publisherId)

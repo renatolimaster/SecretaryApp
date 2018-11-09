@@ -72,6 +72,7 @@ export class CongregationFieldserviceComponent implements OnInit {
   returns = 0;
   studies = 0;
   publisherType = [];
+  msg: string;
   //
 
   // COUNTER
@@ -93,6 +94,7 @@ export class CongregationFieldserviceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.msg = '';
     this.date = {
       fromDate: this.dateTimeExtensions.CreateDate(
         1,
@@ -283,6 +285,8 @@ export class CongregationFieldserviceComponent implements OnInit {
           this.totalPublisher = this.reports.length;
           this.initializeValues();
           this.setReportLine(this.reports, this.publisherType);
+          this.msg = this.reports.length + ' report(s) loaded!!';
+        this.alertifyService.success(this.msg);
         },
         error => {
           this.alertifyService.error(error);
@@ -326,41 +330,41 @@ export class CongregationFieldserviceComponent implements OnInit {
         this.studies = 0;
         this.counter5 = 0;
 
-        this.reportRegular.forEach(element => {
+        this.reportRegular.forEach(item => {
           if (
-            element.horas > 0 ||
-            element.horasBetel > 0 ||
-            element.creditoHoras > 0
+            item.horas > 0 ||
+            item.horasBetel > 0 ||
+            item.creditoHoras > 0
           ) {
             this.counter5++;
           }
           this.reportLine.push({
             Counter: this.counter5,
-            Name: element.publicador.nome,
-            Pioneer: element.pioneiro.descricao,
-            Colocations: element.publicacoes,
-            Hours: element.horas,
-            Bethel: element.horasBetel,
-            Credit: element.creditoHoras,
-            Video: element.videosMostrados,
-            Returns: element.revisitas,
-            Studies: element.estudos,
-            Obs: element.observacao,
-            Status: element.publicador.situacaoServicoCampo,
-            Group: element.publicador.grupo.local
+            Name: item.publicador.nome,
+            Pioneer: item.pioneiro.descricao,
+            Colocations: item.publicacoes,
+            Hours: item.horas,
+            Bethel: item.horasBetel,
+            Credit: item.creditoHoras,
+            Video: item.videosMostrados,
+            Returns: item.revisitas,
+            Studies: item.estudos,
+            Obs: item.observacao,
+            Status: item.publicador.situacaoServicoCampo,
+            Group: item.publicador.grupo.local
           });
-          this.descricao = element.pioneiro.descricao;
-          this.colocations = this.colocations + element.publicacoes;
+          this.descricao = item.pioneiro.descricao;
+          this.colocations = this.colocations + item.publicacoes;
           this.hours =
             this.hours +
-            element.horas +
-            element.horasBetel +
-            element.creditoHoras;
-          this.hoursBethel = this.hoursBethel + element.horasBetel;
-          this.creditHours = this.creditHours + element.creditoHoras;
-          this.videos = this.videos + element.videosMostrados;
-          this.returns = this.returns + element.revisitas;
-          this.studies = this.studies + element.estudos;
+            item.horas +
+            item.horasBetel +
+            item.creditoHoras;
+          this.hoursBethel = this.hoursBethel + item.horasBetel;
+          this.creditHours = this.creditHours + item.creditoHoras;
+          this.videos = this.videos + item.videosMostrados;
+          this.returns = this.returns + item.revisitas;
+          this.studies = this.studies + item.estudos;
         });
         this.reportLine.push({
           Counter: this.counter5,
@@ -396,15 +400,15 @@ export class CongregationFieldserviceComponent implements OnInit {
     let totalCredit = 0;
     this.counterTotal = 0;
 
-    this.reportLineGeral.forEach(element => {
-      (this.counterTotal = this.counterTotal + element.Counter),
-        (totalColocations = totalColocations + element.Colocations);
-      totalVideos = totalVideos + element.Video;
-      totalHours = totalHours + element.Hours;
-      totalReturns = totalReturns + element.Returns;
-      totalStudies = totalStudies + element.Studies;
-      totalBethel = totalBethel + element.Bethel;
-      totalCredit = totalCredit + element.Credit;
+    this.reportLineGeral.forEach(item => {
+      (this.counterTotal = this.counterTotal + item.Counter),
+        (totalColocations = totalColocations + item.Colocations);
+      totalVideos = totalVideos + item.Video;
+      totalHours = totalHours + item.Hours;
+      totalReturns = totalReturns + item.Returns;
+      totalStudies = totalStudies + item.Studies;
+      totalBethel = totalBethel + item.Bethel;
+      totalCredit = totalCredit + item.Credit;
     });
 
     this.reportLineGeral.push({

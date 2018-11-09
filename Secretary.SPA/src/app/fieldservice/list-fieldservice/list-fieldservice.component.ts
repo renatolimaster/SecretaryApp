@@ -7,10 +7,12 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 
 import * as moment from 'moment';
 import { DateTimeExtensions } from 'src/app/_services/DateTimeExtensions';
+import { element } from 'protractor';
 
 interface Idate {
   fromDate: Date;
   toDate: Date;
+  referenceDate: Date;
 }
 
 @Component({
@@ -29,6 +31,7 @@ export class ListFieldserviceComponent implements OnInit {
   timeout: any;
 
   val: string;
+  msg: string;
 
   myForm: FormGroup;
 
@@ -43,11 +46,7 @@ export class ListFieldserviceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.date = {
-    //   fromDate: this.dateTimeExtensions.FirstDayOfMonth(new Date()),
-    //   toDate: this.dateTimeExtensions.FirstDayOfMonth(new Date())
-    // };
-
+    this.msg = '';
     this.date = {
       fromDate: this.dateTimeExtensions.CreateDate(
         1,
@@ -58,25 +57,50 @@ export class ListFieldserviceComponent implements OnInit {
         1,
         new Date().getMonth() - 1,
         new Date().getFullYear()
+      ),
+      referenceDate: this.dateTimeExtensions.CreateDate(
+        1,
+        new Date().getMonth() - 1,
+        new Date().getFullYear()
       )
     };
-
-    console.log('Datas: ' + this.date.fromDate);
-    // this.loadReports();
 
     this.loadReportsFromPeriod(this.date);
   }
 
-  loadReports() {
-    console.log('list loadReports()');
-    // this.route.data.subscribe(data => {
-    //   this.reports = data['reports'];
-    //   // cache our list
-    //   this.temp = [...this.reports];
-    //   // push our inital complete list
-    //   this.rows = this.reports;
-    // });
+  initializeFieldServices() {
+    const priorMonth = moment(
+      this.dateTimeExtensions.FirstDayOfMonth(new Date())
+    ).subtract(1, 'months').format('YYYY-MM-DD');
 
+    this.msg = '';
+
+    this.reportService.getInitializeFieldService(priorMonth).subscribe(
+      (reports: ServicoCampo[]) => {
+        this.reports = reports;
+        // cache our list
+        this.temp = [...reports];
+        // push our inital complete list
+        this.rows = reports;
+        let count = 0;
+        this.reports.forEach(item => {
+          if (item.horas === 0) {
+            count++;
+          }
+        });
+
+        if (count > 0) {
+          this.msg = count + ' have not yet delivered the report!';
+          this.alertifyService.error(this.msg);
+        }
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+  }
+
+  loadReports() {
     this.reportService.getReports().subscribe(
       (reports: ServicoCampo[]) => {
         this.reports = reports;
@@ -92,13 +116,8 @@ export class ListFieldserviceComponent implements OnInit {
   }
 
   loadReportsFromPeriod(report: Idate) {
-    // console.log('list loadReportsFromPeriod(): from ' + report);
-    console.log(
-      'list loadReportsFromPeriod(): from ' +
-        moment(report.fromDate).format('YYYY-MM-DD') +
-        ' - to ' +
-        moment(report.toDate).format('YYYY-MM-DD')
-    );
+    this.msg = '';
+
     const fromDate = moment(
       this.dateTimeExtensions.FirstDayOfMonth(report.fromDate)
     ).format('YYYY-MM-DD');
@@ -137,6 +156,8 @@ export class ListFieldserviceComponent implements OnInit {
         this.temp = [...reports];
         // push our inital complete list
         this.rows = reports;
+        this.msg = this.reports.length + ' report(s) loaded!!';
+        this.alertifyService.success(this.msg);
       },
       error => {
         this.alertifyService.error(error);
@@ -152,9 +173,9 @@ export class ListFieldserviceComponent implements OnInit {
   }
 
   updateFilter(event) {
+    this.msg = '';
     const val = event.target.value.toLowerCase();
     this.val = val;
-    console.log('val: ' + val);
 
     // filter our data
     const temp = this.temp.filter(function(d) {

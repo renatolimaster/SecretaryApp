@@ -16,6 +16,7 @@ import { DetailFieldserviceComponent } from './fieldservice/detail-fieldservice/
 import { PreventUnsaveChanges } from './_guards/prevent-unsave-changes.guard';
 import { DetailFieldServiceResolver } from './_resolver/detail-fieldservice.resolver';
 import { EditFieldServiceResolver } from './_resolver/edit-fieldservice.resolver';
+import { InitializeFieldServiceResolver } from './_resolver/initialize-fieldservice.resolver';
 import { ListFieldServiceResolver } from './_resolver/list-fieldservice.resolver';
 
 export const appRoutes: Routes = [
@@ -36,6 +37,11 @@ export const appRoutes: Routes = [
         path: 'fieldservice',
         component: ListFieldserviceComponent,
         resolve: { reports: ListFieldServiceResolver }
+      },
+      {
+        path: 'initialize/:referenceDate',
+        component: ListFieldserviceComponent,
+        resolve: { reports: InitializeFieldServiceResolver }
       },
       {
         path: 'editfieldservice/:id',

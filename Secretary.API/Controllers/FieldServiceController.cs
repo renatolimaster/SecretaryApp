@@ -172,6 +172,18 @@ namespace Secretary.API.Controllers
             return Ok(servToReturn);
         }
 
+        [HttpGet("fieldservicebypublisheridperiod/{fromDate}&{toDate}&{publisherId}")]
+        public async Task<IActionResult> getFieldServiceByPublisherIdPeriodAsync(DateTime fromDate, DateTime toDate, long publisherId)
+        {
+            fromDate = fromDate.Date;
+            toDate = toDate.Date;
+            Console.WriteLine("**** getFieldServiceByPublisherIdPeriodAsync ****: " + fromDate + " - " + toDate + " - " + publisherId);
+            var serv = await _fieldServiceRepo.getFieldServiceByPublisherIdPeriodAsync(fromDate, toDate, publisherId);
+            var servToReturn = _mapper.Map<IEnumerable<FieldServiceForListDto>>(serv);
+            // await Task.Delay(1000);
+            return Ok(servToReturn);
+        }
+
         [HttpGet("pioneerfieldservicebyperiod/{fromDate}&{toDate}&{pioneerId}")]
         public async Task<IActionResult> getPioneerFieldServiceByPeriodAsync(DateTime fromDate, DateTime toDate, long pioneerId)
         {

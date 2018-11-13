@@ -25,23 +25,8 @@ export class CongregationFieldserviceComponent implements OnInit {
   title = 'Congregation Field Service';
   reports: ServicoCampo[];
   date: IDate;
-  totalsPublishers: ITotalFieldServiceReport;
-  totalsAuxiliar: ITotalFieldServiceReport;
-  totalsAuxiliar30: ITotalFieldServiceReport;
-  totalsAuxiliarRegular: ITotalFieldServiceReport;
-  totalsRegular: ITotalFieldServiceReport;
-  totalsEspecial: ITotalFieldServiceReport;
-  totals: ITotalFieldServiceReport;
-
   dataReport: IFieldServiceReportPdf;
   datePdf: Date;
-
-  totalPublishers = 0;
-  totalAuxiliar = 0;
-  totalAuxiliar30 = 0;
-  totalAuxiliarRegular = 0;
-  totalRegular = 0;
-  totalEspecial = 0;
 
   totalReport = [];
 
@@ -54,9 +39,6 @@ export class CongregationFieldserviceComponent implements OnInit {
 
   pioneerId = 0;
   totalPublisher = 0;
-  totalPublisherDelivered = 0;
-  totalDelivered = 0;
-  totalHourBetelCredit = 0;
 
   // new conception
   reportRegular = [];
@@ -64,6 +46,7 @@ export class CongregationFieldserviceComponent implements OnInit {
   reportLine: IFieldServiceReportPdf[];
   reportLineGeral: IFieldServiceReportPdf[];
   descricao = '';
+  group = '';
   hours = 0;
   hoursBethel = 0;
   creditHours = 0;
@@ -105,22 +88,24 @@ export class CongregationFieldserviceComponent implements OnInit {
         1,
         new Date().getMonth() - 1,
         new Date().getFullYear()
-      )
+      ),
+      check: false
     };
 
-    this.publisherType = [
-      'Especial',
-      'Regular',
-      'Auxiliar Regular',
-      'Auxiliar',
-      'Auxiliar 30 horas',
-      'Não'
-    ];
+    if (this.date.check) {
+      this.publisherType = [
+        'Especial',
+        'Regular',
+        'Auxiliar Regular',
+        'Auxiliar',
+        'Auxiliar 30 horas',
+        'Não'
+      ];
+    } else {
+      this.publisherType = ['Vitória', 'Vila Velha', 'Serra'];
+    }
 
     this.initializeValues();
-
-    console.log('Datas: ' + this.date.fromDate);
-    // this.loadReports();
 
     this.loadReportsFromPeriod(this.date);
   }
@@ -131,23 +116,8 @@ export class CongregationFieldserviceComponent implements OnInit {
     this.reportLine = [];
     this.reportLineGeral = [];
     //
-    this.totalPublisherDelivered = 0;
-    this.totalPublishers = 0;
-    this.totalAuxiliar = 0;
-    this.totalAuxiliar30 = 0;
-    this.totalAuxiliarRegular = 0;
-    this.totalRegular = 0;
-    this.totalEspecial = 0;
-    this.totalDelivered = 0;
 
     this.totalReport = [];
-
-    this.totalPublishersReport = [];
-    this.totalAuxiliarReport = [];
-    this.totalAuxiliar30Report = [];
-    this.totalAuxiliarRegularReport = [];
-    this.totalRegularReport = [];
-    this.totalEspecialReport = [];
 
     this.dataReport = {
       Counter: 0,
@@ -164,96 +134,12 @@ export class CongregationFieldserviceComponent implements OnInit {
       Status: '',
       Group: ''
     };
-
-    this.totalsPublishers = {
-      description: '',
-      studies: 0,
-      hours: 0,
-      returns: 0,
-      colocations: 0,
-      obs: '',
-      videos: 0,
-      betelHours: 0,
-      creditHours: 0
-    };
-
-    this.totalsAuxiliar = {
-      description: '',
-      studies: 0,
-      hours: 0,
-      returns: 0,
-      colocations: 0,
-      obs: '',
-      videos: 0,
-      betelHours: 0,
-      creditHours: 0
-    };
-    this.totalsAuxiliar30 = {
-      description: '',
-      studies: 0,
-      hours: 0,
-      returns: 0,
-      colocations: 0,
-      obs: '',
-      videos: 0,
-      betelHours: 0,
-      creditHours: 0
-    };
-    this.totalsAuxiliarRegular = {
-      description: '',
-      studies: 0,
-      hours: 0,
-      returns: 0,
-      colocations: 0,
-      obs: '',
-      videos: 0,
-      betelHours: 0,
-      creditHours: 0
-    };
-    this.totalsRegular = {
-      description: '',
-      studies: 0,
-      hours: 0,
-      returns: 0,
-      colocations: 0,
-      obs: '',
-      videos: 0,
-      betelHours: 0,
-      creditHours: 0
-    };
-    this.totalsEspecial = {
-      description: '',
-      studies: 0,
-      hours: 0,
-      returns: 0,
-      colocations: 0,
-      obs: '',
-      videos: 0,
-      betelHours: 0,
-      creditHours: 0
-    };
-    this.totals = {
-      description: '',
-      studies: 0,
-      hours: 0,
-      returns: 0,
-      colocations: 0,
-      obs: '',
-      videos: 0,
-      betelHours: 0,
-      creditHours: 0
-    };
   }
 
   loadReportsFromPeriod(report: IDate) {
     report.toDate = report.fromDate;
     this.datePdf = report.fromDate;
-    console.log(
-      'list loadReportsFromPeriod(): from ' +
-        moment(report.fromDate).format('YYYY-MM-DD') +
-        ' - to ' +
-        moment(report.toDate).format('YYYY-MM-DD')
-    );
+
     const fromDate = moment(
       this.dateTimeExtensions.FirstDayOfMonth(report.fromDate)
     ).format('YYYY-MM-DD');
@@ -277,6 +163,21 @@ export class CongregationFieldserviceComponent implements OnInit {
       return;
     }
 
+
+    if (this.date.check) {
+      this.publisherType = ['Vitória', 'Vila Velha', 'Serra'];
+    } else {
+      this.publisherType = [
+        'Especial',
+        'Regular',
+        'Auxiliar Regular',
+        'Auxiliar',
+        'Auxiliar 30 horas',
+        'Não'
+      ];
+    }
+
+
     this.reportService
       .getReportPioneerByPeriod(fromDate, toDate, this.pioneerId)
       .subscribe(
@@ -284,9 +185,9 @@ export class CongregationFieldserviceComponent implements OnInit {
           this.reports = reports;
           this.totalPublisher = this.reports.length;
           this.initializeValues();
-          this.setReportLine(this.reports, this.publisherType);
+          this.setReportLine(this.reports, this.publisherType, report.check);
           this.msg = this.reports.length + ' report(s) loaded!!';
-        this.alertifyService.success(this.msg);
+          this.alertifyService.success(this.msg);
         },
         error => {
           this.alertifyService.error(error);
@@ -294,8 +195,9 @@ export class CongregationFieldserviceComponent implements OnInit {
       );
   }
 
-  setReportLine(report: ServicoCampo[], publisherType: any) {
+  setReportLine(report: ServicoCampo[], publisherType: any, group: boolean) {
     this.descricao = '';
+    this.group = '';
     this.hours = 0;
     this.hoursBethel = 0;
     this.creditHours = 0;
@@ -313,77 +215,147 @@ export class CongregationFieldserviceComponent implements OnInit {
     this.counter6 = 0;
     this.counterTotal = 0;
 
-    publisherType.forEach(item => {
-      //
-      this.reportRegular = report.filter(
-        (service: ServicoCampo) => service.pioneiro.descricao === item
-      );
+    if (group) {
+      publisherType.forEach(itemPublisherType => {
+        this.reportRegular = report.filter(
+          (service: ServicoCampo) => service.publicador.grupo.local === itemPublisherType
+        );
 
-      if (this.reportRegular.length > 0) {
-        this.descricao = '';
-        this.hours = 0;
-        this.hoursBethel = 0;
-        this.creditHours = 0;
-        this.colocations = 0;
-        this.videos = 0;
-        this.returns = 0;
-        this.studies = 0;
-        this.counter5 = 0;
+        if (this.reportRegular.length > 0) {
+          this.descricao = '';
+          this.group = '';
+          this.hours = 0;
+          this.hoursBethel = 0;
+          this.creditHours = 0;
+          this.colocations = 0;
+          this.videos = 0;
+          this.returns = 0;
+          this.studies = 0;
+          this.counter5 = 0;
 
-        this.reportRegular.forEach(item => {
-          if (
-            item.horas > 0 ||
-            item.horasBetel > 0 ||
-            item.creditoHoras > 0
-          ) {
-            this.counter5++;
-          }
+          this.reportRegular.forEach(item => {
+            if (
+              item.horas > 0 ||
+              item.horasBetel > 0 ||
+              item.creditoHoras > 0
+            ) {
+              this.counter5++;
+            }
+            this.reportLine.push({
+              Counter: this.counter5,
+              Name: item.publicador.nome,
+              Pioneer: item.pioneiro.descricao,
+              Colocations: item.publicacoes,
+              Hours: item.horas,
+              Bethel: item.horasBetel,
+              Credit: item.creditoHoras,
+              Video: item.videosMostrados,
+              Returns: item.revisitas,
+              Studies: item.estudos,
+              Obs: item.observacao,
+              Status: item.publicador.situacaoServicoCampo,
+              Group: item.publicador.grupo.local
+            });
+            this.descricao = item.pioneiro.descricao;
+            this.colocations = this.colocations + item.publicacoes;
+            this.hours =
+              this.hours + item.horas + item.horasBetel + item.creditoHoras;
+            this.hoursBethel = this.hoursBethel + item.horasBetel;
+            this.creditHours = this.creditHours + item.creditoHoras;
+            this.videos = this.videos + item.videosMostrados;
+            this.returns = this.returns + item.revisitas;
+            this.studies = this.studies + item.estudos;
+            this.group = item.publicador.grupo.local;
+          });
           this.reportLine.push({
             Counter: this.counter5,
-            Name: item.publicador.nome,
-            Pioneer: item.pioneiro.descricao,
-            Colocations: item.publicacoes,
-            Hours: item.horas,
-            Bethel: item.horasBetel,
-            Credit: item.creditoHoras,
-            Video: item.videosMostrados,
-            Returns: item.revisitas,
-            Studies: item.estudos,
-            Obs: item.observacao,
-            Status: item.publicador.situacaoServicoCampo,
-            Group: item.publicador.grupo.local
+            Name: 'Total',
+            Pioneer: this.group,
+            Colocations: this.colocations,
+            Hours: this.hours,
+            Bethel: this.hoursBethel,
+            Credit: this.creditHours,
+            Video: this.videos,
+            Returns: this.returns,
+            Studies: this.studies,
+            Obs: ' ',
+            Status: ' ',
+            Group: ' '
           });
-          this.descricao = item.pioneiro.descricao;
-          this.colocations = this.colocations + item.publicacoes;
-          this.hours =
-            this.hours +
-            item.horas +
-            item.horasBetel +
-            item.creditoHoras;
-          this.hoursBethel = this.hoursBethel + item.horasBetel;
-          this.creditHours = this.creditHours + item.creditoHoras;
-          this.videos = this.videos + item.videosMostrados;
-          this.returns = this.returns + item.revisitas;
-          this.studies = this.studies + item.estudos;
-        });
-        this.reportLine.push({
-          Counter: this.counter5,
-          Name: 'Total',
-          Pioneer: this.descricao,
-          Colocations: this.colocations,
-          Hours: this.hours,
-          Bethel: this.hoursBethel,
-          Credit: this.creditHours,
-          Video: this.videos,
-          Returns: this.returns,
-          Studies: this.studies,
-          Obs: ' ',
-          Status: ' ',
-          Group: ' '
-        });
-      }
-      // FIM ESPECIAL
-    });
+        }
+        // FIM ESPECIAL
+      });
+    } else {
+      publisherType.forEach(itemPublisherType => {
+        this.reportRegular = report.filter(
+          (service: ServicoCampo) => service.pioneiro.descricao === itemPublisherType
+        );
+
+        if (this.reportRegular.length > 0) {
+          this.descricao = '';
+          this.group = '';
+          this.hours = 0;
+          this.hoursBethel = 0;
+          this.creditHours = 0;
+          this.colocations = 0;
+          this.videos = 0;
+          this.returns = 0;
+          this.studies = 0;
+          this.counter5 = 0;
+
+          this.reportRegular.forEach(item => {
+            if (
+              item.horas > 0 ||
+              item.horasBetel > 0 ||
+              item.creditoHoras > 0
+            ) {
+              this.counter5++;
+            }
+            this.reportLine.push({
+              Counter: this.counter5,
+              Name: item.publicador.nome,
+              Pioneer: item.pioneiro.descricao,
+              Colocations: item.publicacoes,
+              Hours: item.horas,
+              Bethel: item.horasBetel,
+              Credit: item.creditoHoras,
+              Video: item.videosMostrados,
+              Returns: item.revisitas,
+              Studies: item.estudos,
+              Obs: item.observacao,
+              Status: item.publicador.situacaoServicoCampo,
+              Group: item.publicador.grupo.local
+            });
+            this.descricao = item.pioneiro.descricao;
+            this.group = item.publicador.grupo.local;
+            this.colocations = this.colocations + item.publicacoes;
+            this.hours =
+              this.hours + item.horas + item.horasBetel + item.creditoHoras;
+            this.hoursBethel = this.hoursBethel + item.horasBetel;
+            this.creditHours = this.creditHours + item.creditoHoras;
+            this.videos = this.videos + item.videosMostrados;
+            this.returns = this.returns + item.revisitas;
+            this.studies = this.studies + item.estudos;
+          });
+          this.reportLine.push({
+            Counter: this.counter5,
+            Name: 'Total',
+            Pioneer: this.descricao,
+            Colocations: this.colocations,
+            Hours: this.hours,
+            Bethel: this.hoursBethel,
+            Credit: this.creditHours,
+            Video: this.videos,
+            Returns: this.returns,
+            Studies: this.studies,
+            Obs: ' ',
+            Status: ' ',
+            Group: ' '
+          });
+        }
+        // FIM ESPECIAL
+      });
+    }
 
     // finalizacao
 
@@ -648,7 +620,6 @@ export class CongregationFieldserviceComponent implements OnInit {
               dataRow.push({ text: row.Group, style: 'subTotalHeader' });
             }
           } else {
-            console.log('Name: ' + column);
             if (column === 'Name') {
               dataRow.push({
                 text:

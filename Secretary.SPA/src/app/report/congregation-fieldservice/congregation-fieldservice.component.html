@@ -2,8 +2,7 @@
   <div class="row">
     <h2>{{title}}</h2>
     <div class="col-xs-12 col-md-12">
-      <button asp-action="Index" class="btn-sm btn btn-outline-primary">
-        <i class="fa fa-plus"></i> Create New</button>
+      &nbsp;
     </div>
   </div>
 </div>
@@ -28,7 +27,13 @@
         </div>
 
         <div class="col-sm-4">
-          <h5 class="card-text">&nbsp;</h5>
+          <h5 class="card-text">Order by</h5>
+          <input [(ngModel)]="date.check" type="checkbox" class="form-check-input " name="check" id="check">
+          <label class="form-check-label" for="groupCheck">Group</label>&nbsp; &nbsp;          
+        </div>
+
+        <div class="col-sm-4">
+          <h5 class="card-text">&nbsp;</h5>          
           <button type="submit" class="btn btn-success custombutton" [disabled]="!myForm.dirty"><i class="fa fa-filter"></i>
             Filter</button> &nbsp; &nbsp;
           <button type="button" class="btn btn-danger" (click)="generatePdf()"><i class="fa fa-file-pdf-o"></i> PDf</button>

@@ -1,4 +1,5 @@
 import { Dianteira } from './Dianteira';
+import { Grupo } from './Grupo';
 
 export interface Publicador {
   id: number;
@@ -10,7 +11,7 @@ export interface Publicador {
   dianteiraId: number;
   dianteira?: Dianteira;
   grupoId: number;
-  grupo: string;
+  grupo: Grupo;
   pioneiroId: number;
   pioneiro: string;
   sexo: boolean;

@@ -524,5 +524,26 @@ namespace Secretary.API.InterfacesImpl
 
             return serv;
         }
+
+        public async Task<List<ServicoCampo>> getFieldServiceByPublisherIdPeriodAsync(DateTime fromDate, DateTime toDate, long publisherId)
+        {
+            Console.WriteLine("getFieldServiceByPublisherIdPeriodAsync Service");
+
+            var cong = _repoCong.getCongregationDefaultAsync();
+            var serv = await _dbContext.ServicoCampo.AsNoTracking()
+            .Include(p => p.Pioneiro)
+            .Include(p => p.Publicador)
+            .Include(p => p.Congregacao)
+            .Include(p => p.Pioneiro)
+            .Include(p => p.Publicador.Dianteira)
+            .Include(p => p.Publicador.Grupo)
+            .Where(p => p.CongregacaoId == cong.Id)
+            .Where(e => e.DataReferencia >= fromDate)
+            .Where(e => e.DataReferencia <= toDate)
+            .Where(p => p.Publicador.Id == publisherId)
+            .OrderByDescending(s => s.DataReferencia).ToListAsync();
+
+            return serv;
+        }
     }
 }

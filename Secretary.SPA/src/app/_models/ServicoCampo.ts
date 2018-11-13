@@ -26,5 +26,5 @@ export interface ServicoCampo {
   congregacaoId: number;
   congregacao?: Congregacao;
   publicadorId: number;
-  publicador?: Publicador;
+  publicador: Publicador;
 }

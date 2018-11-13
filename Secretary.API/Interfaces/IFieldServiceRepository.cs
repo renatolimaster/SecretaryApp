@@ -19,6 +19,7 @@ namespace Secretary.API.Interfaces
         Task<List<ServicoCampo>> getFieldServicePioneerByPeriodAsync(DateTime fromDate, DateTime toDate, long pioneerId);
         Task<List<TotalFieldServiceReportDto>> getSumFieldServicePioneerByPeriodAsync(DateTime fromDate, DateTime toDate, long pioneerId);
         Task<ServicoCampo> getFieldServiceByPublisherIdAsync(long publisherId);
+        Task<List<ServicoCampo>> getFieldServiceByPublisherIdPeriodAsync(DateTime fromDate, DateTime toDate, long publisherId);
         Task<double> getMediaYearlyFieldServiceAsync(long id);
         Task<double> getMediaQuarterlyFieldServiceSAsync(long id);
         Task<double> getMediaSemesterFieldServiceAsync(long id);

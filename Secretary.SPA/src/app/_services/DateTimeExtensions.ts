@@ -22,5 +22,23 @@ export class DateTimeExtensions {
     date.setMonth(months);
     date.setFullYear(years);
     return date;
-}
+  }
+
+  FirstServiceMonth(value: Date) {
+    const date = new Date();
+    const month = value.getMonth();
+    const year = value.getFullYear();
+
+    if (month > 8) {
+      date.setDate(0);
+      date.setMonth(7);
+      date.setFullYear(year);
+    } else {
+      date.setDate(1);
+      date.setMonth(7);
+      date.setFullYear(year - 1);
+    }
+
+    return date;
+  }
 }

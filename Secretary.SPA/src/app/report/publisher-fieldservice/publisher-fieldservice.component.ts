@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DateTimeExtensions } from 'src/app/_services/DateTimeExtensions';
 import { ReportService } from 'src/app/_services/report.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -9,6 +9,8 @@ import { ServicoCampo } from 'src/app/_models/ServicoCampo';
 import { PublisherService } from 'src/app/_services/publisher.service';
 import { Publicador } from 'src/app/_models/Publicador';
 import { toDate } from '@angular/common/src/i18n/format_date';
+
+import Chart from 'chart.js';
 
 interface Idate {
   iFromDate: Date;
@@ -22,6 +24,7 @@ interface Idate {
   styleUrls: ['./publisher-fieldservice.component.css']
 })
 export class PublisherFieldserviceComponent implements OnInit {
+  @ViewChild('myChart') myChart: ElementRef;
   title = 'Congregation Field Service';
 
   date: Idate;
@@ -33,6 +36,12 @@ export class PublisherFieldserviceComponent implements OnInit {
   toDateSubHeader = '';
   publisherId = 0;
   selectedPublisher = 0;
+
+  // chart
+  labelsChart: any[] = [];
+  dataChart: any[] = [];
+  colorChart: any[] = [];
+  reportsSort: ServicoCampo[];
 
   constructor(
     private dateTimeExtensions: DateTimeExtensions,
@@ -47,9 +56,20 @@ export class PublisherFieldserviceComponent implements OnInit {
     this.title = 'Publisher Field Service';
     this.date = {
       iFromDate: this.dateTimeExtensions.FirstServiceMonth(new Date()),
-      iToDate: this.dateTimeExtensions.CreateDate(1, new Date().getMonth() - 1, new Date().getFullYear()),
+      iToDate: this.dateTimeExtensions.CreateDate(
+        1,
+        new Date().getMonth() - 1,
+        new Date().getFullYear()
+      ),
       iPublisherId: 0
     };
+    this.labelsChart = [];
+    this.dataChart = [];
+    this.colorChart = [];
+    this.reportsSort = [];
+    this.reports = [];
+    this.publishers = [];
+    this.publisher = [];
   }
 
   loadPublisher() {
@@ -58,9 +78,15 @@ export class PublisherFieldserviceComponent implements OnInit {
       .subscribe((publisher: Publicador[]) => {
         this.publishers = publisher;
         this.publisherId = this.publishers[0].id;
-        this.subHeader = this.publishers[0].nome;
-        this.date.iFromDate = this.dateTimeExtensions.FirstServiceMonth(new Date());
-        this.date.iToDate = this.dateTimeExtensions.CreateDate(1, new Date().getMonth() - 1, new Date().getFullYear());
+        this.subHeader = this.publishers[0].nome + ' - ' + this.publishers[0].grupo.local + ' Group';
+        this.date.iFromDate = this.dateTimeExtensions.FirstServiceMonth(
+          new Date()
+        );
+        this.date.iToDate = this.dateTimeExtensions.CreateDate(
+          1,
+          new Date().getMonth() - 1,
+          new Date().getFullYear()
+        );
         this.date.iPublisherId = this.publisherId;
         this.loadPublisherReport(this.date);
       });
@@ -99,7 +125,7 @@ export class PublisherFieldserviceComponent implements OnInit {
       this.publisher = this.publishers.filter(
         (publ: Publicador) => publ.id.toString() === this.publisherId.toString()
       );
-      this.subHeader = this.publisher[0].nome;
+      this.subHeader = this.publisher[0].nome + ' - ' + this.publisher[0].grupo.local + ' Group';
     }
 
     this.reportService
@@ -110,11 +136,93 @@ export class PublisherFieldserviceComponent implements OnInit {
       )
       .subscribe(
         (reports: ServicoCampo[]) => {
-          this.reports = reports;
+          // clone array
+          // if use signal "=" if you modify one both will suffer the same modification
+          this.reports = reports.slice(0);
+          this.reportsSort = this.reports.slice(0);
+          this.labelsChart = [];
+          this.dataChart = [];
+          this.colorChart = [];
+          let count = 0;
+          // sort to chart
+          this.reportsSort.sort(
+            (a, b) =>
+              new Date(a.dataReferencia).getTime() -
+              new Date(b.dataReferencia).getTime()
+          );
+          this.reportsSort.forEach(element => {
+            const label = moment(element.dataReferencia).format('MMM/YYYY');
+            const hour = element.horas;
+            this.labelsChart.push(label);
+            this.dataChart.push(hour);
+            if (count === 0) {
+              this.colorChart.push('rgba(255, 99, 132, 0.2)');
+              count = 1;
+            } else {
+              this.colorChart.push('rgba(54, 162, 235, 0.2)');
+              count = 0;
+            }
+          });
+          this.loadChart();
         },
         error => {
           this.alertifyService.error(error);
         }
       );
+  }
+
+  loadChart() {
+    //////
+    const ctx = this.myChart.nativeElement.getContext('2d');
+
+    const data = {
+      labels: this.labelsChart,
+      datasets: [
+        {
+          data: this.dataChart,
+          backgroundColor: this.colorChart
+        }
+      ]
+    };
+
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+        cutoutPercentage: 40,
+        // animation: {
+        //   animateScale: false,
+        //   animateRotate: false
+        // },
+        scales: {
+          xAxes: [
+            {
+              stacked: true
+            }
+          ],
+          yAxes: [
+            {
+              stacked: true
+            }
+          ]
+        },
+        title: {
+          display: true,
+          text: 'Publisher Field Service Chart',
+          fontSize: 20,
+          fontColor: '#2196F3'
+        },
+        legend: {
+          display: false,
+          labels: {
+            fontColor: 'rgb(255, 99, 132)'
+          }
+        },
+        tooltips: {
+          mode: 'point'
+      }
+      }
+    });
+    /////
   }
 }

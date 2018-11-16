@@ -23,11 +23,11 @@
     >
       <div class="row">
         <div class="col-sm-3">
-          <h5 class="card-text">From</h5>
+          <h5>From</h5>
           <input
             [(ngModel)]="date.iFromDate"
             type="text"
-            class="form-control mr-sm-2"
+            class="form-control"
             bsDatepicker
             [bsValue]="date?.iFromDate"
             [bsConfig]="{ dateInputFormat: 'MM/YYYY' }"
@@ -38,11 +38,11 @@
         </div>
 
         <div class="col-sm-3">
-          <h5 class="card-text">To</h5>
+          <h5>To</h5>
           <input
             [(ngModel)]="date.iToDate"
             type="text"
-            class="form-control mr-sm-2"
+            class="form-control"
             bsDatepicker
             [bsValue]="date?.iToDate"
             [bsConfig]="{ dateInputFormat: 'MM/YYYY' }"
@@ -53,12 +53,11 @@
         </div>
 
         <div class="col-sm-4">
-          <h5 class="card-text">Publisher</h5>
+          <h5>Publisher</h5>
           <select
             class="form-control form-control-lg"
             [(ngModel)]="selectedPublisher"
-            name="iPublisherId"
-          >
+            name="iPublisherId">
             <option
               *ngFor="let publisher of publishers"
               value="{{publisher.id}}"
@@ -83,9 +82,11 @@
 </div>
 
 <div *ngIf="!reports" class="container">
-    <div class="card mt-3 w-75 alert alert-info">
-        <p class="card-text"><strong>Information:</strong>&nbsp;Select a publisher to see the report!</p>
-      </div>
+  <div class="card mt-3 w-75 alert alert-info">
+    <p class="card-text">
+      <strong>Information:</strong>&nbsp;Select a publisher to see the report!
+    </p>
+  </div>
 </div>
 
 <div *ngIf="reports" class="container">
@@ -123,7 +124,7 @@
         <tbody>
           <tr *ngFor="let item of reports">
             <td class="text-info">
-              {{ item.dataReferencia | date: 'MM/yyyy' }}
+              {{ item.dataReferencia | date: 'MMM/yyyy' }}
             </td>
             <td>{{ item.pioneiro.descricao }}</td>
             <td class="text-center">{{ item.publicacoes }}</td>
@@ -155,52 +156,6 @@
   </div>
 </div>
 
-<div *ngIf="reports" class="container">
-  <div class="card mt-6">
-    <div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">
-        <br />
-        <h3 class="text-primary text-center">Total of {{ title }}</h3>
-      </div>
-      <div class="panel-body">
-        <h5 class="text-success text-center">
-          {{ counterTotal }} delivered of {{ totalPublisher }} publishers
-        </h5>
-      </div>
-
-      <!-- Table Nova -->
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="text-center text-primary" scope="col">Pioneer</th>
-            <th class="text-center text-primary" scope="col">Colocations</th>
-
-            <th class="text-center text-danger" scope="col">Hours</th>
-            <th class="text-center text-primary" scope="col">Returns</th>
-            <th class="text-center text-primary" scope="col">Studies</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of reportLineGeral">
-            <td
-              *ngIf="item.Pioneer === 'Geral'"
-              class="text-center text-danger"
-            >
-              <h4>
-                <strong>{{ item.Pioneer }} ({{ item.Counter }})</strong>
-              </h4>
-            </td>
-            <td *ngIf="item.Pioneer !== 'Geral'" class="text-center text-info">
-              {{ item.Pioneer }} ({{ item.Counter }})
-            </td>
-            <td class="text-center">{{ item.Colocations }}</td>
-            <td class="text-center text-danger">{{ item.Hours }}</td>
-            <td class="text-center">{{ item.Returns }}</td>
-            <td class="text-center">{{ item.Studies }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="container">
+  <div><canvas id="myChart" width="400" height="200" #myChart></canvas></div>
 </div>

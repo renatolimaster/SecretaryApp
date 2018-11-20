@@ -2,7 +2,7 @@
   <div class="row">
     <h2>{{ title }}</h2>
     <div class="col-xs-12 col-md-12">
-      <button asp-action="Index" class="btn-sm btn btn-outline-primary">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/createcongregation']" routerLinkActive="router-link-active">
         <i class="fa fa-plus"></i> Create New
       </button>
     </div>
@@ -236,4 +236,5 @@
       </ngx-datatable-column>
     </div>
   </ngx-datatable>
+
 </div>

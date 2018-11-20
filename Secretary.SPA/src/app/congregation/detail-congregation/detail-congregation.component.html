@@ -2,9 +2,9 @@
   <div class="row">
     <h2>{{ title }}</h2>
     <div class="col-xs-12 col-md-12">
-      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/fieldservice']" routerLinkActive="router-link-active">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/congregation']" routerLinkActive="router-link-active">
         <i class="fa fa-arrow-left"></i> List</button>&nbsp;
-      <button asp-action="Index" class="btn-sm btn btn-outline-primary">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/createcongregation']" routerLinkActive="router-link-active">
         <i class="fa fa-plus"></i> Create New</button>
     </div>
   </div>
@@ -21,9 +21,10 @@
 <div class="container">
   <div class="card mt-3 w-75">
     <div class="card-header">
-      <h3>{{ report.publicador.dianteira.descricao }}</h3>
-      <h3 class="text-primary">{{ report.publicador.nome }}</h3>
-      <h5 class="text-danger">{{report?.publicador.situacaoServicoCampo}}</h5>
+      <h3 class="text-primary">Congregation</h3>
+      <h3>{{ congregation.numero }}&nbsp;{{ congregation.nome }}</h3>
+      <h5 *ngIf="congregation.padrao" class="text-danger">Standard: Yes</h5>
+      <h5 *ngIf="!congregation.padrao" class="text-primary">Standard: No</h5>
     </div>
     <div class="card-body">
 
@@ -32,21 +33,23 @@
         <div class='row'>
 
           <div class="col-md">
-            <p class="card-text">Reference - Delivery</p>
-            <h5 class="card-title">{{ report.dataReferencia | date:'MM/yyyy'}} - {{ report.dataEntrega | date:'MM/yyyy'}}</h5>
+            <p class="card-text">Coordinator</p>
+            <h5 class="card-title">{{ congregation.coordenador }}</h5>
           </div>
 
           <div class="col-md">
-            <p class="card-text">Congregation</p>
-            <h5 class="card-title">{{ report.congregacao.nome }}</h5>
+            <p class="card-text">Cell Phone</p>
+            <h5 class="card-title">{{ congregation.telCelular }}</h5>
           </div>
+
           <div class="col-md">
-            <p class="card-text">Publisher</p>
-            <h5 class="card-title">{{ report.publicador.nome }}</h5>
+            <p class="card-text">Phone</p>
+            <h5 class="card-title">{{ congregation.telefone }}</h5>
           </div>
+
           <div class="col-md">
-            <p class="card-text">Pioneer</p>
-            <h5 class="card-title">{{ report.pioneiro.descricao }}</h5>
+            <p class="card-text">E-mail</p>
+            <h5 class="card-title">{{ congregation.email }}</h5>
           </div>
 
         </div>
@@ -59,41 +62,47 @@
 
           <div class="col-12">
             <hr>
+            <h4 class="text-primary">Address</h4>
           </div>
 
           <div class="col-md">
-            <p class="card-text text-center">Colocations</p>
-            <p class="h5 text-center">{{report.publicacoes}}</p>
+            <p class="card-text">Public area</p>
+            <p class="h6"><strong>{{ congregation.nomeLogradouro }}</strong></p>
           </div>
           <div class="col-md">
-            <p class="card-text text-center">Videos</p>
-            <p class="h5 text-center">{{report.videosMostrados}}</p>
+            <p class="card-text">Complement</p>
+            <p class="h6"><strong>{{ congregation.complemento }}</strong></p>
           </div>
           <div class="col-md">
-            <p class="card-text text-center">Hours</p>
-            <p class="h5 text-center text-danger">{{report.horas}}</p>
+            <p class="card-text">Neighborhood</p>
+            <p class="h6"><strong>{{ congregation.bairro }}</strong></p>
           </div>
           <div class="col-md">
-            <p class="card-text text-center">Visits</p>
-            <p class="h5 text-center">{{report.revisitas}}</p>
-          </div>
-          <div class="col-md">
-            <p class="card-text text-center">Studies</p>
-            <p class="h5 text-center">{{report.estudos}}</p>
-          </div>
-          <div class="col-md">
-            <p class="card-text text-center">Bethel</p>
-            <p class="h5 text-center text-primary">{{report.horasBetel}}</p>
-          </div>
-          <div class="col-md">
-            <p class="card-text text-center">Credit</p>
-            <p class="h5 text-center text-primary">{{report.creditoHoras}}</p>
-          </div>
-          <div class="col-md">
-            <p class="card-text text-center">Minutes</p>
-            <p class="h5 text-center text-primary">{{report.minutos}}</p>
+            <p class="card-text">City</p>
+            <p class="h6"><strong>{{ congregation.cidade }}</strong></p>
           </div>
 
+        </div>
+
+        <div class="row">
+          <div class="col-md">
+            <p class="card-text">State</p>
+            <p class="h6"><strong>{{ congregation.estado.descricao }}</strong></p>
+          </div>
+          <div class="col-md">
+            <p class="card-text">Country</p>
+            <p class="h6"><strong>{{ congregation.estado.country.niceName }}</strong></p>
+          </div>
+          
+          <div class="col-md">
+            <p class="card-text">Zip code</p>
+            <p class="h6"><strong>{{ congregation.cep }}</strong></p>
+          </div>
+
+          <div class="col-md">
+            <p class="card-text">&nbsp;</p>
+            <p class="h6">&nbsp;</p>
+          </div>
         </div>
 
       </div>
@@ -101,9 +110,9 @@
 
     <div class="text-center">
       <hr>
-      <button type="button" class="btn btn-warning custombutton" [routerLink]="['/editfieldservice', report?.id]" routerLinkActive="router-link-active">
+      <button type="button" class="btn btn-warning custombutton" [routerLink]="['/editcongregation', congregation?.id]" routerLinkActive="router-link-active">
         <i class="fa fa-pencil-square-o"></i> Edit</button>&nbsp;     
-      <button *ngIf="del == 'true'" type="button" class="btn btn-danger custombutton" (click)="deleteFieldService(report.id)">
+      <button *ngIf="del == 'true'" type="button" class="btn btn-danger custombutton" (click)="deleteFieldService(congregation.id)">
         <i class="fa fa-times"></i> Delete</button>
     </div>
     &nbsp;
@@ -113,10 +122,9 @@
 
   <div class="row">
       <div class="col-xs-12 col-sm-12">
-        <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/fieldservice']"
-          routerLinkActive="router-link-active">
+        <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/congregation']" routerLinkActive="router-link-active">
           <i class="fa fa-arrow-left"></i> List</button>&nbsp;
-        <button asp-action="Index" class="btn-sm btn btn-outline-primary">
+        <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/createcongregation']" routerLinkActive="router-link-active">
           <i class="fa fa-plus"></i> Create New</button>
       </div>
     </div>

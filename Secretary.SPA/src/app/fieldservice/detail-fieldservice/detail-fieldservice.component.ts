@@ -16,7 +16,6 @@ export class DetailFieldserviceComponent implements OnInit {
   del: any;
 
   constructor(
-    private reportService: ReportService,
     private route: ActivatedRoute,
     private alertifyService: AlertifyService
   ) {}
@@ -39,14 +38,6 @@ export class DetailFieldserviceComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.report = data['report'];
     });
-    // this.reportService.getReport(this.route.snapshot.params['id']).subscribe(
-    //   (report: ServicoCampo) => {
-    //     this.report = report;
-    //   },
-    //   error => {
-    //     this.alertifyService.error(error);
-    //   }
-    // );
   }
 
   deleteFieldService(id: number) {

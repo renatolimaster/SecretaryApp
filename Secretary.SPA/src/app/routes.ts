@@ -22,6 +22,9 @@ import { ListCongregationResolver } from './_resolver/list-congregation.resolver
 import { DetailCongregationComponent } from './congregation/detail-congregation/detail-congregation.component';
 import { EditCongregationComponent } from './congregation/edit-congregation/edit-congregation.component';
 import { CongregationCenterComponent } from './congregation/congregation-center/congregation-center.component';
+import { EditCongregationResolver } from './_resolver/edit-congregation.resolver';
+import { DetailCongregationResolver } from './_resolver/detail-congregation.resolver';
+import { CreateCongregationComponent } from './congregation/create-congregation/create-congregation.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,19 +40,21 @@ export const appRoutes: Routes = [
       {
         path: 'congregation',
         component: ListCongregationComponent,
-        resolve: { reports: ListCongregationResolver }
+        resolve: { congregation: ListCongregationResolver }
       },
       {
         path: 'createcongregation',
-        component: DetailCongregationComponent
+        component: CreateCongregationComponent
       },
       {
         path: 'detailcongregation/:id/:del',
-        component: DetailCongregationComponent
+        component: DetailCongregationComponent,
+        resolve: { congregation: DetailCongregationResolver }
       },
       {
         path: 'editcongregation/:id',
-        component: EditCongregationComponent
+        component: EditCongregationComponent,
+        resolve: { congregation: EditCongregationResolver }
       },
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },

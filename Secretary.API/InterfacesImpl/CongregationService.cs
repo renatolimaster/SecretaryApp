@@ -34,14 +34,14 @@ namespace Secretary.API.InterfacesImpl
 
         public Task<Congregacao> getCongregationAsync(long id)
         {
-            var cong = _dbContext.Congregacao.FirstOrDefaultAsync(c => c.Id == id);
+            var cong = _dbContext.Congregacao.Include(c => c.Estado).Include(c => c.Estado.Country).Include(c => c.Publicador).FirstOrDefaultAsync(c => c.Id == id);
 
             return cong;
         }
 
         public Congregacao getCongregationDefaultAsync()
         {
-            var cong = _dbContext.Congregacao.FirstOrDefaultAsync(c => c.Padrao == true).Result;
+            var cong = _dbContext.Congregacao.Include(c => c.Estado).Include(c => c.Estado.Country).Include(c => c.Publicador).FirstOrDefaultAsync(c => c.Padrao == true).Result;
 
             return cong;
         }

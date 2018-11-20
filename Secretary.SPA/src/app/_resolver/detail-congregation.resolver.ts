@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
-import { ServicoCampo } from '../_models/ServicoCampo';
 import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { ReportService } from '../_services/report.service';
 import { AlertifyService } from '../_services/alertify.service';
+import { CongregationService } from '../_services/congregation.service';
+import { Congregacao } from '../_models/Congregacao';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Congregacao } from '../_models/Congregacao';
-import { CongregationService } from '../_services/congregation.service';
 
 @Injectable()
-export class ListCongregationResolver implements Resolve<Congregacao[]> {
+export class DetailCongregationResolver implements Resolve<Congregacao> {
     constructor(
         private congregationService: CongregationService,
         private router: Router,
         private alertfyService: AlertifyService
     ) {}
 
-    resolve(route: ActivatedRouteSnapshot): Observable<Congregacao[]> {
-        return this.congregationService.getCongregations().pipe(
+    resolve(route: ActivatedRouteSnapshot): Observable<Congregacao> {
+        return this.congregationService.getCongregation(route.params['id']).pipe(
             catchError(error => {
                 this.alertfyService.error('Problem retrieving congregation data');
-                this.router.navigate(['/home']);
+                this.router.navigate(['/congregation']);
                 return of(null);
             })
         );

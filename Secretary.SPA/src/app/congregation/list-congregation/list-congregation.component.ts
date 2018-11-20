@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DateTimeExtensions } from 'src/app/_services/DateTimeExtensions';
-import { ReportService } from 'src/app/_services/report.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
-import { CongregationService } from 'src/app/_services/congregation.service';
 import { Congregacao } from 'src/app/_models/Congregacao';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-list-congregation',
@@ -25,8 +21,6 @@ export class ListCongregationComponent implements OnInit {
   msg: string;
 
   constructor(
-    private dateTimeExtensions: DateTimeExtensions,
-    private congregationService: CongregationService,
     private alertifyService: AlertifyService,
     private route: ActivatedRoute
   ) { }
@@ -36,21 +30,16 @@ export class ListCongregationComponent implements OnInit {
   }
 
   loadCongregations() {
-    this.congregationService.getCongregations().subscribe(
-      (congregations: Congregacao[]) => {
-        this.congregations = congregations;
-        // cache our list
-        this.temp = [...congregations];
-        // push our inital complete list
-        this.rows = congregations;
-        this.congregations.forEach(item => {
-          console.log('Congre: ' + item.nome + ' - ' + item.coordenador + ' - ' + item.estado.descricao);
-        });
-      },
-      error => {
-        this.alertifyService.error(error);
-      }
-    );
+
+    this.route.data.subscribe(data => {
+      this.congregations = data['congregation'];
+      // cache our list
+      this.temp = [...this.congregations];
+      // push our inital complete list
+      this.rows = this.congregations;
+      this.msg = this.congregations.length + ' congregation(s) loaded!!';
+      this.alertifyService.success(this.msg);
+    });
   }
 
   onPage(event) {

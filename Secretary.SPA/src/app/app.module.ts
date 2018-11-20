@@ -41,6 +41,9 @@ import { ListCongregationResolver } from './_resolver/list-congregation.resolver
 import { DetailCongregationComponent } from './congregation/detail-congregation/detail-congregation.component';
 import { EditCongregationComponent } from './congregation/edit-congregation/edit-congregation.component';
 import { CongregationCenterComponent } from './congregation/congregation-center/congregation-center.component';
+import { EditCongregationResolver } from './_resolver/edit-congregation.resolver';
+import { DetailCongregationResolver } from './_resolver/detail-congregation.resolver';
+import { CreateCongregationComponent } from './congregation/create-congregation/create-congregation.component';
 
 
 export function tokenGetter() {
@@ -56,6 +59,7 @@ export function tokenGetter() {
     // congregation
     CongregationCenterComponent,
     ListCongregationComponent,
+    CreateCongregationComponent,
     DetailCongregationComponent,
     EditCongregationComponent,
     //
@@ -98,10 +102,15 @@ export function tokenGetter() {
     AlertifyService,
     AuthGuard,
     PreventUnsaveChanges,
+    // resolvers
+    // field service
     DetailFieldServiceResolver,
     EditFieldServiceResolver,
     ListFieldServiceResolver,
-    ListCongregationResolver
+    // congregation
+    ListCongregationResolver,
+    EditCongregationResolver,
+    DetailCongregationResolver
   ],
   bootstrap: [AppComponent]
 })

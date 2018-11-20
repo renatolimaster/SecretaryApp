@@ -119,13 +119,11 @@
     <ngx-datatable-row-detail
       [rowHeight]="50"
       #myDetailRow
-      (toggle)="onDetailToggle($event)"
-    >
+      (toggle)="onDetailToggle($event)">
       <ng-template
         let-row="row"
         let-expanded="expanded"
-        ngx-datatable-row-detail-template
-      >
+        ngx-datatable-row-detail-template>
         <div style="padding-left:60px; font-size:14px">
           <div>{{ row.Publicador.nome }}, {{ row.horas }}</div>
         </div>
@@ -141,9 +139,9 @@
         <span class="mobile-hidden">Publisher</span>
       </ng-template>
       <ng-template let-value="value" ngx-datatable-cell-template>
-        <span class="mobile-hidden"
-          >{{ value.nome.split(' ')[0] }} {{ value.nome.split(' ')[1] }}</span
-        >
+        <div class="text-left">
+        <span class="mobile-hidden">{{ value.nome.split(' ')[0] }} {{ value.nome.split(' ')[1] }}</span>
+      </div>
       </ng-template>
     </ngx-datatable-column>
 

@@ -37,6 +37,10 @@ import { EditFieldServiceResolver } from './_resolver/edit-fieldservice.resolver
 import { ListFieldServiceResolver } from './_resolver/list-fieldservice.resolver';
 import { MonthDatePickerComponent } from './month-date-picker/month-date-picker.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ListCongregationResolver } from './_resolver/list-congregation.resolver';
+import { DetailCongregationComponent } from './congregation/detail-congregation/detail-congregation.component';
+import { EditCongregationComponent } from './congregation/edit-congregation/edit-congregation.component';
+import { CongregationCenterComponent } from './congregation/congregation-center/congregation-center.component';
 
 
 export function tokenGetter() {
@@ -49,7 +53,12 @@ export function tokenGetter() {
     NavComponent,
     HomeComponent,
     RegisterComponent,
+    // congregation
+    CongregationCenterComponent,
     ListCongregationComponent,
+    DetailCongregationComponent,
+    EditCongregationComponent,
+    //
     ListPublisherComponent,
     ListFieldserviceComponent,
     ListAssistanceComponent,
@@ -91,7 +100,8 @@ export function tokenGetter() {
     PreventUnsaveChanges,
     DetailFieldServiceResolver,
     EditFieldServiceResolver,
-    ListFieldServiceResolver
+    ListFieldServiceResolver,
+    ListCongregationResolver
   ],
   bootstrap: [AppComponent]
 })

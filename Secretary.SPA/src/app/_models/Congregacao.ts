@@ -1,3 +1,5 @@
+import { Estado } from './Estado';
+
 export interface Congregacao {
   id: number;
   nome: string;
@@ -11,7 +13,7 @@ export interface Congregacao {
   bairro: string;
   cidade: string;
   estadoId: number;
-  estado: string;
+  estado: Estado;
   countryId: number;
   cep: string;
   email: string;

@@ -51,6 +51,7 @@ namespace Secretary.API
             services.AddScoped<IPublisherRepository, PublisherService>();
             services.AddScoped<IFieldServiceRepository, FieldServiceReportService>();
             services.AddScoped<IPioneerRepository, PioneerService>();
+            services.AddScoped<IStateRepository, StateService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

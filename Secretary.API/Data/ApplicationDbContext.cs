@@ -183,11 +183,12 @@ namespace Secretary.API.Data
                     .HasMaxLength(255);
 
                 entity.HasOne(e => e.Country)
-                    .WithMany(e => e.Estados)
+                    .WithMany(e => e.Estado)
                     .HasForeignKey(d => d.CountryId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("Dianteira$FK_Estado_Country");
             });
+
 
             modelBuilder.Entity<Familia>(entity =>
             {

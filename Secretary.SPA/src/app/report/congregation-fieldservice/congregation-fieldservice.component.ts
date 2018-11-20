@@ -163,7 +163,6 @@ export class CongregationFieldserviceComponent implements OnInit {
       return;
     }
 
-
     if (this.date.check) {
       this.publisherType = ['Vitória', 'Vila Velha', 'Serra'];
     } else {
@@ -176,7 +175,6 @@ export class CongregationFieldserviceComponent implements OnInit {
         'Não'
       ];
     }
-
 
     this.reportService
       .getReportPioneerByPeriod(fromDate, toDate, this.pioneerId)
@@ -218,7 +216,8 @@ export class CongregationFieldserviceComponent implements OnInit {
     if (group) {
       publisherType.forEach(itemPublisherType => {
         this.reportRegular = report.filter(
-          (service: ServicoCampo) => service.publicador.grupo.local === itemPublisherType
+          (service: ServicoCampo) =>
+            service.publicador.grupo.local === itemPublisherType
         );
 
         if (this.reportRegular.length > 0) {
@@ -258,8 +257,37 @@ export class CongregationFieldserviceComponent implements OnInit {
             });
             this.descricao = item.pioneiro.descricao;
             this.colocations = this.colocations + item.publicacoes;
+
             this.hours =
               this.hours + item.horas + item.horasBetel + item.creditoHoras;
+
+            console.log(
+              'Horas fora: ' +
+                item.publicador.nome +
+                ' - ' +
+                this.hours +
+                ' - ' +
+                this.hoursBethel +
+                ' - ' +
+                this.creditHours
+            );
+
+            if (this.hoursBethel > 0 || this.creditHours > 0) {
+              console.log(
+                'Horas dentro: ' +
+                  item.publicador.nome +
+                  ' - ' +
+                  this.hours +
+                  ' - ' +
+                  this.hoursBethel +
+                  ' - ' +
+                  this.creditHours
+              );
+              if (this.hours > 70) {
+                this.hours = 70;
+              }
+            }
+
             this.hoursBethel = this.hoursBethel + item.horasBetel;
             this.creditHours = this.creditHours + item.creditoHoras;
             this.videos = this.videos + item.videosMostrados;
@@ -288,7 +316,8 @@ export class CongregationFieldserviceComponent implements OnInit {
     } else {
       publisherType.forEach(itemPublisherType => {
         this.reportRegular = report.filter(
-          (service: ServicoCampo) => service.pioneiro.descricao === itemPublisherType
+          (service: ServicoCampo) =>
+            service.pioneiro.descricao === itemPublisherType
         );
 
         if (this.reportRegular.length > 0) {
@@ -329,8 +358,10 @@ export class CongregationFieldserviceComponent implements OnInit {
             this.descricao = item.pioneiro.descricao;
             this.group = item.publicador.grupo.local;
             this.colocations = this.colocations + item.publicacoes;
+
             this.hours =
               this.hours + item.horas + item.horasBetel + item.creditoHoras;
+
             this.hoursBethel = this.hoursBethel + item.horasBetel;
             this.creditHours = this.creditHours + item.creditoHoras;
             this.videos = this.videos + item.videosMostrados;

@@ -18,6 +18,10 @@ import { DetailFieldServiceResolver } from './_resolver/detail-fieldservice.reso
 import { EditFieldServiceResolver } from './_resolver/edit-fieldservice.resolver';
 import { InitializeFieldServiceResolver } from './_resolver/initialize-fieldservice.resolver';
 import { ListFieldServiceResolver } from './_resolver/list-fieldservice.resolver';
+import { ListCongregationResolver } from './_resolver/list-congregation.resolver';
+import { DetailCongregationComponent } from './congregation/detail-congregation/detail-congregation.component';
+import { EditCongregationComponent } from './congregation/edit-congregation/edit-congregation.component';
+import { CongregationCenterComponent } from './congregation/congregation-center/congregation-center.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,7 +34,23 @@ export const appRoutes: Routes = [
       { path: 'editmembers', component: EditMembersComponent },
       { path: 'detailsmembers/:id', component: DetailsMembersComponent },
       { path: 'editmembers/:id', component: EditMembersComponent },
-      { path: 'congregation', component: ListCongregationComponent },
+      {
+        path: 'congregation',
+        component: ListCongregationComponent,
+        resolve: { reports: ListCongregationResolver }
+      },
+      {
+        path: 'createcongregation',
+        component: DetailCongregationComponent
+      },
+      {
+        path: 'detailcongregation/:id/:del',
+        component: DetailCongregationComponent
+      },
+      {
+        path: 'editcongregation/:id',
+        component: EditCongregationComponent
+      },
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },
       {

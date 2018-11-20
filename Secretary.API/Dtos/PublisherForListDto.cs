@@ -22,6 +22,7 @@ namespace Secretary.API.Dtos
         public string TelCelular { get; set; }                   
         public Situacao Situacao { get; set; }
         public long CongregacaoId { get; set; }        
+        public StateForListDto Estado { get; set; }
         public CongregationSimplifiedDto Congregacao { get; set; }
     }
 }

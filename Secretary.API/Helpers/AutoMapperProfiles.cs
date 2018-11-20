@@ -73,8 +73,14 @@ namespace Secretary.API.Helpers
             CreateMap<FieldServiceForUpdateDto, ServicoCampo>();
 
             CreateMap<TotalFieldServiceReportDto, ServicoCampo>();
-
             
+            CreateMap<StateForListDto, Estado>();
+
+            CreateMap<Estado, StateForListDto>();
+
+            CreateMap<CountryForListDto, Country>();
+
+            CreateMap<Country, CountryForListDto>();
 
         }
     }

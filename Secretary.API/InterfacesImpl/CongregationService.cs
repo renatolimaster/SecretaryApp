@@ -27,7 +27,7 @@ namespace Secretary.API.InterfacesImpl
             /// options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             /// in startup.cs 
 
-            var cong = _dbContext.Congregacao.Include(c => c.Publicador).OrderBy(c => c.Nome).ToListAsync();
+            var cong = _dbContext.Congregacao.Include(c => c.Estado).Include(c => c.Estado.Country).Include(c => c.Publicador).OrderBy(c => c.Nome).ToListAsync();
 
             return cong;
         }

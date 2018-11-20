@@ -18,8 +18,7 @@ namespace Secretary.API.Dtos
         public string Bairro { get; set; }
         public string Cidade { get; set; }
         public long? EstadoId { get; set; }
-        public Estado Estado { get; set; }
-        public int CountryId { get; set; }
+        public StateForListDto Estado { get; set; }
         public string Cep { get; set; }
 
         // CONTACT 

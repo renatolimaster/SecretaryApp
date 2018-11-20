@@ -13,13 +13,10 @@ namespace Secretary.API.Models
         }
         
         public long AuditoriaUsuario { get; set; }
-        
         public string Descricao { get; set; }
-
         // ForeingKey
         public long? CountryId { get; set; }
         public Country Country { get; set; }
-        
         // Collections
         public ICollection<Congregacao> Congregacao { get; set; }
         public ICollection<Publicador> Publicador { get; set; }

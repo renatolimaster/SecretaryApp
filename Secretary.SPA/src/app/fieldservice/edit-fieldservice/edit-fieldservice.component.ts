@@ -136,6 +136,16 @@ export class EditFieldserviceComponent implements OnInit {
   }
 
   updateFieldService(report: ServicoCampo) {
+    let totalHours = 0;
+    totalHours = report.horas + report.horasBetel + report.creditoHoras;
+
+    if (totalHours > 70) {
+      alert('Hours + Bethel + Credit = ' + totalHours + 'h and exceeds 70h, please adjust it!');
+      return;
+    }
+
+
+
     this.reportService.updateReport(report.id, report).subscribe(
       next => {
         this.getReport(report.id);

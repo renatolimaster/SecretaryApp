@@ -31,7 +31,7 @@ namespace Secretary.API.InterfacesImpl
 
             Console.WriteLine("Cong: " + cong.Id + " - " + cong.Nome);
 
-            var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Dianteira).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Grupo).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).ToListAsync();
+            var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Estado).Include(p => p.Dianteira).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Grupo).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).ToListAsync();
 
             // var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Congregacao).Include(p => p.Dianteira).Include(p => p.Pioneiro).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).Where(p => p.Grupo.CongregacaoId == cong.Id).ToListAsync();
 

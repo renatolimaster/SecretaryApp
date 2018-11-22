@@ -18,13 +18,13 @@ namespace Secretary.API.Controllers
     public class EstadoController : ControllerBase
     {
         private readonly ICongregationRepository _repoCongregation;
-        private readonly IStateRepository _repoSate;
+        private readonly IStateRepository _repoState;
         private readonly IMapper _mapper;
         public EstadoController(ICongregationRepository repoCongregation, IStateRepository repoSate, IMapper mapper)
         {
             _mapper = mapper;
             _repoCongregation = repoCongregation;
-            _repoSate = repoSate;
+            _repoState = repoSate;
         }
 
         [AllowAnonymous]
@@ -33,7 +33,19 @@ namespace Secretary.API.Controllers
         {
             Console.WriteLine("getCongregationsAsync");
 
-            var states = await _repoSate.GetStates();
+            var states = await _repoState.GetStates();
+            var statesToReturn = _mapper.Map<IEnumerable<StateForListDto>>(states);
+
+            return Ok(statesToReturn);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("statesbycountry/{id}")]
+        public async Task<IActionResult> GetStatesByCountryAsync(long id)
+        {
+            Console.WriteLine("statesbycountry");
+
+            var states = await _repoState.GetStatesByCountry(id);
             var statesToReturn = _mapper.Map<IEnumerable<StateForListDto>>(states);
 
             return Ok(statesToReturn);

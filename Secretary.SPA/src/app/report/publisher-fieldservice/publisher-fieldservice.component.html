@@ -54,14 +54,8 @@
 
         <div class="col-sm-4">
           <h5>Publisher</h5>
-          <select
-            class="form-control form-control-lg"
-            [(ngModel)]="selectedPublisher"
-            name="iPublisherId">
-            <option
-              *ngFor="let publisher of publishers"
-              value="{{publisher.id}}"
-              >&nbsp;{{ publisher.nome }}&nbsp;</option
+          <select class="form-control form-control-lg" [(ngModel)]="selectedPublisher" name="iPublisherId">
+            <option *ngFor="let publisher of publishers" value="{{publisher.id}}">&nbsp;{{ publisher.nome }}&nbsp;</option
             >
           </select>
         </div>

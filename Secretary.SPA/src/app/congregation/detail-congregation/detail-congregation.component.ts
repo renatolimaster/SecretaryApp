@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Congregacao } from 'src/app/_models/Congregacao';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { TipoLogradouro } from 'src/app/_models/TipoLogradouro';
 
 @Component({
   selector: 'app-detail-congregation',
@@ -16,7 +17,8 @@ export class DetailCongregationComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private alertifyService: AlertifyService) { }
+    private alertifyService: AlertifyService
+    ) { }
 
   ngOnInit() {
     this.catchParams();

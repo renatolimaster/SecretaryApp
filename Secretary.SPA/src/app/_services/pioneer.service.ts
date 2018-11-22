@@ -10,17 +10,13 @@ import { Observable } from 'rxjs';
 export class PioneerService {
   baseUrl = environment.apiUrl;
 
-constructor(
-  private http: HttpClient
-) { }
+  constructor(private http: HttpClient) {}
 
+  getPioneers(): Observable<Pioneiro[]> {
+    return this.http.get<Pioneiro[]>(this.baseUrl + 'pioneer');
+  }
 
-getPioneers(): Observable<Pioneiro[]> {
-  return this.http.get<Pioneiro[]>(this.baseUrl + 'pioneer');
-}
-
-getPioneer(id): Observable<Pioneiro> {
-  return this.http.get<Pioneiro>(this.baseUrl + 'pioneer/' + id);
-}
-
+  getPioneer(id): Observable<Pioneiro> {
+    return this.http.get<Pioneiro>(this.baseUrl + 'pioneer/' + id);
+  }
 }

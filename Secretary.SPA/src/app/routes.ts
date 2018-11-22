@@ -25,6 +25,8 @@ import { CongregationCenterComponent } from './congregation/congregation-center/
 import { EditCongregationResolver } from './_resolver/edit-congregation.resolver';
 import { DetailCongregationResolver } from './_resolver/detail-congregation.resolver';
 import { CreateCongregationComponent } from './congregation/create-congregation/create-congregation.component';
+import { TipoLogradouroResolver } from './_resolver/list-tipologradouro.resolver';
+import { ListTipologradouroComponent } from './tipologradouro/list-tipologradouro/list-tipologradouro.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,6 +39,11 @@ export const appRoutes: Routes = [
       { path: 'editmembers', component: EditMembersComponent },
       { path: 'detailsmembers/:id', component: DetailsMembersComponent },
       { path: 'editmembers/:id', component: EditMembersComponent },
+      {
+        path: 'tipologradouro',
+        component: ListTipologradouroComponent,
+        resolve: { tipologradouro: TipoLogradouroResolver }
+      },
       {
         path: 'congregation',
         component: ListCongregationComponent,

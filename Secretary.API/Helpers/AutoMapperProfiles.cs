@@ -82,6 +82,10 @@ namespace Secretary.API.Helpers
 
             CreateMap<Country, CountryForListDto>();
 
+            CreateMap<TipoLogradouroForListDto, TipoLogradouro>();
+
+            CreateMap<TipoLogradouro, TipoLogradouroForListDto>();
+
         }
     }
 }

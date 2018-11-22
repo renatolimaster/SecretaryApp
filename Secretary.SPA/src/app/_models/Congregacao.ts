@@ -1,4 +1,5 @@
 import { Estado } from './Estado';
+import { TipoLogradouro } from './TipoLogradouro';
 
 export interface Congregacao {
   id: number;
@@ -6,7 +7,7 @@ export interface Congregacao {
   coordenador: string;
   padrao: boolean;
   tipoLogradouroId: number;
-  tipoLogradouro: string;
+  tipoLogradouro: TipoLogradouro;
   nomeLogradouro: string;
   numero: string;
   complemento: string;

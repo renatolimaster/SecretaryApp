@@ -8,5 +8,6 @@ namespace Secretary.API.Interfaces
     {
         Task<List<Estado>> GetStates();
         Task<Estado> GetState(long id);
+        Task<List<Estado>> GetStatesByCountry(long id);
     }
 }

@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -44,6 +45,10 @@ import { CongregationCenterComponent } from './congregation/congregation-center/
 import { EditCongregationResolver } from './_resolver/edit-congregation.resolver';
 import { DetailCongregationResolver } from './_resolver/detail-congregation.resolver';
 import { CreateCongregationComponent } from './congregation/create-congregation/create-congregation.component';
+import { TipoLogradouroResolver } from './_resolver/list-tipologradouro.resolver';
+import { ListTipologradouroComponent } from './tipologradouro/list-tipologradouro/list-tipologradouro.component';
+import { InitializeFieldServiceResolver } from './_resolver/initialize-fieldservice.resolver';
+import { SettingsService } from './_services/settings.service';
 
 
 export function tokenGetter() {
@@ -56,6 +61,8 @@ export function tokenGetter() {
     NavComponent,
     HomeComponent,
     RegisterComponent,
+    // tipo logradouro
+    ListTipologradouroComponent,
     // congregation
     CongregationCenterComponent,
     ListCongregationComponent,
@@ -82,6 +89,7 @@ export function tokenGetter() {
     NgxDatatableModule,
     BrowserModule,
     HttpClientModule,
+    HttpModule,
     FormsModule,
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
@@ -97,6 +105,10 @@ export function tokenGetter() {
     NgbModule.forRoot(),
   ],
   providers: [
+    { provide: LOCALE_ID,
+      deps: [SettingsService],      // some service handling global settings
+      useFactory: (settingsService) => settingsService.getLanguage()  // returns locale string
+    },
     AuthService,
     ErrorInterceptorProvider,
     AlertifyService,
@@ -107,10 +119,13 @@ export function tokenGetter() {
     DetailFieldServiceResolver,
     EditFieldServiceResolver,
     ListFieldServiceResolver,
+    InitializeFieldServiceResolver,
     // congregation
     ListCongregationResolver,
     EditCongregationResolver,
-    DetailCongregationResolver
+    DetailCongregationResolver,
+    // tipo logradouro
+    TipoLogradouroResolver
   ],
   bootstrap: [AppComponent]
 })

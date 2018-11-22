@@ -23,8 +23,8 @@
     <div class="card-header">
       <h3 class="text-primary">Congregation</h3>
       <h3>{{ congregation.numero }}&nbsp;{{ congregation.nome }}</h3>
-      <h5 *ngIf="congregation.padrao" class="text-danger">Standard: Yes</h5>
-      <h5 *ngIf="!congregation.padrao" class="text-primary">Standard: No</h5>
+      <h5 *ngIf="congregation.padrao">Standard: <span class="text-danger">Yes</span></h5>
+      <h5 *ngIf="!congregation.padrao">Standard: <span class="text-danger">No</span></h5>
     </div>
     <div class="card-body">
 
@@ -67,19 +67,19 @@
 
           <div class="col-md">
             <p class="card-text">Public area</p>
-            <p class="h6"><strong>{{ congregation.nomeLogradouro }}</strong></p>
+            <p class="h6"><strong>&nbsp;{{ congregation.nomeLogradouro }}</strong></p>
           </div>
           <div class="col-md">
             <p class="card-text">Complement</p>
-            <p class="h6"><strong>{{ congregation.complemento }}</strong></p>
+            <p class="h6"><strong>&nbsp;{{ congregation.complemento }}</strong></p>
           </div>
           <div class="col-md">
             <p class="card-text">Neighborhood</p>
-            <p class="h6"><strong>{{ congregation.bairro }}</strong></p>
+            <p class="h6"><strong>&nbsp;{{ congregation.bairro }}</strong></p>
           </div>
           <div class="col-md">
             <p class="card-text">City</p>
-            <p class="h6"><strong>{{ congregation.cidade }}</strong></p>
+            <p class="h6"><strong>&nbsp;{{ congregation.cidade }}</strong></p>
           </div>
 
         </div>
@@ -87,16 +87,16 @@
         <div class="row">
           <div class="col-md">
             <p class="card-text">State</p>
-            <p class="h6"><strong>{{ congregation.estado.descricao }}</strong></p>
+            <p class="h6"><strong>&nbsp;{{ congregation.estado.descricao }}</strong></p>
           </div>
           <div class="col-md">
             <p class="card-text">Country</p>
-            <p class="h6"><strong>{{ congregation.estado.country.niceName }}</strong></p>
+            <p class="h6"><strong>&nbsp;{{ congregation.estado.country.niceName }}</strong></p>
           </div>
           
           <div class="col-md">
             <p class="card-text">Zip code</p>
-            <p class="h6"><strong>{{ congregation.cep }}</strong></p>
+            <p class="h6"><strong>&nbsp;{{ congregation.cep }}</strong></p>
           </div>
 
           <div class="col-md">

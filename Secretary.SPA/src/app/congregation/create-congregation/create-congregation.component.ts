@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Congregacao } from 'src/app/_models/Congregacao';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { TipoLogradouro } from 'src/app/_models/TipoLogradouro';
@@ -7,16 +7,19 @@ import { Estado } from 'src/app/_models/Estado';
 import { CountryService } from 'src/app/_services/country.service';
 import { Country } from 'src/app/_models/Country';
 import { StatesService } from 'src/app/_services/states.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { Observable } from 'rxjs';
-import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { SettingsService } from 'src/app/_services/settings.service';
 import { Location } from 'src/app/_interfaces/ILocation';
-
-declare var google: any;
+import { NgForm } from '@angular/forms';
+import { CongregationService } from 'src/app/_services/congregation.service';
+import { AuthService } from 'src/app/_services/auth.service';
+import { UserService } from 'src/app/_services/user.service';
+import { PublisherService } from 'src/app/_services/publisher.service';
+import { Usuario } from 'src/app/_models/Usuario';
+import { Publicador } from 'src/app/_models/Publicador';
 
 @Component({
   selector: 'app-create-congregation',
@@ -24,6 +27,8 @@ declare var google: any;
   styleUrls: ['./create-congregation.component.css']
 })
 export class CreateCongregationComponent implements OnInit {
+  @ViewChild('createForm')
+  createForm: NgForm;
 
   title = 'Congregation';
   subTitles = 'New Congregation';
@@ -37,91 +42,150 @@ export class CreateCongregationComponent implements OnInit {
   selectedEstado: number;
 
   country: Country[];
+  searchCountry: Country;
   selectedCountry: number;
   setPosition: any;
 
   lng: any;
   lat: any;
   location: Location;
+  locationCountry: Location[];
   localizacao: string;
 
-  // Google Maps
-  bounds: google.maps.LatLngBounds;
-  markers: google.maps.Marker[];
-  infoWindow: google.maps.InfoWindow;
+  jwtHelper = new JwtHelperService();
+  user: Usuario;
+  publisher: Publicador;
+  auditoriaUsuario: number;
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.createForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
-    private http: Http,
-    private settingsService: SettingsService,
+    private authService: AuthService,
+    private userService: UserService,
+    private publisherService: PublisherService,
     private countryService: CountryService,
     private stateService: StatesService,
     private tipoLogradouroRepo: TipologradouroService,
+    private congregationService: CongregationService,
     private alertifyService: AlertifyService
   ) { }
 
   ngOnInit() {
-    this.localizacao = '';
-    /*
-    const latLng = new google.maps.LatLng(-34.9290, 138.6010);
-    const mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapOptions);
-    */
-
-    /*
-    const mapProp = {
-      center: new google.maps.LatLng(18.5793, 73.8143),
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    */
-
-    this.setCurrentPosition();
-
-    console.log('language: ' + this.settingsService.getLanguage());
-
-    this.lat = 0;
-    this.lng = 0;
-    if (navigator.geolocation) {
-      // yep, we can proceed!
-      console.log('yes');
-    } else {
-      console.log('no');
+    //
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+      // will use it to get real name of publisher data
+      this.loadUser(this.authService.decodedToken.nameid);
     }
-
-    // this.getCurrentLocation(-51.92528, -14.235004);
-
+    //
+    this.localizacao = '';
+    this.initializeCongregation();
+    this.setCurrentPosition();
     this.tipoLogradouro = [];
     this.selectedCountry = 0;
     this.selectedEstado = 0;
     this.selectedTipoLogradouro = 0;
     this.loadTipoLogradouro();
-    this.loadCountries();
-    this.loadStateByCountry(this.selectedCountry);
-    // this.displayLocation(-14.235004, -51.92528);
-    // console.log('displayLocation: ' + this.location.countryName);
+    // this.loadCountries();
+    // this.loadStateByCountry(this.selectedCountry);
+
+  }
+
+  loadUser(id) {
+    console.log('loadUser: ' + id);
+    this.userService.getUser(id).subscribe(
+      (user: Usuario) => {
+        this.user = user;
+        this.getPublisher(this.user.publicadorId);
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+  }
+
+  getPublisher(id) {
+    // console.log('getPublisher: ' + id);
+    this.publisherService.getPublisher(id).subscribe(
+      (publisher: Publicador) => {
+        this.publisher = publisher;
+        // console.log('getPublisher inside: ' + this.publisher.primeiroNome + ' - ' + this.publisher.nomeSobrenome);
+        this.auditoriaUsuario = this.publisher.id;
+        console.log('auditoriaUsuario: ' + this.auditoriaUsuario);
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+
+  }
+
+  initializeCongregation() {
+    this.congregation = {
+      id: 0,
+      nome: '',
+      coordenador: '',
+      padrao: false,
+      tipoLogradouroId: 0,
+      tipoLogradouro: null,
+      nomeLogradouro: '',
+      numero: '',
+      complemento: '',
+      bairro: '',
+      cidade: '',
+      estadoId: 0,
+      estado: null,
+      countryId: 0,
+      cep: '',
+      email: '',
+      telCelular: '',
+      telResidencial: '',
+      telTrabalho: '',
+      telefone: '',
+      auditoriaUsuario: 0
+    };
   }
 
   setCurrentPosition() {
-    if ('geolocation' in navigator) {
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        console.log('lat: ' + latitude + ' - ' + longitude);
-        this.displayLocation(latitude, longitude);
+        this.loadCountryLocationGeonames(latitude, longitude);
       });
     }
   }
 
+  loadCountryLocationGeonames(latitude: number, longitude: number) {
+    this.countryService.displayLocationGeonames(latitude, longitude).subscribe(response => {
+      this.location = response;
+      this.localizacao = this.location.countryName;
+      // console.log('displayLocationGeonames: ' + this.location.countryName);
+      this.countryService.searchCountry(this.localizacao).subscribe(
+        (countryRes: Country) => {
+          this.searchCountry = countryRes;
+          this.selectedCountry = this.searchCountry.id;
+          this.loadCountries();
+          this.loadStateByCountry(this.selectedCountry);
+          // this.loadStateByCountry(this.selectedCountry);
+          // console.log('searchCountry: ' + this.selectedCountry + ' - ' + this.searchCountry.niceName);
+        }
+      );
+    });
+  }
+
+  /*
   displayLocation = (latitude, longitude) => {
     const url = 'http://ws.geonames.org/countryCodeJSON?lat=' + latitude + '&lng=' + longitude + '&username=renatolimaster';
     console.log('url: ' + url);
     console.log(this.http.get(url));
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve) => {
       const apiURL = url;
       this.http.get(apiURL)
         .toPromise()
@@ -140,24 +204,7 @@ export class CreateCongregationComponent implements OnInit {
     });
     return promise;
   }
-
-  getCurrentLocation(lat: number, lng: number): Observable<any> {
-    console.log('coord: ' + lat + ' - ' + lng);
-    return this.http
-      .get(
-        'maps.googleapis.com/maps/api/geocode/json?latlng=44.4647452,7.3553838&sensor=true'
-      )
-      .map(
-        response => {
-          console.log('status-----------> : ' + response.status);
-          response.json();
-        },
-        error => {
-          console.log(error);
-          return Observable.throw(error.json());
-        }
-      );
-  }
+  */
 
   loadTipoLogradouro() {
     this.tipoLogradouroRepo.getTipos().subscribe(
@@ -166,12 +213,6 @@ export class CreateCongregationComponent implements OnInit {
         this.selectedTipoLogradouro = 0;
         for (let i = 0; i < this.tipoLogradouro.length; ++i) {
           this.selectedTipoLogradouro = this.tipoLogradouro[i].id;
-          console.log(
-            'Tipos: ' +
-              this.tipoLogradouro[i].id +
-              ' - ' +
-              this.tipoLogradouro[i].descricao
-          );
           break;
         }
       },
@@ -182,17 +223,9 @@ export class CreateCongregationComponent implements OnInit {
   }
 
   loadCountries() {
-    this.countryService.getStates().subscribe(
+    this.countryService.getCountries().subscribe(
       (country: Country[]) => {
         this.country = country;
-        this.selectedCountry = 0;
-        for (let i = 0; i < this.country.length; ++i) {
-          this.selectedCountry = this.country[i].id;
-          console.log(
-            'country: ' + this.country[i].id + ' - ' + this.country[i].niceName
-          );
-          break;
-        }
       },
       error => {
         this.alertifyService.error(error);
@@ -204,18 +237,32 @@ export class CreateCongregationComponent implements OnInit {
     this.stateService.GetStatesByCountry(id).subscribe(
       (states: Estado[]) => {
         this.estado = states;
-        this.selectedEstado = 0;
-        for (let i = 0; i < this.estado.length; ++i) {
-          this.selectedTipoLogradouro = this.estado[i].id;
-          console.log(
-            'states: ' + this.estado[i].id + ' - ' + this.estado[i].descricao
-          );
-          break;
-        }
+        this.selectedEstado = this.estado[0].id;
       },
       error => {
         this.alertifyService.error(error);
       }
     );
+
   }
+
+  createCongregation(congregacao: Congregacao) {
+
+    console.log('createCongregation');
+
+    congregacao.auditoriaUsuario = this.auditoriaUsuario;
+
+    console.log(congregacao);
+
+    this.congregationService.createCongregation(congregacao).subscribe(
+      () => {
+        this.alertifyService.success('Congregation created successfully!');
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+
+  }
+
 }

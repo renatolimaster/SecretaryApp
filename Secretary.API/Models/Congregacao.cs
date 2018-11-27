@@ -24,7 +24,6 @@ namespace Secretary.API.Models
         public string Coordenador { get; set; }
         public string Email { get; set; }
         public long? EstadoId { get; set; }
-        // public int CountryId { get; set; }
         public string Nome { get; set; }
         public string NomeLogradouro { get; set; }
         public string Numero { get; set; }

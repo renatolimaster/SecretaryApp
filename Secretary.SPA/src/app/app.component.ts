@@ -52,11 +52,11 @@ export class AppComponent implements OnInit {
   }
 
   getPublisher(id) {
-    console.log('getPublisher: ' + id);
+    // console.log('getPublisher: ' + id);
     this.publisherService.getPublisher(id).subscribe(
       (publisher: Publicador) => {
         this.publisher = publisher;
-        console.log('getPublisher inside: ' + this.publisher.primeiroNome + ' - ' + this.publisher.nomeSobrenome);
+        // console.log('getPublisher inside: ' + this.publisher.primeiroNome + ' - ' + this.publisher.nomeSobrenome);
         this.publisherName = '(' + this.publisher.nomeSobrenome + ')';
       },
       error => {

@@ -13,7 +13,6 @@ export class TipologradouroService {
   constructor(private http: HttpClient) {}
 
   getTipos(): Observable<TipoLogradouro[]> {
-    console.log(this.baseUrl + 'tipologradouro');
     return this.http.get<TipoLogradouro[]>(this.baseUrl + 'tipologradouro');
   }
 

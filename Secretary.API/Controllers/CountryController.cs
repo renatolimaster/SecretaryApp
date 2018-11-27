@@ -46,6 +46,18 @@ namespace Secretary.API.Controllers
             return Ok(countryToReturn);
         }
 
+        [AllowAnonymous]
+        [HttpGet("search/{search}")]
+        public async Task<IActionResult> GetCountryByNameAsync(string search)
+        {
+            Console.WriteLine("GetCountryByNameAsync");
+
+            var country = await _repoClountry.GetCountryByNameAsync(search);
+            var countryToReturn = _mapper.Map<CountryForListDto>(country);
+
+            return Ok(countryToReturn);
+        }
+
 
     }
 }

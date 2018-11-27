@@ -8,5 +8,6 @@ namespace Secretary.API.Interfaces
     {
         Task<List<Country>> GetCountries();
         Task<Country> GetCountryAsync(long id);
+        Task<Country> GetCountryByNameAsync(string search);
     }
 }

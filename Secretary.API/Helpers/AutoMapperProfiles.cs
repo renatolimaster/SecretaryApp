@@ -52,7 +52,10 @@ namespace Secretary.API.Helpers
                     opt.ResolveUsing(d => d.DataNascimento.CalculateAge());
                 });
 
+            // CONGREGATION
             CreateMap<Congregacao, CongregationForListDto>();
+            CreateMap<Congregacao, CongregationSimplifiedDto>();
+            CreateMap<CongregationForCreateDto, Congregacao>();
 
             CreateMap<Dianteira, LeadForListDto>();
 
@@ -61,8 +64,6 @@ namespace Secretary.API.Helpers
             CreateMap<Grupo, GroupSimplifiedDto>();
 
             CreateMap<Pioneiro, PioneerSimplifiedDto>();
-
-            CreateMap<Congregacao, CongregationSimplifiedDto>();
 
             CreateMap<ServicoCampo, FieldServiceForListDto>();
 

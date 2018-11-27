@@ -18,171 +18,226 @@
   </div>
 </div>
 
-<div class="container">
-  <div class="row">
-      Maps
-      {{ localizacao }}
-
-  </div>
-
-</div>
-
 <br />
 <div class="container">
-  <div class="card mt-3 w-75">
-    <div class="card-header">
-      <h3 class="text-primary">Congregation</h3>
-    </div>
-    <div class="card-body">
 
-      <div class="card-block">
-      
-      
-        <div class='row'>
-        
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Number</label>
-              <input type="text" class="form-control" id="numero" required>
-            </div>
-          </div>
-        
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Name</label>
-              <input type="text" class="form-control" id="nome" required>
-            </div>
-          </div>
-        
-          <div class="col-md-2">
-            <div class="form-check text-danger">
-              <input type="checkbox" class="form-check-input" id="padrao">
-              <label class="form-check-label" for="padrao">Standard</label>
-            </div>
-          </div>
-        
-        </div>
-        
-        <div class='row'>
-        
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Phone</label>
-              <input type="text" class="form-control" id="telefone">
-            </div>
-          </div>
-        
-          <div class="col-md-8">
-            <div class="form-group">
-              <label for="exampleInputEmail1">E-mail</label>
-              <input type="email" class="form-control" id="email" required>
-            </div>
-          </div>
-        
-        </div>
-
-
+    <div *ngIf="createForm.dirty" class="card mt-3 w-75 alert alert-info">
+        <p class="card-text"><strong>Information:</strong>&nbsp;You have made changes. Any unsave changes will be lost!</p>
       </div>
 
-      <div class="card-block">
-        <div class='row'>
-
-          <div class="col-12">
-            <hr>
-            <h4 class="text-primary">Coordinator</h4>
-          </div>
-
-          <div class="col-md-6">
-              <div class="form-group">
-                  <label for="coordenador">Name</label>
-                  <input type="text" class="form-control form-control-sm" id="coordenador" required>
-                </div>
-          </div>
-          <div class="col-md-2">
-              <div class="form-group">
-                  <label for="telCelular">Cell Phone</label>
-                  <input type="text" class="form-control form-control-sm" id="telCelular">
-                </div>
-          </div>
-
-          <div class="col-md-2">
-              <div class="form-group">
-                  <label for="telResidencial">Home Phone</label>
-                  <input type="text" class="form-control form-control-sm" id="telResidencial">
-                </div>
-          </div>
-
-          <div class="col-md-2">
-              <div class="form-group">
-                  <label for="telTrabalho">Job Phone</label>
-                  <input type="text" class="form-control form-control-sm" id="telTrabalho">
-                </div>
-          </div>
-
+    <form #createForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="createCongregation(createForm.value)">
+      <div class="card mt-3 w-75">
+        <div class="card-header">
+          <h3 class="text-primary">Congregation</h3>
+          <!--
+          <p>Is "myForm" valid? {{ createForm.valid }}</p>
+          -->
         </div>
-
-        <div class='row'>
-
-            <div class="col-12">
-              <hr>
-              <h4 class="text-primary">Address</h4>
-            </div>
-  
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="coordenador">Tipo</label>
-                <select [(ngModel)]="selectedTipoLogradouro" class="form-control form-control-sm" name="pioneiro" required>
-                  <option *ngFor="let tipo of tipoLogradouro" [ngValue]="tipo.id">&nbsp;{{tipo?.descricao}}&nbsp;</option>
-                </select>
+        <div class="card-body">
+    
+          <div class="card-block">
+    
+    
+            <div class='row'>
+    
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="numero">Number</label>
+                  <input type="text" class="form-control" id="numero" name="numero" [(ngModel)]="congregation.numero" required>
+                </div>
               </div>
-            </div>
-
-            <div class="col-md-4">
+    
+              <div class="col-md-6">
                 <div class="form-group">
-                    <label for="nomeLogradouro">Public place</label>
-                    <input type="text" class="form-control form-control-sm" id="nomeLogradouro">
-                  </div>
+                  <label for="nome">Name</label>
+                  <input type="text" class="form-control" id="nome" [(ngModel)]="congregation.nome" name="nome" required>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <div class="form-check text-danger">
+                  <input type="checkbox" class="form-check-input" id="padrao" [(ngModel)]="congregation.padrao" name="padrao">
+                  <label class="form-check-label" for="padrao">Standard</label>
+                </div>
+              </div>
+    
             </div>
-  
-            <div class="col-md-2">
+    
+            <div class='row'>
+    
+              <div class="col-md-4">
                 <div class="form-group">
-                    <label for="numero">Number</label>
-                    <input type="text" class="form-control form-control-sm" id="numero">
-                  </div>
-            </div>
-  
-            <div class="col-md-4">
+                  <label for="telefone">Phone</label>
+                  <input type="text" class="form-control" id="telefone" [(ngModel)]="congregation.telefone" name="telefone" required>
+                </div>
+              </div>
+    
+              <div class="col-md-8">
                 <div class="form-group">
-                    <label for="complemento">Complement</label>
-                    <input type="text" class="form-control form-control-sm" id="complemento">
-                  </div>
+                  <label for="email">E-mail</label>
+                  <input type="email" class="form-control" id="email" [(ngModel)]="congregation.email" name="email" required>
+                </div>
+              </div>
+    
             </div>
-  
+    
+    
           </div>
+    
+          <div class="card-block">
+            <div class='row'>
+    
+              <div class="col-12">
+                <hr>
+                <h4 class="text-primary">Coordinator</h4>
+              </div>
+    
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="coordenador">Name</label>
+                  <input type="text" class="form-control form-control-sm" id="coordenador" [(ngModel)]="congregation.coordenador" name="coordenador" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="telCelular">Cell Phone</label>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="congregation.telCelular" name="telCelular" id="telCelular">
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="telResidencial">Home Phone</label>
+                  <input type="text" class="form-control form-control-sm" id="telResidencial" [(ngModel)]="congregation.telResidencial" name="telResidencial">
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="telTrabalho">Job Phone</label>
+                  <input type="text" class="form-control form-control-sm" id="telTrabalho" [(ngModel)]="congregation.telTrabalho" name="telTrabalho">
+                </div>
+              </div>
+    
+            </div>
+    
+            <div class='row'>
+    
+              <div class="col-12">
+                <hr>
+                <h4 class="text-primary">Address</h4>
+              </div>
+    
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="tipoLogradouro">Tipo</label>
+                  <select [(ngModel)]="selectedTipoLogradouro" class="form-control form-control-sm" name="tipoLogradouroId"
+                    required>
+                    <option *ngFor="let tipo of tipoLogradouro" [ngValue]="tipo.id">&nbsp;{{tipo?.descricao}}&nbsp;</option>
+                  </select>
+                </div>
+              </div>
+    
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nomeLogradouro">Public place</label>
+                  <input type="text" class="form-control form-control-sm" id="nomeLogradouro" [(ngModel)]="congregation.nomeLogradouro" name="nomeLogradouro">
+                </div>
+              </div>
+    
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="complemento">Complement</label>
+                  <input type="text" class="form-control form-control-sm" id="complemento" [(ngModel)]="congregation.complemento" name="complemento">
+                </div>
+              </div>
+    
+            </div>
+    
+            <div class='row'>
+    
+              <div class="col-12">
+                &nbsp;
+              </div>
 
-      </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="bairro">Neighborhood</label>
+                  <input type="text" class="form-control form-control-sm" id="bairro" [(ngModel)]="congregation.bairro" name="bairro">
+                </div>
+              </div>
 
-      
-    </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="cidade">City</label>
+                  <input type="text" class="form-control form-control-sm" id="cidade" [(ngModel)]="congregation.cidade" name="cidade">
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="cep">Zip code</label>
+                  <input type="text" class="form-control form-control-sm" id="cep" [(ngModel)]="congregation.cep" name="cep">
+                </div>
+              </div>
+    
+            </div>
 
-    <div class="text-center">
-      <hr>
-      <button type="button" class="btn btn-warning custombutton" >
-        <i class="fa fa-pencil-square-o"></i> Save</button>
-    </div>
+            <div class="row">
+
+                  <div class="col-md-4">
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <select [(ngModel)]="selectedCountry" class="form-control form-control-sm" name="country" required>
+                    <option *ngFor="let tipo of country" [ngValue]="tipo.id">&nbsp;{{tipo.niceName}}&nbsp;</option>
+                  </select>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="estado">State</label>
+                  <select [(ngModel)]="selectedEstado" class="form-control form-control-sm" name="estadoId" required>
+                    <option *ngFor="let tipo of estado" [ngValue]="tipo.id">&nbsp;{{ tipo.descricao }}&nbsp;</option>
+                  </select>
+                </div>
+              </div>
+    
+              <div class="col-md-6">
+                  &nbsp;
+                </div>
+
+            </div>
+    
+          </div>
+    
+    
+        </div>
+    
+        <div class="text-center">
+          <hr>
+            <button type="submit" class="btn btn-success custombutton" [disabled]="!createForm.valid"><i class="fa fa-floppy-o"></i>
+              Save</button>
+        </div>
+
     &nbsp;
-  </div>
+    
+      </div>
+    
+    </form>
 
-<br>
+    &nbsp;
 
-  <div class="row">
+    <br>
+
+    <div class="row">
       <div class="col-xs-12 col-sm-12">
         <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/congregation']" routerLinkActive="router-link-active">
           <i class="fa fa-arrow-left"></i> List</button>&nbsp;
-        <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/createcongregation']" routerLinkActive="router-link-active">
+        <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/createcongregation']"
+          routerLinkActive="router-link-active">
           <i class="fa fa-plus"></i> Create New</button>
       </div>
     </div>
 
-
-</div>
+  </div>

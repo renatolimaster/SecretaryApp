@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
+import { CountryService } from '../_services/country.service';
+import { Location } from 'src/app/_interfaces/ILocation';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +14,11 @@ export class NavComponent implements OnInit {
   @Input() publisher;
   model: any = {};
 
+  location: Location;
+  country: string;
+
   constructor(
+    private countryService: CountryService,
     public authService: AuthService,
     private alertify: AlertifyService,
     private router: Router
@@ -20,6 +26,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
     console.log('veio do pai: ' + this.publisher);
+    this.setCurrentPosition();
   }
 
   login() {
@@ -59,5 +66,22 @@ export class NavComponent implements OnInit {
 
   isOpenChange() {
     console.log('on open change');
+  }
+
+  setCurrentPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        this.loadCountryLocationGeonames(latitude, longitude);
+      });
+    }
+  }
+
+  loadCountryLocationGeonames(latitude: number, longitude: number) {
+    this.countryService.displayLocationGeonames(latitude, longitude).subscribe(response => {
+      this.location = response;
+      this.country = this.location.countryName;
+    });
   }
 }

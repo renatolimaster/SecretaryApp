@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using Secretary.API.Models;
 
 namespace Secretary.API.InterfacesImpl
 {
-    public class CountryService  : ICountryRepository
+    public class CountryService : ICountryRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -27,6 +28,15 @@ namespace Secretary.API.InterfacesImpl
         public async Task<Country> GetCountryAsync(long id)
         {
             var countries = await _dbContext.Country.Where(c => c.Id == id).FirstOrDefaultAsync();
+
+            return countries;
+        }
+
+        public async Task<Country> GetCountryByNameAsync(string search)
+        {
+            //var countries = await _dbContext.Country.Where(c => String.Equals(c.NiceName, search, StringComparison.OrdinalIgnoreCase)).FirstOrDefaultAsync();
+
+            var countries = await _dbContext.Country.Where(c => c.NiceName.ToLower().Contains(search.ToLower())).FirstOrDefaultAsync();
 
             return countries;
         }

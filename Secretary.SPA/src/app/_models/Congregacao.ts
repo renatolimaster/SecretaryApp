@@ -22,4 +22,5 @@ export interface Congregacao {
   telResidencial: string;
   telTrabalho: string;
   telefone: string;
+  auditoriaUsuario: number;
 }

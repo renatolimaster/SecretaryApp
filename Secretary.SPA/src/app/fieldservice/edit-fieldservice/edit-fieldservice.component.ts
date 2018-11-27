@@ -47,13 +47,11 @@ export class EditFieldserviceComponent implements OnInit {
 
   constructor(
     private cdRef: ChangeDetectorRef,
-    private authService: AuthService,
     private publisherService: PublisherService,
     private pioneerService: PioneerService,
     private congregationService: CongregationService,
     private reportService: ReportService,
     private route: ActivatedRoute,
-    private router: Router,
     private alertifyService: AlertifyService
   ) {}
 
@@ -147,7 +145,7 @@ export class EditFieldserviceComponent implements OnInit {
 
 
     this.reportService.updateReport(report.id, report).subscribe(
-      next => {
+      () => {
         this.getReport(report.id);
         this.alertifyService.success('Report updated successfully!');
       },

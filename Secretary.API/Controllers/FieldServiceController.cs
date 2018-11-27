@@ -238,7 +238,7 @@ namespace Secretary.API.Controllers
 
             if (Object.Equals(fieldServiceForUpdateDto, reportFromRepo))
             {
-                throw new Exception("No change amde!");
+                throw new Exception("No change made!");
             }
 
 

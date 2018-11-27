@@ -45,5 +45,43 @@ namespace Secretary.API.InterfacesImpl
 
             return cong;
         }
+
+
+        public bool verifyExistCongregationByNumber(string congregationNumber)
+        {
+            Console.WriteLine("Congregation verifyExistCongregationByNumber");
+            var back = _dbContext.Congregacao.Where(c => c.Numero == congregationNumber).ToListAsync();
+            var count = back.Result.Count() > 0;
+
+            return count;
+        }
+
+        public bool verifyExistCongregationByNumberState(string congregationNumber, long stateId)
+        {
+            Console.WriteLine("Congregation verifyExistCongregationByNumber");
+            var back = _dbContext.Congregacao.Where(c => c.Numero == congregationNumber && c.EstadoId == stateId).ToListAsync();
+            var count = back.Result.Count > 0;
+
+            return count;
+        }
+
+        public async Task<bool> SaveAllAsync(Congregacao congregacao)
+        {
+            _dbContext.Add(congregacao);
+            Console.WriteLine("Congregation SaveAllAsync");
+            var back = await _dbContext.SaveChangesAsync() > 0;
+            Console.WriteLine("Congregation SaveAllAsync: " + back);
+            return back;
+        }
+
+        public void Add(Congregacao congregacao)
+        {
+            if (congregacao == null)
+            {
+                throw new ArgumentNullException("congregacao");
+            }
+            _dbContext.Add(congregacao);
+        }
+
     }
 }

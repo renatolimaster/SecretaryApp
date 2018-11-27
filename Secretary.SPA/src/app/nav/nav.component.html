@@ -2,7 +2,7 @@
             
   <div class="container">
 
-    <a class="navbar-brand" [routerLink]="['/home']">Secretary Web </a>
+    <a class="navbar-brand" [routerLink]="['/home']">Secretary Web</a>
 
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>
@@ -65,7 +65,7 @@
 
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>
-        Welcome {{ authService.decodedToken?.unique_name.split(' ')[0] | titlecase}}
+        Welcome {{ authService.decodedToken?.unique_name.split(' ')[0] | titlecase}}&nbsp;|&nbsp;{{ country }}
       </a>
 
       <div class="dropdown-menu mt-3" *dropdownMenu>

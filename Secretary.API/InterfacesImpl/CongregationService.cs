@@ -83,5 +83,13 @@ namespace Secretary.API.InterfacesImpl
             _dbContext.Add(congregacao);
         }
 
+        public Task<Congregacao> getCongregationByUserAsync(long userId)
+        {
+            var user = _dbContext.Usuario.Where(u => u.Id == userId).FirstOrDefaultAsync().Result;
+            Console.WriteLine("user: " + user.Username);            
+            var congregacao = _dbContext.Congregacao.Where(c => c.Id == user.CongregacaoId).FirstOrDefaultAsync();
+            Console.WriteLine("congregacao: " + congregacao.Result.Nome);
+            return congregacao;
+        }
     }
 }

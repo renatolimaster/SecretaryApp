@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Congregacao } from 'src/app/_models/Congregacao';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { TipoLogradouro } from 'src/app/_models/TipoLogradouro';
@@ -20,6 +20,7 @@ import { UserService } from 'src/app/_services/user.service';
 import { PublisherService } from 'src/app/_services/publisher.service';
 import { Usuario } from 'src/app/_models/Usuario';
 import { Publicador } from 'src/app/_models/Publicador';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-congregation',
@@ -65,8 +66,10 @@ export class CreateCongregationComponent implements OnInit {
   }
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private userService: UserService,
+    private cdRef: ChangeDetectorRef,
     private publisherService: PublisherService,
     private countryService: CountryService,
     private stateService: StatesService,
@@ -92,8 +95,6 @@ export class CreateCongregationComponent implements OnInit {
     this.selectedEstado = 0;
     this.selectedTipoLogradouro = 0;
     this.loadTipoLogradouro();
-    // this.loadCountries();
-    // this.loadStateByCountry(this.selectedCountry);
 
   }
 
@@ -111,13 +112,10 @@ export class CreateCongregationComponent implements OnInit {
   }
 
   getPublisher(id) {
-    // console.log('getPublisher: ' + id);
     this.publisherService.getPublisher(id).subscribe(
       (publisher: Publicador) => {
         this.publisher = publisher;
-        // console.log('getPublisher inside: ' + this.publisher.primeiroNome + ' - ' + this.publisher.nomeSobrenome);
         this.auditoriaUsuario = this.publisher.id;
-        console.log('auditoriaUsuario: ' + this.auditoriaUsuario);
       },
       error => {
         this.alertifyService.error(error);
@@ -255,8 +253,10 @@ export class CreateCongregationComponent implements OnInit {
     console.log(congregacao);
 
     this.congregationService.createCongregation(congregacao).subscribe(
-      () => {
+      (result: Congregacao) => {
+        console.log(result);
         this.alertifyService.success('Congregation created successfully!');
+        this.router.navigate(['/editcongregation/' + result.id]);
       },
       error => {
         this.alertifyService.error(error);

@@ -30,7 +30,7 @@ namespace Secretary.API.Controllers
         [HttpGet]
         public async Task<IActionResult> getCongregationsAsync()
         {
-            Console.WriteLine("getCongregationsAsync");
+            Console.WriteLine("getCongregationsAsync: " + int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
 
             var cong = await _repoCongregation.getAllCongregationsAsync();
             var congToReturn = _mapper.Map<IEnumerable<CongregationForListDto>>(cong);
@@ -42,10 +42,16 @@ namespace Secretary.API.Controllers
         [HttpGet("{id}", Name = "GetCongregation")]
         public async Task<IActionResult> getCongregationAsync(long id)
         {
-            Console.WriteLine("getCongregationAsync: " + id);
+            Console.WriteLine("getCongregationAsync: " + int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+
+            var congregationStandard = _repoCongregation.getCongregationByUserAsync(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)).Result;
+
+            Console.WriteLine("Padrao: " + congregationStandard.Id + " - " + congregationStandard.Nome + " - " + congregationStandard.Padrao);
+
+            
             var cong = await _repoCongregation.getCongregationAsync(id);
             // await Task.Delay(1000);
-            var congToReturn = _mapper.Map<IEnumerable<CongregationForListDto>>(cong);
+            var congToReturn = _mapper.Map<CongregationForListDto>(cong);
 
             return Ok(congToReturn);
         }
@@ -74,17 +80,29 @@ namespace Secretary.API.Controllers
                 throw new Exception($"Failed on save - congregation number {congregationForCreateDto.Numero} for state {congregationForCreateDto.EstadoId} already exist!");
             }
 
+            if (congregationForCreateDto.Padrao) {
+                throw new Exception($"Failed on save congregation number {congregationForCreateDto.Numero} because standard congregation already set!");
+            }
+
+            var congregationStandard = _repoCongregation.getCongregationByUserAsync(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)).Result;
+
+            Console.WriteLine("Padrao: " + congregationStandard.Id + " - " + congregationStandard.Nome + " - " + congregationStandard.Padrao);
+
             var congregationRepo = new Congregacao();
 
             // _mapper.Map<Congregacao>(congregationForCreateDto);
             _mapper.Map(congregationForCreateDto, congregationRepo);
 
+            congregationRepo.AuditoriaUsuario = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
             _repoCongregation.Add(congregationRepo);
 
             if (await _repoCongregation.SaveAllAsync(congregationRepo)){
-                Console.WriteLine("creating congregation.");
+                Console.WriteLine("creating congregation: " + congregationRepo.Id);
                 // var congToReturn = _mapper.Map<Congregacao>(congregationForCreateDto);
                 // return CreatedAtRoute("GetCongregation", new { id = congregationForCreateDto.Id}, congToReturn);
+                // return NoContent();
+                return Ok(congregationRepo);
             } else {
                 Console.WriteLine("Erro creating congregation.");
             }

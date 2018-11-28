@@ -8,10 +8,12 @@ namespace Secretary.API.Interfaces
     {
         Task<List<Congregacao>> getAllCongregationsAsync();
         Task<Congregacao> getCongregationAsync(long id);
+        Task<Congregacao> getCongregationByUserAsync(long userId);
         Congregacao getCongregationDefaultAsync();
         bool verifyExistCongregationByNumber(string congregationNumber);
         bool verifyExistCongregationByNumberState(string congregationNumber, long stateId);
         void Add(Congregacao congregacao);
         Task<bool> SaveAllAsync(Congregacao congregacao);
+
     }
 }

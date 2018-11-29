@@ -91,5 +91,13 @@ namespace Secretary.API.InterfacesImpl
             Console.WriteLine("congregacao: " + congregacao.Result.Nome);
             return congregacao;
         }
+
+        public bool verifyExistCongregationByNumberDiffId(Congregacao congregation)
+        {
+            Console.WriteLine("Congregation verifyExistCongregationByNumberDiffId: " + congregation.Numero + " - " + congregation.Id);
+            var back = _dbContext.Congregacao.Where(c => c.Numero == congregation.Numero && c.Id != congregation.Id).ToListAsync();
+
+            return back.Result.Count > 0;
+        }
     }
 }

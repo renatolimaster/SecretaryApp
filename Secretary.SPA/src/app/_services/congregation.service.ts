@@ -28,4 +28,10 @@ export class CongregationService {
     return this.http.post<Congregacao>(
       this.baseUrl + 'congregation/', congregation);
   }
+
+  updateCongregation(id: number, congregation: Congregacao) {
+    console.log('url: ' + this.baseUrl + 'congregation/' + id, congregation);
+    console.log(congregation);
+    return this.http.put(this.baseUrl + 'congregation/' + id, congregation);
+  }
 }

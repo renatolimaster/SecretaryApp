@@ -56,6 +56,7 @@ namespace Secretary.API.Helpers
             CreateMap<Congregacao, CongregationForListDto>();
             CreateMap<Congregacao, CongregationSimplifiedDto>();
             CreateMap<CongregationForCreateDto, Congregacao>();
+            CreateMap<CongregationForUpdateDto, Congregacao>();
 
             CreateMap<Dianteira, LeadForListDto>();
 

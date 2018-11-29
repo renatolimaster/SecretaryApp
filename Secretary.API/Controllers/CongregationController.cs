@@ -59,7 +59,7 @@ namespace Secretary.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCongregationAsync(CongregationForCreateDto congregationForCreateDto)
         {
-            // Console.WriteLine("CreateCongregationAsync: " + congregationForCreateDto);
+            Console.WriteLine("CreateCongregationAsync: " + congregationForCreateDto);
 
             // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             // {                
@@ -79,6 +79,8 @@ namespace Secretary.API.Controllers
             {
                 throw new Exception($"Failed on save - congregation number {congregationForCreateDto.Numero} for state {congregationForCreateDto.EstadoId} already exist!");
             }
+
+            var congDefault = _repoCongregation.getCongregationDefaultAsync();
 
             if (congregationForCreateDto.Padrao) {
                 throw new Exception($"Failed on save congregation number {congregationForCreateDto.Numero} because standard congregation already set!");
@@ -110,6 +112,43 @@ namespace Secretary.API.Controllers
             // await Task.Delay(1000);
             // return Ok(congByNumber);
 
+            return BadRequest("Could not create congregation!");
+
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCongregationAsync(long id, CongregationForUpdateDto congregationForUpdateDto)
+        {
+            Console.WriteLine("UpdateCongregationAsync: " + congregationForUpdateDto);
+
+            Congregacao cong = new Congregacao();
+
+            _mapper.Map(congregationForUpdateDto, cong);
+
+            var congDiff = _repoCongregation.verifyExistCongregationByNumberDiffId(cong);
+            
+            if (congDiff)
+            {
+                throw new Exception($"Failed on save! Congregation {congregationForUpdateDto.Numero} number already exist!");
+            }
+
+            var congDefault = _repoCongregation.getCongregationDefaultAsync();
+
+            if (congregationForUpdateDto.Padrao)
+            {
+                if (congDefault.Id != congregationForUpdateDto.Id)
+                {
+                    throw new Exception($"Failed on save! Default congregation already set!");
+                }
+            }
+
+
+            // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            // {                
+            //     return Unauthorized();
+            // }
+
+            await Task.Delay(1000);
             return BadRequest("Could not create congregation!");
 
         }

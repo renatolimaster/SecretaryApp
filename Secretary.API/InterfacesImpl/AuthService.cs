@@ -25,6 +25,8 @@ namespace Secretary.API.InterfacesImpl
                 return null;
             }
 
+            Console.WriteLine("Login Publisher: " + user.Publicador.Nome);
+
             if (!VerifyPasswordHash(password, user.PasswordHarsh, user.PasswordSalt))
                 return null;
 

@@ -4,6 +4,9 @@ import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
 import { CountryService } from '../_services/country.service';
 import { Location } from 'src/app/_interfaces/ILocation';
+import { Publicador } from '../_models/Publicador';
+import { Usuario } from '../_models/Usuario';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-nav',
@@ -11,28 +14,30 @@ import { Location } from 'src/app/_interfaces/ILocation';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  @Input() publisher;
+  @Input() publisher: Publicador;
   model: any = {};
+  jwtHelper = new JwtHelperService();
 
   location: Location;
   country: string;
+
+  user: Usuario;
+  auditoriaUsuario: number;
 
   constructor(
     private countryService: CountryService,
     public authService: AuthService,
     private alertify: AlertifyService,
     private router: Router
-  ) {}
+    ) {}
 
   ngOnInit() {
-    console.log('veio do pai: ' + this.publisher);
     this.setCurrentPosition();
   }
 
   login() {
-    console.log(this.model);
     this.authService.login(this.model).subscribe(
-      next => {
+      () => {
         this.alertify.success('Logged in successfully');
       },
       error => {
@@ -84,4 +89,5 @@ export class NavComponent implements OnInit {
       this.country = this.location.countryName;
     });
   }
+
 }

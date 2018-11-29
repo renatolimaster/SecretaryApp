@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, HostListener } from '@angular/core';
 import { Congregacao } from 'src/app/_models/Congregacao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServicoCampo } from 'src/app/_models/ServicoCampo';
@@ -22,6 +22,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Location } from 'src/app/_interfaces/ILocation';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-congregation',
@@ -29,6 +30,8 @@ import { Location } from 'src/app/_interfaces/ILocation';
   styleUrls: ['./edit-congregation.component.css']
 })
 export class EditCongregationComponent implements OnInit {
+  @ViewChild('editForm')
+  editForm: NgForm;
   title = 'Congregation';
   subTitles = 'Edit Congregation';
   congregation: Congregacao;
@@ -56,6 +59,13 @@ export class EditCongregationComponent implements OnInit {
   publisher: Publicador;
   auditoriaUsuario: number;
 
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -97,8 +107,30 @@ export class EditCongregationComponent implements OnInit {
     });
   }
 
-  updateCongregation(congregation: ServicoCampo) {
+  updateCongregation(congregation: Congregacao) {
     console.log(congregation);
+
+    this.congregationService.updateCongregation(congregation.id, congregation).subscribe(
+      () => {
+        this.getCongregation(congregation.id);
+        this.alertifyService.success('Report updated successfully!');
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+  }
+
+  getCongregation(congregationId: number) {
+
+    this.congregationService.getCongregation(congregationId).subscribe(
+      (congregation: Congregacao) => {
+        this.congregation = congregation;
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
   }
 
 

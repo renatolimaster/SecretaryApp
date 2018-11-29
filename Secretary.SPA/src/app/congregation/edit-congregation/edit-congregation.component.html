@@ -21,11 +21,11 @@
 <br />
 <div class="container">
 
-  <div *ngIf="createForm.dirty" class="card mt-3 w-75 alert alert-info">
+  <div *ngIf="editForm.dirty" class="card mt-3 w-75 alert alert-info">
       <p class="card-text"><strong>Information:</strong>&nbsp;You have made changes. Any unsave changes will be lost!</p>
     </div>
 
-  <form #createForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="updateCongregation(createForm.value)">
+  <form #editForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="updateCongregation(editForm.value)">
     <div class="card mt-3 w-75">
       <div class="card-header">
         <h3 class="text-primary">Congregation</h3>
@@ -49,6 +49,7 @@
               <div class="form-group">
                 <label for="nome">Name</label>
                 <input type="text" class="form-control" id="nome" [(ngModel)]="congregation.nome" name="nome" required>
+                <input type="hidden" class="form-control col-sm-8" id="id" [(ngModel)]="congregation.id" name="id">
               </div>
             </div>
   
@@ -214,7 +215,7 @@
   
       <div class="text-center">
         <hr>
-          <button type="submit" class="btn btn-success custombutton" [disabled]="!createForm.valid"><i class="fa fa-floppy-o"></i>
+          <button type="submit" class="btn btn-success custombutton" [disabled]="!editForm.valid"><i class="fa fa-floppy-o"></i>
             Save</button>
       </div>
 

@@ -11,6 +11,7 @@ namespace Secretary.API.Interfaces
         Task<Congregacao> getCongregationByUserAsync(long userId);
         Congregacao getCongregationDefaultAsync();
         bool verifyExistCongregationByNumber(string congregationNumber);
+        bool verifyExistCongregationByNumberDiffId(Congregacao congregation);
         bool verifyExistCongregationByNumberState(string congregationNumber, long stateId);
         void Add(Congregacao congregacao);
         Task<bool> SaveAllAsync(Congregacao congregacao);

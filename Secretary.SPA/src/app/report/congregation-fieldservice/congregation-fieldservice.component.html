@@ -91,8 +91,8 @@
             <td>{{ item.Pioneer }}</td>
             <td class="text-center">{{ item.Colocations }}</td>
             <td class="text-center">{{ item.Video }}</td>
-            <td *ngIf="item.Hours > 7" class="text-center text-primary "><strong>{{ item.Hours }}</strong></td>
-            <td *ngIf="item.Hours <= 6" class="text-center text-danger "><strong>{{ item.Hours }}</strong></td>
+            <td *ngIf="item.Hours >= 8" class="text-center text-primary "><strong>{{ item.Hours }}</strong></td>
+            <td *ngIf="item.Hours < 8" class="text-center text-danger "><strong>{{ item.Hours }}</strong></td>
             <td class="text-center text-info "><strong>{{ item.Bethel }}</strong></td>
             <td class="text-center text-info "><strong>{{ item.Credit }}</strong></td>
             <td class="text-center">{{ item.Returns }}</td>

@@ -67,7 +67,6 @@ namespace Secretary.API.InterfacesImpl
 
         public async Task<bool> SaveAllAsync(Congregacao congregacao)
         {
-            _dbContext.Add(congregacao);
             Console.WriteLine("Congregation SaveAllAsync");
             var back = await _dbContext.SaveChangesAsync() > 0;
             Console.WriteLine("Congregation SaveAllAsync: " + back);

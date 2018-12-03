@@ -141,6 +141,7 @@ export class ListFieldserviceComponent implements OnInit {
       return;
     }
 
+    /*
     this.route.data.subscribe(data => {
       this.reports = data['reports'];
       // cache our list
@@ -150,21 +151,22 @@ export class ListFieldserviceComponent implements OnInit {
       this.msg = this.reports.length + ' report(s) loaded!!';
       this.alertifyService.success(this.msg);
     });
+    */
 
-    // this.reportService.getReportsByPeriod(fromDate, toDate).subscribe(
-    //   (reports: ServicoCampo[]) => {
-    //     this.reports = reports;
-    //     // cache our list
-    //     this.temp = [...reports];
-    //     // push our inital complete list
-    //     this.rows = reports;
-    //     this.msg = this.reports.length + ' report(s) loaded!!';
-    //     this.alertifyService.success(this.msg);
-    //   },
-    //   error => {
-    //     this.alertifyService.error(error);
-    //   }
-    // );
+    this.reportService.getReportsByPeriod(fromDate, toDate).subscribe(
+      (reports: ServicoCampo[]) => {
+        this.reports = reports;
+        // cache our list
+        this.temp = [...reports];
+        // push our inital complete list
+        this.rows = reports;
+        this.msg = this.reports.length + ' report(s) loaded!!';
+        this.alertifyService.success(this.msg);
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
   }
 
   onPage(event) {

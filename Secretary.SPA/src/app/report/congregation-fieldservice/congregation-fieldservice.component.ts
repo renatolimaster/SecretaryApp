@@ -667,7 +667,7 @@ export class CongregationFieldserviceComponent implements OnInit {
             } else if (column === 'Video') {
               dataRow.push(row.Video);
             } else if (column === 'Hours') {
-              if (row.Hours > 0) {
+              if (row.Hours > 7) {
                 dataRow.push({ text: row.Hours, color: 'blue' });
               } else {
                 dataRow.push({ text: row.Hours, color: 'red' });

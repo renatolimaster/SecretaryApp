@@ -61,11 +61,6 @@ namespace Secretary.API.Controllers
         {
             Console.WriteLine("CreateCongregationAsync: " + congregationForCreateDto);
 
-            // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            // {                
-            //     return Unauthorized();
-            // }
-
             var congByNumber = _repoCongregation.verifyExistCongregationByNumber(congregationForCreateDto.Numero);
             Console.WriteLine(congByNumber);
             if (congByNumber)
@@ -121,11 +116,16 @@ namespace Secretary.API.Controllers
         {
             Console.WriteLine("UpdateCongregationAsync: " + congregationForUpdateDto);
 
-            Congregacao cong = new Congregacao();
+            Congregacao congregationRepo = await _repoCongregation.getCongregationAsync(congregationForUpdateDto.Id);
 
-            _mapper.Map(congregationForUpdateDto, cong);
+            if (congregationRepo == null)
+            {
+                throw new Exception($"Failed on save - congregation code {congregationForUpdateDto.Id} doesn't exist!");
+            }
 
-            var congDiff = _repoCongregation.verifyExistCongregationByNumberDiffId(cong);
+            _mapper.Map(congregationForUpdateDto, congregationRepo);
+
+            var congDiff = _repoCongregation.verifyExistCongregationByNumberDiffId(congregationRepo);
             
             if (congDiff)
             {
@@ -142,14 +142,27 @@ namespace Secretary.API.Controllers
                 }
             }
 
+            if (Object.Equals(congregationForUpdateDto, congregationRepo))
+            {
+                throw new Exception("No change made!");
+            }
 
-            // if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            // {                
-            //     return Unauthorized();
-            // }
+            congregationForUpdateDto.AuditoriaUsuario = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            _mapper.Map(congregationForUpdateDto, congregationRepo);
+
+            if (await _repoCongregation.SaveAllAsync(congregationRepo)){
+                Console.WriteLine("Update congregation: " + congregationRepo.Id);
+                // var congToReturn = _mapper.Map<Congregacao>(congregationForCreateDto);
+                // return CreatedAtRoute("GetCongregation", new { id = congregationForCreateDto.Id}, congToReturn);
+                // return NoContent();
+                return Ok(congregationRepo);
+            } else {
+                Console.WriteLine("Erro updating congregation.");
+            }
 
             await Task.Delay(1000);
-            return BadRequest("Could not create congregation!");
+            return BadRequest("Could not update congregation!");
 
         }
 

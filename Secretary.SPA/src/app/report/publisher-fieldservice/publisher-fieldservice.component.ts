@@ -36,6 +36,10 @@ export class PublisherFieldserviceComponent implements OnInit {
   toDateSubHeader = '';
   publisherId = 0;
   selectedPublisher = 0;
+  totalHours = 0;
+  totalCredit = 0;
+  totalBethel = 0;
+  totalHoursBethelCredit = 0;
 
   // chart
   labelsChart: any[] = [];
@@ -56,11 +60,7 @@ export class PublisherFieldserviceComponent implements OnInit {
     this.title = 'Publisher Field Service';
     this.date = {
       iFromDate: this.dateTimeExtensions.FirstServiceMonth(new Date()),
-      iToDate: this.dateTimeExtensions.CreateDate(
-        1,
-        new Date().getMonth() - 1,
-        new Date().getFullYear()
-      ),
+      iToDate: this.dateTimeExtensions.CreateDate(1, new Date().getMonth() - 1, new Date().getFullYear()),
       iPublisherId: 0
     };
     this.labelsChart = [];
@@ -70,6 +70,8 @@ export class PublisherFieldserviceComponent implements OnInit {
     this.reports = [];
     this.publishers = [];
     this.publisher = [];
+    this.totalHours = 0;
+    this.totalHoursBethelCredit = 0;
   }
 
   loadPublisher() {
@@ -79,14 +81,8 @@ export class PublisherFieldserviceComponent implements OnInit {
         this.publishers = publisher;
         this.publisherId = this.publishers[0].id;
         this.subHeader = this.publishers[0].nome + ' - ' + this.publishers[0].grupo.local + ' Group';
-        this.date.iFromDate = this.dateTimeExtensions.FirstServiceMonth(
-          new Date()
-        );
-        this.date.iToDate = this.dateTimeExtensions.CreateDate(
-          1,
-          new Date().getMonth() - 1,
-          new Date().getFullYear()
-        );
+        this.date.iFromDate = this.dateTimeExtensions.FirstServiceMonth(new Date());
+        this.date.iToDate = this.dateTimeExtensions.CreateDate(1,  new Date().getMonth() - 1,  new Date().getFullYear());
         this.date.iPublisherId = this.publisherId;
         this.loadPublisherReport(this.date);
       });
@@ -150,11 +146,19 @@ export class PublisherFieldserviceComponent implements OnInit {
               new Date(a.dataReferencia).getTime() -
               new Date(b.dataReferencia).getTime()
           );
+          this.totalHours = 0;
+          this.totalCredit = 0;
+          this.totalBethel = 0;
+          this.totalHoursBethelCredit = 0;
           this.reportsSort.forEach(element => {
             const label = moment(element.dataReferencia).format('MMM/YYYY');
             const hour = element.horas;
             this.labelsChart.push(label);
             this.dataChart.push(hour);
+            this.totalHoursBethelCredit = this.totalHoursBethelCredit + element.horas + element.creditoHoras + element.horasBetel;
+            this.totalHours = this.totalHours + element.horas;
+            this.totalCredit = this.totalCredit + element.creditoHoras;
+            this.totalBethel = this.totalBethel + element.horasBetel;
             if (count === 0) {
               this.colorChart.push('rgba(255, 99, 132, 0.2)');
               count = 1;

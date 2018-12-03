@@ -30,12 +30,12 @@ export class DateTimeExtensions {
     const year = value.getFullYear();
 
     if (month > 8) {
-      date.setDate(0);
-      date.setMonth(7);
+      date.setDate(1);
+      date.setMonth(8);
       date.setFullYear(year);
     } else {
       date.setDate(1);
-      date.setMonth(7);
+      date.setMonth(8);
       date.setFullYear(year - 1);
     }
 

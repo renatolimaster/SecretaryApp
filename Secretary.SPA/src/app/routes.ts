@@ -63,6 +63,10 @@ export const appRoutes: Routes = [
         component: EditCongregationComponent,
         resolve: { congregation: EditCongregationResolver }
       },
+      {
+        path: 'congregation/:id',
+        component: DetailCongregationComponent
+      },
       { path: 'publisher', component: ListPublisherComponent },
       { path: 'assistance', component: ListAssistanceComponent },
       {

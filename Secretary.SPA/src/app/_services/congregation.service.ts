@@ -30,8 +30,13 @@ export class CongregationService {
   }
 
   updateCongregation(id: number, congregation: Congregacao) {
-    console.log('url: ' + this.baseUrl + 'congregation/' + id, congregation);
+    console.log('url: ' + this.baseUrl + 'congregation/' + id + ' - ' + congregation);
     console.log(congregation);
     return this.http.put(this.baseUrl + 'congregation/' + id, congregation);
+  }
+
+  deleteCongregation(id: number) {
+    console.log('url: ' + this.baseUrl + 'deletecongregation/' + id);
+    return this.http.delete(this.baseUrl + 'congregation/' + id);
   }
 }

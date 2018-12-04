@@ -39,7 +39,7 @@ namespace Secretary.API.InterfacesImpl
 
             var congDefault = _repoCong.getCongregationDefaultAsync();
 
-            var serv = await _dbContext.ServicoCampo.Include(s => s.Congregacao).Include(s => s.Publicador).Include(s => s.Pioneiro).Where(x => x.Publicador.Congregacao.Equals(congDefault)).Where(s => s.DataEntrega >= initialDate).Where(s => s.DataEntrega <= dateToday).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataEntrega).ToListAsync();
+            var serv = await _dbContext.ServicoCampo.Include(s => s.Congregacao).Include(s => s.Publicador).Include(s => s.Pioneiro).Where(x => x.Publicador.Congregacao.Equals(congDefault)).Where(s => s.DataReferencia >= initialDate).Where(s => s.DataReferencia <= dateToday).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataReferencia).ToListAsync();
 
             Console.WriteLine("getAllFieldServicesAsync 2");
             return serv;
@@ -97,9 +97,9 @@ namespace Secretary.API.InterfacesImpl
                 }
 
 
-                var mediaH = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Average(s => s.Horas).Value;
-                var mediaHb = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Average(s => s.HorasBetel);
-                var mediaHc = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Average(s => s.CreditoHoras);
+                var mediaH = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Average(s => s.Horas).Value;
+                var mediaHb = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Average(s => s.HorasBetel);
+                var mediaHc = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Average(s => s.CreditoHoras);
 
                 var media = (mediaH + mediaHb + mediaHc);
 
@@ -156,11 +156,11 @@ namespace Secretary.API.InterfacesImpl
 
                 Console.WriteLine("DateTime ==================== : " + dataR + " - " + dateToday + " - " + dateStartService.Date);
 
-                double mediaH = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Where(s => s.PublicadorId == publisherId).Average(s => s.Horas).Value;
+                double mediaH = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Where(s => s.PublicadorId == publisherId).Average(s => s.Horas).Value;
                 Console.WriteLine("Media3MonthsAsync Update mediaH: " + mediaH);
-                double mediaHb = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Where(s => s.PublicadorId == publisherId).Average(s => s.HorasBetel);
+                double mediaHb = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Where(s => s.PublicadorId == publisherId).Average(s => s.HorasBetel);
                 Console.WriteLine("Media3MonthsAsync Update mediaHb: " + mediaHb);
-                double mediaHc = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Where(s => s.PublicadorId == publisherId).Average(s => s.CreditoHoras);
+                double mediaHc = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Where(s => s.PublicadorId == publisherId).Average(s => s.CreditoHoras);
                 Console.WriteLine("Media3MonthsAsync Update mediaHc: " + mediaHc);
 
                 double media = (mediaH + mediaHb + mediaHc);
@@ -219,9 +219,9 @@ namespace Secretary.API.InterfacesImpl
                     dataR = dateStartService;
                 }
 
-                var mediaH = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Average(s => s.Horas).Value;
-                var mediaHb = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Average(s => s.HorasBetel);
-                var mediaHc = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataEntrega >= dataR).Where(s => s.DataEntrega <= dateToday).Average(s => s.CreditoHoras);
+                var mediaH = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Average(s => s.Horas).Value;
+                var mediaHb = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Average(s => s.HorasBetel);
+                var mediaHc = _dbContext.ServicoCampo.AsNoTracking().Where(s => s.PublicadorId == publisherId).Where(s => s.DataReferencia >= dataR).Where(s => s.DataReferencia <= dateToday).Average(s => s.CreditoHoras);
 
                 var media = (mediaH + mediaHb + mediaHc);
 
@@ -362,7 +362,7 @@ namespace Secretary.API.InterfacesImpl
 
         public bool VerifyExistFieldServiceByPublisher(DateTime deliveryDate, long publisherId)
         {
-            return _dbContext.ServicoCampo.AsNoTracking().Any(e => e.DataEntrega == deliveryDate && e.PublicadorId == publisherId);
+            return _dbContext.ServicoCampo.AsNoTracking().Any(e => e.DataReferencia == deliveryDate && e.PublicadorId == publisherId);
         }
 
         public async Task<double> getMediaFieldServiceAsync(long publisherId, int months)
@@ -425,7 +425,7 @@ namespace Secretary.API.InterfacesImpl
             Console.WriteLine("getFieldServiceByPeriodAsync Service");
 
             var cong = _repoCong.getCongregationDefaultAsync();
-            var serv = await _dbContext.ServicoCampo.AsNoTracking().Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Publicador.Dianteira).Where(p => p.CongregacaoId == cong.Id).Where(e => e.DataReferencia >= fromDate).Where(e => e.DataReferencia <= toDate).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataEntrega).ToListAsync();
+            var serv = await _dbContext.ServicoCampo.AsNoTracking().Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Publicador.Dianteira).Where(p => p.CongregacaoId == cong.Id).Where(e => e.DataReferencia >= fromDate).Where(e => e.DataReferencia <= toDate).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataReferencia).ToListAsync();
 
             return serv;
         }
@@ -448,7 +448,7 @@ namespace Secretary.API.InterfacesImpl
             .Where(e => e.DataReferencia <= toDate)
             .OrderBy(s => s.Publicador.Nome)
             .OrderByDescending(p => p.PioneiroId)
-            .OrderByDescending(s => s.DataEntrega).ToListAsync();
+            .OrderByDescending(s => s.DataReferencia).ToListAsync();
 
             if (pioneerId > 0)
             {
@@ -464,8 +464,12 @@ namespace Secretary.API.InterfacesImpl
                 .Where(p => p.PioneiroId == pioneerId)
                 .OrderBy(s => s.Publicador.Nome)
                 .OrderByDescending(p => p.PioneiroId)
-                .OrderByDescending(s => s.DataEntrega).ToListAsync();
+                .OrderByDescending(s => s.DataReferencia).ToListAsync();
             }
+
+            serv.ForEach(item => {
+                Console.WriteLine("item: " + item.Id + " - " + item.Publicador.Nome);
+            });
 
 
             return serv;
@@ -481,7 +485,7 @@ namespace Secretary.API.InterfacesImpl
 
             // Console.WriteLine("////////////// list /////////////// " + congDefault.Nome);
 
-            var list = await _dbContext.ServicoCampo.AsNoTracking().Where(s => s.CongregacaoId == 1).Where(s => s.Horas > 0 || s.Minutos > 0).Where(s => s.DataEntrega == fromDate && s.DataReferencia == toDate).GroupBy(s => s.Pioneiro.Id).Select(
+            var list = await _dbContext.ServicoCampo.AsNoTracking().Where(s => s.CongregacaoId == 1).Where(s => s.Horas > 0 || s.Minutos > 0).Where(s => s.DataReferencia == fromDate && s.DataReferencia == toDate).GroupBy(s => s.Pioneiro.Id).Select(
            t => new
            {
                description = t.Key,
@@ -495,7 +499,7 @@ namespace Secretary.API.InterfacesImpl
            ).OrderByDescending(t => t.description).ToListAsync();
 
 
-            // var list = await _dbContext.ServicoCampo.Where(s => s.CongregacaoId == 1).Where(s => s.Horas > 0 || s.Minutos > 0).Where(s => s.DataEntrega == fromDate && s.DataReferencia == toDate).GroupBy(t => new {t.Pioneiro.Descricao, t.Horas}).
+            // var list = await _dbContext.ServicoCampo.Where(s => s.CongregacaoId == 1).Where(s => s.Horas > 0 || s.Minutos > 0).Where(s => s.DataReferencia == fromDate && s.DataReferencia == toDate).GroupBy(t => new {t.Pioneiro.Descricao, t.Horas}).
             // Select(t => new
             // {
             //     description = t.Key, 
@@ -520,7 +524,7 @@ namespace Secretary.API.InterfacesImpl
             Console.WriteLine("getMissingFieldServiceByPeriodAsync Service");
 
             var cong = _repoCong.getCongregationDefaultAsync();
-            var serv = await _dbContext.ServicoCampo.AsNoTracking().Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Publicador.Dianteira).Where(p => p.CongregacaoId == cong.Id).Where(g => g.Horas == 0 && g.HorasBetel == 0 && g.CreditoHoras == 0 && g.Minutos == 0).Where(e => e.DataReferencia >= fromDate).Where(e => e.DataReferencia <= toDate).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataEntrega).ToListAsync();
+            var serv = await _dbContext.ServicoCampo.AsNoTracking().Include(p => p.Pioneiro).Include(p => p.Publicador).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Publicador.Dianteira).Where(p => p.CongregacaoId == cong.Id).Where(g => g.Horas == 0 && g.HorasBetel == 0 && g.CreditoHoras == 0 && g.Minutos == 0).Where(e => e.DataReferencia >= fromDate).Where(e => e.DataReferencia <= toDate).OrderBy(s => s.Publicador.Nome).OrderByDescending(s => s.DataReferencia).ToListAsync();
 
             return serv;
         }

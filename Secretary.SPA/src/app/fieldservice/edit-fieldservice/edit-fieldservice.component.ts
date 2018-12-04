@@ -17,6 +17,7 @@ import { NgForm } from '@angular/forms';
 import { AuthService } from '../../_services/auth.service';
 import { Publicador } from '../../_models/Publicador';
 import { PublisherService } from '../../_services/publisher.service';
+import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-edit-fieldservice',
@@ -56,6 +57,9 @@ export class EditFieldserviceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.selectedPioneer = 0;
+    this.selectedCongregation = 0;
+    this.selectedPublisher = 0;
     this.loadCongregations();
     this.loadPioneers();
     this.loadPublishers();
@@ -78,7 +82,7 @@ export class EditFieldserviceComponent implements OnInit {
     console.log('edit loadReport()');
     this.route.data.subscribe(data => {
       this.report = data['report'];
-      this.selectedCongregation = this.report.congregacao.id;
+      this.selectedCongregation = this.report.congregacaoId;
       this.selectedPioneer = this.report.pioneiro.id;
       this.selectedPublisher = this.report.publicador.id;
       this.report.dataReferencia = new Date(this.report.dataReferencia);
@@ -119,13 +123,9 @@ export class EditFieldserviceComponent implements OnInit {
   }
 
   loadPublishers() {
-    console.log('loadPublishers');
     this.publisherService.getPublishers().subscribe(
       (publishers: Publicador[]) => {
         this.publishers = publishers;
-        this.publishers.forEach(element => {
-          console.log('publicador: ' + element.id + ' - ' + element.nome);
-        });
       },
       error => {
         this.alertifyService.error(error);
@@ -137,12 +137,13 @@ export class EditFieldserviceComponent implements OnInit {
     let totalHours = 0;
     totalHours = report.horas + report.horasBetel + report.creditoHoras;
 
-    if (totalHours > 70) {
-      alert('Hours + Bethel + Credit = ' + totalHours + 'h and exceeds 70h, please adjust it!');
-      return;
+    if (report.horas < 70) {
+      console.log('h: ' + report.horas);
+      if (totalHours > 70) {
+        alert('Hours + Bethel + Credit = ' + totalHours + 'h and exceeds 70h, please adjust it!');
+        return;
+      }
     }
-
-
 
     this.reportService.updateReport(report.id, report).subscribe(
       () => {
@@ -160,7 +161,7 @@ export class EditFieldserviceComponent implements OnInit {
       (reports: ServicoCampo) => {
         this.report = reports;
         this.selectedCongregation = this.report.congregacao.id;
-        this.selectedPioneer = this.report.pioneiro.id;
+        this.selectedPioneer = this.report.pioneiroId;
         this.selectedPublisher = this.report.publicador.id;
         this.report.dataReferencia = new Date(this.report.dataReferencia);
         this.report.dataEntrega = new Date(this.report.dataEntrega);

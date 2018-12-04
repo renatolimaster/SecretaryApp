@@ -10,9 +10,9 @@ namespace Secretary.API.Interfaces
 
         Task<T> Get(long id);
         Task<IEnumerable<T>> GetAll();
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task<bool> Add(T entity);
+        Task<bool> Update(T entity);
+        Task<bool> Delete(T entity);
         Task<bool> SaveAll();
     }
 }

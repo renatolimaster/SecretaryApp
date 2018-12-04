@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Congregacao } from 'src/app/_models/Congregacao';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { TipoLogradouro } from 'src/app/_models/TipoLogradouro';
+import { CongregationService } from 'src/app/_services/congregation.service';
 
 @Component({
   selector: 'app-detail-congregation',
@@ -16,7 +17,9 @@ export class DetailCongregationComponent implements OnInit {
   del: any;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
+    private congregationService: CongregationService,
     private alertifyService: AlertifyService
     ) { }
 
@@ -29,6 +32,8 @@ export class DetailCongregationComponent implements OnInit {
     this.del = <boolean>this.route.snapshot.params['del'];
     if (this.del === 'true') {
       this.subTitles = 'Delete';
+    } else {
+      this.subTitles = 'Details';
     }
   }
 
@@ -39,7 +44,15 @@ export class DetailCongregationComponent implements OnInit {
   }
 
   deleteFieldService(id: number) {
-    this.alertifyService.success('Report updated successfully!');
+    this.congregationService.deleteCongregation(id).subscribe(
+      () => {
+        this.alertifyService.success('Congregation deleted successfully!');
+        this.router.navigate(['/congregation']);
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
   }
 
 }

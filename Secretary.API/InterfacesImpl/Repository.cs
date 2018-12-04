@@ -30,7 +30,7 @@ namespace Secretary.API.InterfacesImpl
             return await entities.FirstOrDefaultAsync(u => u.Id == id);
         }
      
-        public void Add(T entity)
+        public Task<bool> Add(T entity)
         {
             if (entity == null)
             {
@@ -38,18 +38,23 @@ namespace Secretary.API.InterfacesImpl
             }
             entities.Add(entity);
             // SaveChange();
+            return SaveAll();
         }
  
-        public void Update(T entity)
+        public Task<bool> Update(T entity)
         {
+            Console.WriteLine("entity: " + entity.Id);
             if (entity == null)
             {
+                Console.WriteLine("entity: null");
                 throw new ArgumentNullException("entity");
             }
+            entities.Update(entity);
             // SaveChange();
+            return SaveAll();
         }
  
-        public void Delete(T entity)
+        public Task<bool> Delete(T entity)
         {
             if (entity == null)
             {
@@ -57,6 +62,7 @@ namespace Secretary.API.InterfacesImpl
             }
             entities.Remove(entity);
             // SaveChange();
+            return SaveAll();
         }
         private void SaveChange()
         {

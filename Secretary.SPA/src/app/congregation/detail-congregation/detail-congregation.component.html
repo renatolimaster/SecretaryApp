@@ -110,7 +110,7 @@
 
     <div class="text-center">
       <hr>
-      <button type="button" class="btn btn-warning custombutton" [routerLink]="['/editcongregation', congregation?.id]" routerLinkActive="router-link-active">
+      <button *ngIf="del == 'false'" type="button" class="btn btn-warning custombutton" [routerLink]="['/editcongregation', congregation?.id]" routerLinkActive="router-link-active">
         <i class="fa fa-pencil-square-o"></i> Edit</button>&nbsp;     
       <button *ngIf="del == 'true'" type="button" class="btn btn-danger custombutton" (click)="deleteFieldService(congregation.id)">
         <i class="fa fa-times"></i> Delete</button>

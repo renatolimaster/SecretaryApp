@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, HostListener } from '@angular/core';
 import { Congregacao } from 'src/app/_models/Congregacao';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServicoCampo } from 'src/app/_models/ServicoCampo';
 import { Usuario } from 'src/app/_models/Usuario';
 import { Publicador } from 'src/app/_models/Publicador';
 
@@ -68,10 +67,8 @@ export class EditCongregationComponent implements OnInit {
   }
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private cdRef: ChangeDetectorRef,
     private publisherService: PublisherService,
     private countryService: CountryService,
     private stateService: StatesService,

@@ -18,10 +18,13 @@ namespace Secretary.API.Controllers
     [ApiController]
     public class CongregationController : ControllerBase
     {
+        private readonly IRepository<Congregacao> _repo;
         private readonly ICongregationRepository _repoCongregation;
         private readonly IMapper _mapper;
-        public CongregationController(ICongregationRepository repoCongregation, IMapper mapper)
+
+        public CongregationController(IRepository<Congregacao> repo, ICongregationRepository repoCongregation, IMapper mapper)
         {
+            _repo = repo;
             _mapper = mapper;
             _repoCongregation = repoCongregation;
         }
@@ -94,7 +97,7 @@ namespace Secretary.API.Controllers
 
             _repoCongregation.Add(congregationRepo);
 
-            if (await _repoCongregation.SaveAllAsync(congregationRepo)){
+            if (await _repo.Add(congregationRepo)){
                 Console.WriteLine("creating congregation: " + congregationRepo.Id);
                 // var congToReturn = _mapper.Map<Congregacao>(congregationForCreateDto);
                 // return CreatedAtRoute("GetCongregation", new { id = congregationForCreateDto.Id}, congToReturn);
@@ -151,6 +154,7 @@ namespace Secretary.API.Controllers
 
             _mapper.Map(congregationForUpdateDto, congregationRepo);
 
+            /*
             if (await _repoCongregation.SaveAllAsync(congregationRepo)){
                 Console.WriteLine("Update congregation: " + congregationRepo.Id);
                 // var congToReturn = _mapper.Map<Congregacao>(congregationForCreateDto);
@@ -160,9 +164,56 @@ namespace Secretary.API.Controllers
             } else {
                 Console.WriteLine("Erro updating congregation.");
             }
+            */
+            
+            // await Task.Delay(1000);
+            return BadRequest("Could not update congregation!");
+
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCongregationAsync(long id)
+        {
+            Console.WriteLine("DeleteCongregationAsync: " + id);
+
+            Congregacao congregationRepo = await _repoCongregation.getCongregationAsync(id);
+
+            if (congregationRepo == null)
+            {
+                throw new Exception($"Failed on delete - congregation code {id} doesn't exist!");
+            }
+
+            if (congregationRepo.Publicador.Count > 0)
+            {
+                throw new Exception($"Failed on delete! Congregation has publishers!");
+            }
+
+            var congDefault = _repoCongregation.getCongregationDefaultAsync();
+
+            if (congregationRepo.Padrao)
+            {
+                throw new Exception($"Failed on delete! It is a default congregation!");
+            }
+
+            /*
+            
+            I will analyze DELETE function after because I will implement logic deletion    
+            
+            
+            if (await _repo.Delete(congregationRepo)){
+                Console.WriteLine("Delete congregation: " + congregationRepo.Id);
+                // var congToReturn = _mapper.Map<Congregacao>(congregationForCreateDto);
+                // return CreatedAtRoute("GetCongregation", new { id = congregationForCreateDto.Id}, congToReturn);
+                // return NoContent();
+                return Ok();
+            } else {
+                Console.WriteLine("Erro deleting congregation.");
+            }
+            
+             */
 
             await Task.Delay(1000);
-            return BadRequest("Could not update congregation!");
+            return BadRequest("Could not delete congregation!");
 
         }
 

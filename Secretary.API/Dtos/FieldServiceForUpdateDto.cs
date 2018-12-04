@@ -5,7 +5,7 @@ namespace Secretary.API.Dtos
 {
     public class FieldServiceForUpdateDto
     {
-        // public long Id { get; set; }
+        public long Id { get; set; }
         public int? AnoReferencia { get; set; }
         public int? MesReferencia { get; set; }
         public DateTime DataEntrega { get; set; }

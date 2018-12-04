@@ -42,18 +42,17 @@
 
             <div class="col-sm">
               <h5 class="card-text">Congregation</h5>
-              <select [compareWith]="compareCongregationFn" class="form-control w-75" id="congregacao" name="congregacao"
-                [(ngModel)]="report.congregacao" (ngModelChange)="report.congregacao = $event" required>
-                <option *ngFor="let congregation of congregations" [ngValue]="congregation">&nbsp;{{congregation?.id}}:{{congregation?.nome}}</option>
+              <select class="form-control w-75" id="congregacaoId" name="congregacaoId"
+                [(ngModel)]="selectedCongregation" required>
+                <option *ngFor="let congregation of congregations" [ngValue]="congregation.id">&nbsp;{{congregation?.id}}:{{congregation?.nome}}</option>
               </select>
 
             </div>
 
             <div class="col-sm">
               <h5 class="card-text">Pioneer</h5>
-              <select [compareWith]="comparePioneerFn" [(ngModel)]="report.pioneiro" class="form-control w-50" name="pioneiro"
-                required>
-                <option *ngFor="let pioneer of pioneers" [ngValue]="pioneer">&nbsp;{{pioneer?.descricao}}</option>
+              <select [(ngModel)]="selectedPioneer" class="form-control w-50" id="pioneiroId" name="pioneiroId" required>
+                <option *ngFor="let pioneer of pioneers" [ngValue]="pioneer.id">&nbsp;{{pioneer?.descricao}}</option>
               </select>
             </div>
 
@@ -65,16 +64,10 @@
 
             <div class="col-md-8">
               <h5 class="card-text">Publisher</h5>
-              <select [compareWith]="comparePublisherFn" [(ngModel)]="report.publicador" class="form-control w-50" name="publicador"
-                required>
-                <option *ngFor="let publisher of publishers" [ngValue]="publisher">&nbsp;{{publisher?.nome}}</option>
+              <select [(ngModel)]="selectedPublisher" class="form-control w-50" id="publicadorId" name="publicadorId" required>
+                <option *ngFor="let publisher of publishers" [ngValue]="publisher.id">&nbsp;{{publisher?.nome}}</option>
               </select>
-              <input type="hidden" class="form-control col-sm-8" id="id" [(ngModel)]="report.id" name="id">
-              <input type="hidden" class="form-control col-sm-8" id="pioneiroId" [(ngModel)]="report.pioneiroId" name="pioneiroId">
-              <input type="hidden" class="form-control col-sm-8" id="congregacaoId" [(ngModel)]="report.congregacaoId"
-                name="congregacaoId">
-              <input type="hidden" class="form-control col-sm-8" id="publicadorId" [(ngModel)]="report.publicadorId"
-                name="publicadorId">
+              <input type="hidden" class="form-control col-sm-8" id="id" [(ngModel)]="report.id" name="id">              
             </div>
 
             <div class="col-md-4">

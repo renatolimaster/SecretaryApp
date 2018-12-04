@@ -66,15 +66,18 @@ namespace Secretary.API.Helpers
 
             CreateMap<Pioneiro, PioneerSimplifiedDto>();
 
+            // FIELD SERVICE
             CreateMap<ServicoCampo, FieldServiceForListDto>();
+            CreateMap<FieldServiceForListDto, ServicoCampo>();
+            CreateMap<FieldServiceForUpdateDto, ServicoCampo>();
+            CreateMap<ServicoCampo, FieldServiceForUpdateDto>();
+            CreateMap<TotalFieldServiceReportDto, ServicoCampo>();
 
             CreateMap<Pioneiro, PioneerForDetailDto>();
 
             CreateMap<Pioneiro, PioneerSimplifiedDto>();
 
-            CreateMap<FieldServiceForUpdateDto, ServicoCampo>();
-
-            CreateMap<TotalFieldServiceReportDto, ServicoCampo>();
+            
             
             CreateMap<StateForListDto, Estado>();
 

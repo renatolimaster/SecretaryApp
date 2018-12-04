@@ -18,7 +18,7 @@ namespace Secretary.API.Controllers
     [ApiController]
     public class FieldServiceController : ControllerBase
     {
-        private readonly IRepository<ServicoCampo> _repoFieldServiceRepository;
+        private readonly IRepository<ServicoCampo> _repo;
         private readonly IFieldServiceRepository _fieldServiceRepo;
         private readonly ICongregationRepository _congRepo;
         private readonly IPublisherRepository _pubRepo;
@@ -26,10 +26,10 @@ namespace Secretary.API.Controllers
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
 
-        public FieldServiceController(IFieldServiceRepository fieldServiceRepo, IRepository<ServicoCampo> repoFieldServiceRepository, ICongregationRepository congRepo, IPublisherRepository pubRepo, IUserRepository userRepo, IMapper mapper, IEmailService emailService)
+        public FieldServiceController(IFieldServiceRepository fieldServiceRepo, IRepository<ServicoCampo> repo, ICongregationRepository congRepo, IPublisherRepository pubRepo, IUserRepository userRepo, IMapper mapper, IEmailService emailService)
         {
             _emailService = emailService;
-            _repoFieldServiceRepository = repoFieldServiceRepository;
+            _repo = repo;
             _fieldServiceRepo = fieldServiceRepo;
             _congRepo = congRepo;
             _pubRepo = pubRepo;
@@ -208,6 +208,8 @@ namespace Secretary.API.Controllers
             // }
             // Console.WriteLine("publ ****************** 1: " + fieldServiceForUpdateDto.Publicador.Id);
 
+            ServicoCampo reportFromRepo = _fieldServiceRepo.getFieldServiceAsync(id).Result;
+
             Console.WriteLine("**************** cong 1 **************************");
 
             var cong = await _congRepo.getCongregationAsync(fieldServiceForUpdateDto.CongregacaoId);
@@ -232,9 +234,7 @@ namespace Secretary.API.Controllers
 
             // Console.WriteLine("publ ****************** 2: " + pub.Id + " - " + pub.Nome);
 
-            // ServicoCampo reportFromRepo = new ServicoCampo();            
-
-            var reportFromRepo = await _fieldServiceRepo.getSCSingleOrDefaultAsync(id);
+            // ServicoCampo reportFromRepo = new ServicoCampo();
 
             if (Object.Equals(fieldServiceForUpdateDto, reportFromRepo))
             {
@@ -243,6 +243,7 @@ namespace Secretary.API.Controllers
 
 
             // Date: para evitar timezone
+            fieldServiceForUpdateDto.Id = id;
             fieldServiceForUpdateDto.DataEntrega = fieldServiceForUpdateDto.DataEntrega.Date;
             fieldServiceForUpdateDto.DataReferencia = fieldServiceForUpdateDto.DataReferencia.Date;
             fieldServiceForUpdateDto.MesReferencia = fieldServiceForUpdateDto.DataReferencia.Month;
@@ -251,30 +252,39 @@ namespace Secretary.API.Controllers
 
             Console.WriteLine("reportFromRepo ----------------------->: " + fieldServiceForUpdateDto.DataEntrega + " - " + fieldServiceForUpdateDto.Horas);
 
-            _mapper.Map(fieldServiceForUpdateDto, reportFromRepo);
+            // _mapper.Map(fieldServiceForUpdateDto, reportFromRepo);
 
             // Console.WriteLine("fieldServiceForUpdateDto 3: " + reportFromRepo.Horas + " - " + reportFromRepo.VideosMostrados + " - " + reportFromRepo.Minutos + " - " +reportFromRepo.HorasBetel + " - " +reportFromRepo.CreditoHoras + " - " + reportFromRepo.Estudos + " - " + reportFromRepo.Revisitas + " - " + reportFromRepo.Publicacoes);
 
-            Console.WriteLine("Save: " + reportFromRepo.Id + " - " + reportFromRepo.PublicadorId);
+            Console.WriteLine("Save: " + fieldServiceForUpdateDto.Id + " - " + reportFromRepo.Id + " - " + reportFromRepo.Horas + " - " + reportFromRepo.PioneiroId);
 
-            if (await _fieldServiceRepo.SaveAllAsync())
+            var servicoCampo = new ServicoCampo();
+
+            _mapper.Map(fieldServiceForUpdateDto, servicoCampo);
+
+            Console.WriteLine("Save: " + fieldServiceForUpdateDto.Id + " - " + reportFromRepo.Id + " - " + reportFromRepo.Horas + " - " + reportFromRepo.PioneiroId);
+
+            
+            if (await _repo.Update(servicoCampo))
             {
-                if (fieldServiceForUpdateDto.Horas > 0)
+                Console.WriteLine("Horas: " + servicoCampo.Horas);
+                if (servicoCampo.Horas > 0)
                 {
                     // var media = _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId);
                     //update publisher status, medias
                     var status = "";
-                    status = await _pubRepo.setPublisherStatusAsync(reportFromRepo.PublicadorId);
+                    status = await _pubRepo.setPublisherStatusAsync(servicoCampo.PublicadorId);
                     //medias                    
-                    var media3 = await _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId, -3);
-                    var media6 = await _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId, -6);
-                    var media12 = await _fieldServiceRepo.getMediaFieldServiceAsync(reportFromRepo.PublicadorId, -12);
+                    var media3 = await _fieldServiceRepo.getMediaFieldServiceAsync(servicoCampo.PublicadorId, -3);
+                    var media6 = await _fieldServiceRepo.getMediaFieldServiceAsync(servicoCampo.PublicadorId, -6);
+                    var media12 = await _fieldServiceRepo.getMediaFieldServiceAsync(servicoCampo.PublicadorId, -12);
                     Console.WriteLine("Horas: " + fieldServiceForUpdateDto.Horas + " - status: " + status);
+                    return Ok(reportFromRepo);
                 }
-                return NoContent();
             }
+             
 
-
+            // await Task.Delay(1000);
             throw new Exception($"Updating field service {id} failed on save!");
             // return Ok();
 

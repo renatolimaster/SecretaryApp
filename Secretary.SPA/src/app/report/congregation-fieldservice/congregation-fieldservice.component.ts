@@ -13,6 +13,7 @@ import { IFieldServiceReportPdf } from 'src/app/_interfaces/IFieldServiceReportP
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { element } from 'protractor';
+import { timingSafeEqual } from 'crypto';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -163,6 +164,7 @@ export class CongregationFieldserviceComponent implements OnInit {
       return;
     }
 
+    // TO SELECT TYPE OF ORDER BY
     if (this.date.check) {
       this.publisherType = ['Vitória', 'Vila Velha', 'Serra'];
     } else {
@@ -220,6 +222,13 @@ export class CongregationFieldserviceComponent implements OnInit {
             service.publicador.grupo.local === itemPublisherType
         );
 
+        /* its work to sort more than one attribute  - imported in index.html */
+        const criteria = ['descricao', 'group'];
+        const sorted = multisort(this.reportLine, criteria);
+        this.reportLine = sorted.slice();
+        // console.log(sorted);
+        
+
         if (this.reportRegular.length > 0) {
           this.descricao = '';
           this.group = '';
@@ -261,33 +270,6 @@ export class CongregationFieldserviceComponent implements OnInit {
             this.hours =
               this.hours + item.horas + item.horasBetel + item.creditoHoras;
 
-            console.log(
-              'Horas fora: ' +
-                item.publicador.nome +
-                ' - ' +
-                this.hours +
-                ' - ' +
-                this.hoursBethel +
-                ' - ' +
-                this.creditHours
-            );
-
-            if (this.hoursBethel > 0 || this.creditHours > 0) {
-              console.log(
-                'Horas dentro: ' +
-                  item.publicador.nome +
-                  ' - ' +
-                  this.hours +
-                  ' - ' +
-                  this.hoursBethel +
-                  ' - ' +
-                  this.creditHours
-              );
-              if (this.hours > 70) {
-                this.hours = 70;
-              }
-            }
-
             this.hoursBethel = this.hoursBethel + item.horasBetel;
             this.creditHours = this.creditHours + item.creditoHoras;
             this.videos = this.videos + item.videosMostrados;
@@ -319,6 +301,11 @@ export class CongregationFieldserviceComponent implements OnInit {
           (service: ServicoCampo) =>
             service.pioneiro.descricao === itemPublisherType
         );
+        /* its work to sort more than one attribute - imported in index.html */
+        const criteria = ['descricao', 'group'];
+        const sorted = multisort(this.reportLine, criteria);
+        this.reportLine = sorted.slice();
+        // console.log(sorted);
 
         if (this.reportRegular.length > 0) {
           this.descricao = '';
@@ -516,12 +503,12 @@ export class CongregationFieldserviceComponent implements OnInit {
           'Group'
         ]),
         {
-          text: 'Total of Congregation Field Service:',
+          text: 'Total of Congregation Field Service',
           pageBreak: 'before',
           style: 'header'
         },
         {
-          text: ' ',
+          text: 'Delivered ' + this.counterTotal + ' of ' + this.totalPublisher,
           style: 'subheader'
         },
         tableSummarize(this.reportLineGeral, [

@@ -6,14 +6,13 @@ import * as moment from 'moment';
 import { DateTimeExtensions } from 'src/app/_services/DateTimeExtensions';
 import { ServicoCampo } from 'src/app/_models/ServicoCampo';
 import { IDate } from 'src/app/_interfaces/IDate';
-import { ITotalFieldServiceReport } from 'src/app/_interfaces/ITotalFieldServiceReport';
 import { FormGroup } from '@angular/forms';
 import { IFieldServiceReportPdf } from 'src/app/_interfaces/IFieldServiceReportPdf';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { element } from 'protractor';
-import { timingSafeEqual } from 'crypto';
+
+import * as multisort from 'src/assets/js/multisort';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -222,12 +221,11 @@ export class CongregationFieldserviceComponent implements OnInit {
             service.publicador.grupo.local === itemPublisherType
         );
 
-        /* its work to sort more than one attribute  - imported in index.html */
+        /* its work to sort more than one attribute*/
         const criteria = ['descricao', 'group'];
         const sorted = multisort(this.reportLine, criteria);
         this.reportLine = sorted.slice();
         // console.log(sorted);
-        
 
         if (this.reportRegular.length > 0) {
           this.descricao = '';
@@ -575,9 +573,6 @@ export class CongregationFieldserviceComponent implements OnInit {
       }
     };
 
-    function footer(currentPage, pageCount) {
-      return currentPage.toString() + ' of ' + pageCount;
-    }
 
     function table(data, columns) {
       return {
@@ -598,15 +593,12 @@ export class CongregationFieldserviceComponent implements OnInit {
 
     function buildTableBody(data, columns) {
       const body = [];
-      let dataReport: IFieldServiceReportPdf;
-      const columnsR = [];
       body.push(columns);
 
       data.forEach(function(row) {
         const dataRow = [];
 
         columns.forEach(function(column) {
-          dataReport = row;
 
           if (row.Name === 'Total') {
             if (column === 'Name') {
@@ -699,14 +691,12 @@ export class CongregationFieldserviceComponent implements OnInit {
 
     function buildTableSummarizeBody(data, columns) {
       const body = [];
-      let dataReport: IFieldServiceReportPdf;
       body.push(columns);
 
       data.forEach(function(row) {
         const dataRow = [];
 
         columns.forEach(function(column) {
-          dataReport = row;
 
           if (row.Name === 'Total') {
             if (column === 'Description') {

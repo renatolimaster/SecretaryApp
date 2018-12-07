@@ -13,6 +13,7 @@ interface Idate {
   fromDate: Date;
   toDate: Date;
   referenceDate: Date;
+  check: boolean;
 }
 
 @Component({
@@ -62,7 +63,8 @@ export class ListFieldserviceComponent implements OnInit {
         1,
         new Date().getMonth() - 1,
         new Date().getFullYear()
-      )
+      ),
+      check: false
     };
 
     this.loadReportsFromPeriod(this.date);
@@ -141,32 +143,38 @@ export class ListFieldserviceComponent implements OnInit {
       return;
     }
 
-    /*
-    this.route.data.subscribe(data => {
-      this.reports = data['reports'];
-      // cache our list
-      this.temp = [...this.reports];
-      // push our inital complete list
-      this.rows = this.reports;
-      this.msg = this.reports.length + ' report(s) loaded!!';
-      this.alertifyService.success(this.msg);
-    });
-    */
+    if (this.date.check) {
+      this.reportService.getUndeliveredReportsByPeriod(fromDate, toDate).subscribe(
+        (reports: ServicoCampo[]) => {
+          this.reports = reports;
+          // cache our list
+          this.temp = [...reports];
+          // push our inital complete list
+          this.rows = reports;
+          this.msg = this.reports.length + ' report(s) loaded!!';
+          this.alertifyService.success(this.msg);
+        },
+        error => {
+          this.alertifyService.error(error);
+        }
+      );
+    } else {
+      this.reportService.getReportsByPeriod(fromDate, toDate).subscribe(
+        (reports: ServicoCampo[]) => {
+          this.reports = reports;
+          // cache our list
+          this.temp = [...reports];
+          // push our inital complete list
+          this.rows = reports;
+          this.msg = this.reports.length + ' report(s) loaded!!';
+          this.alertifyService.success(this.msg);
+        },
+        error => {
+          this.alertifyService.error(error);
+        }
+      );
+    }
 
-    this.reportService.getReportsByPeriod(fromDate, toDate).subscribe(
-      (reports: ServicoCampo[]) => {
-        this.reports = reports;
-        // cache our list
-        this.temp = [...reports];
-        // push our inital complete list
-        this.rows = reports;
-        this.msg = this.reports.length + ' report(s) loaded!!';
-        this.alertifyService.success(this.msg);
-      },
-      error => {
-        this.alertifyService.error(error);
-      }
-    );
   }
 
   onPage(event) {

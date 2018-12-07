@@ -62,10 +62,20 @@ namespace Secretary.API.Controllers
             return Ok(servToReturn);
         }
 
-        [HttpGet("missingfieldservicemail/{referenceDate}")]
-        public async Task<IActionResult> missingFieldServiceAsync(DateTime referenceDate)
+        [HttpGet("missingfieldservice/{fromDate}&{toDate}")]
+        public async Task<IActionResult> missingFieldServiceAsync(DateTime fromDate, DateTime toDate)
         {
-            Console.WriteLine("**** initializeFieldServiceAsync ****: " + referenceDate);
+            Console.WriteLine("**** missingFieldServiceAsync ****: " + fromDate + " - " + toDate);
+            var serv = await _fieldServiceRepo.getMissingFieldServiceByPeriodAsync(fromDate.Date, toDate.Date);
+            var servToReturn = _mapper.Map<IEnumerable<FieldServiceForListDto>>(serv);
+            // await Task.Delay(1000);
+            return Ok(servToReturn);
+        }
+
+        [HttpGet("missingfieldservicemail/{referenceDate}")]
+        public async Task<IActionResult> missingFieldServiceEmailAsync(DateTime referenceDate)
+        {
+            Console.WriteLine("**** missingFieldServiceEmailAsync ****: " + referenceDate);
             var serv = await _fieldServiceRepo.getMissingFieldServiceByPeriodAsync(referenceDate.Date, referenceDate.Date);
             var servToReturn = _mapper.Map<IEnumerable<FieldServiceForListDto>>(serv);
             var publisherName = "";

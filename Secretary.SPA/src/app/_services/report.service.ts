@@ -38,6 +38,10 @@ export class ReportService {
     toDate  + '&' + publisherId);
   }
 
+  getUndeliveredReportsByPeriod(fromDate, toDate): Observable<ServicoCampo[]> {
+    return this.http.get<ServicoCampo[]>(this.baseUrl + 'fieldservice/missingfieldservice/' + fromDate + '&' + toDate);
+  }
+
   updateReport(id: number, report: ServicoCampo) {
     return this.http.put(this.baseUrl + 'fieldservice/' + id, report);
   }

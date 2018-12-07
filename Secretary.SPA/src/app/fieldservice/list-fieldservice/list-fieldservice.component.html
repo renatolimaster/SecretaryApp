@@ -73,7 +73,13 @@
             />
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-2">
+            <h5 class="card-text">&nbsp;</h5>
+            <input [(ngModel)]="date.check" type="checkbox" class="form-check-input " name="check" id="check">
+            <label class="form-check-label" for="check">Undelivered</label>&nbsp; &nbsp;          
+          </div>
+
+          <div class="col-sm-2">
             <h5 class="card-text">&nbsp;</h5>
             <button
               type="submit"

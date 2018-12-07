@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReportService } from 'src/app/_services/report.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 
@@ -13,6 +13,9 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 import * as multisort from 'src/assets/js/multisort';
+
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -67,6 +70,7 @@ export class CongregationFieldserviceComponent implements OnInit {
   counter6 = 0;
   counterTotal = 0;
   //
+  dateNow = moment(Date.now());
 
   myForm: FormGroup;
 
@@ -134,6 +138,46 @@ export class CongregationFieldserviceComponent implements OnInit {
       Status: '',
       Group: ''
     };
+  }
+
+  async generateAllPdf() {
+    let idName = '';
+    let idNamePage = '';
+    const doc = new jspdf('p', 'mm', 'a4');
+    doc.internal.scaleFactor = 2.25;
+
+    const ids = document.querySelectorAll('[id]');
+    const length = ids.length;
+
+    for (let i = 0; i < length; i++) {
+      const chart = document.getElementById(ids[i].id);
+      idName = ids[i].id;
+      idNamePage = idName.substring(0, 4);
+      // excute this function then exit loop
+      if (idNamePage === 'page') {
+        const imgWidth = 208;
+        const pageHeight = 295;
+        await html2canvas(chart).then(function (canvas) {
+          const imgHeight = canvas.height * imgWidth / canvas.width;
+          let heightLeft = imgHeight;
+          let position = 0;
+          doc.addImage(canvas.toDataURL('image/png'), 'JPEG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+          while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(canvas.toDataURL('image/png'), 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            if (i < (length - 1)) {
+              doc.addPage();
+            }
+
+          }
+        });
+      }
+    }
+    // download the pdf with all charts
+    doc.save('CongregationFieldService_' + Date.now() + '.pdf');
   }
 
   loadReportsFromPeriod(report: IDate) {
@@ -520,21 +564,21 @@ export class CongregationFieldserviceComponent implements OnInit {
 
       styles: {
         header: {
-          fontSize: 16,
+          fontSize: 14,
           bold: true,
           alignment: 'center',
           margin: [0, 0, 0, 0],
           color: 'blue'
         },
         totalHeader: {
-          fontSize: 14,
+          fontSize: 11,
           bold: true,
           alignment: 'center',
           margin: [0, 0, 0, 0],
           color: 'red'
         },
         subTotalHeader: {
-          fontSize: 12,
+          fontSize: 10,
           bold: true,
           alignment: 'center',
           margin: [0, 0, 0, 0],
@@ -559,11 +603,11 @@ export class CongregationFieldserviceComponent implements OnInit {
         },
         tableExample: {
           margin: [0, 5, 0, 15],
-          fontSize: 10
+          fontSize: 8
         },
         tableHeader: {
           bold: true,
-          fontSize: 13,
+          fontSize: 12,
           color: 'black'
         },
         footer: {

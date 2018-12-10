@@ -72,6 +72,7 @@ namespace Secretary.API.Models
         public long? EstadoId { get; set; }
         [Display(Name = "Country")]
         public int CountryId { get; set; }
+        public Country Country { get; set; }
         [Display(Name = "Group")]
         public long? GrupoId { get; set; }
         [Display(Name = "Is baptized")]
@@ -127,6 +128,8 @@ namespace Secretary.API.Models
         public Situacao Situacao { get; set; }
         [Display(Name = "Type")]
         public TipoLogradouro TipoLogradouro { get; set; }
+
+
 
         // Foreign Key
 

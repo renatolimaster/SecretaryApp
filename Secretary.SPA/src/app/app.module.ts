@@ -49,6 +49,9 @@ import { TipoLogradouroResolver } from './_resolver/list-tipologradouro.resolver
 import { ListTipologradouroComponent } from './tipologradouro/list-tipologradouro/list-tipologradouro.component';
 import { InitializeFieldServiceResolver } from './_resolver/initialize-fieldservice.resolver';
 import { SettingsService } from './_services/settings.service';
+import { ListPublishersResolver } from './_resolver/list-publishers.resolver';
+import { DetailPublisherResolver } from './_resolver/detail-publisher.resolver';
+import { DetailPublisherComponent } from './publisher/detail-publisher/detail-publisher.component';
 
 
 export function tokenGetter() {
@@ -69,11 +72,14 @@ export function tokenGetter() {
     CreateCongregationComponent,
     DetailCongregationComponent,
     EditCongregationComponent,
-    //
+    // publisher
     ListPublisherComponent,
+    PublisherFieldserviceComponent,
+    DetailPublisherComponent,
+    //
     ListFieldserviceComponent,
     ListAssistanceComponent,
-    PublisherFieldserviceComponent,
+    //
     CongregationFieldserviceComponent,
     ListMembersComponent,
     MemberCardComponent,
@@ -115,6 +121,10 @@ export function tokenGetter() {
     AuthGuard,
     PreventUnsaveChanges,
     // resolvers
+    // PUBLISHERS
+    ListPublishersResolver,
+    DetailPublisherResolver,
+    //
     // field service
     DetailFieldServiceResolver,
     EditFieldServiceResolver,

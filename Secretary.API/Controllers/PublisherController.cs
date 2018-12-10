@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,15 +18,15 @@ namespace Secretary.API.Controllers
     public class PublisherController : ControllerBase
     {
         private readonly IPublisherRepository _repoPublisher;
-        private readonly IRepository<Publicador> _repoUsuario;
         private readonly ICongregationRepository _congRepo;
+        private readonly IUserRepository _repoUsuario;
         private readonly IMapper _mapper;
 
-        public PublisherController(IPublisherRepository repoPublisher, IRepository<Publicador> repoUsuario, ICongregationRepository congRepo,IMapper mapper)
+        public PublisherController(IPublisherRepository repoPublisher, IUserRepository repoUsuario, ICongregationRepository congRepo,IMapper mapper)
         {
             _repoPublisher = repoPublisher;
-            _repoUsuario = repoUsuario;
             _congRepo = congRepo;
+            _repoUsuario = repoUsuario;
             _mapper = mapper;
         }
 
@@ -34,7 +35,12 @@ namespace Secretary.API.Controllers
         {
             Console.WriteLine("getPublishersAsync");
 
-            var pubs = await _repoPublisher.getAllPublishersAsync();
+            var userLoged = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = _repoUsuario.GetUser(Convert.ToInt64(userLoged)).Result;
+
+            Console.WriteLine("User: " + user.CongregacaoId);
+            
+            var pubs = await _repoPublisher.getAllPublishersAsync(user.CongregacaoId.Value);
             var pubsToReturn = _mapper.Map<IEnumerable<PublisherForListDto>>(pubs);
 
             return Ok(pubsToReturn);

@@ -30,7 +30,6 @@ export class ListCongregationComponent implements OnInit {
   }
 
   loadCongregations() {
-
     this.route.data.subscribe(data => {
       this.congregations = data['congregation'];
       // cache our list

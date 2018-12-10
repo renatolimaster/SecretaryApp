@@ -21,4 +21,21 @@ export class PublisherService {
   getPublisher(id): Observable<Publicador> {
     return this.http.get<Publicador>(this.baseUrl + 'publisher/' + id);
   }
+
+  createPublisher(publisher: Publicador) {
+    // const user = this.authService.decodedToken.
+    return this.http.post<Publicador>(
+      this.baseUrl + 'publisher/', publisher);
+  }
+
+  updatePublisher(id: number, publisher: Publicador) {
+    console.log('url: ' + this.baseUrl + 'publisher/' + id + ' - ' + publisher);
+    console.log(publisher);
+    return this.http.put(this.baseUrl + 'publisher/' + id, publisher);
+  }
+
+  deletePublisher(id: number) {
+    console.log('url: ' + this.baseUrl + 'deletepublisher/' + id);
+    return this.http.delete(this.baseUrl + 'publisher/' + id);
+  }
 }

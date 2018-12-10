@@ -21,17 +21,14 @@ namespace Secretary.API.InterfacesImpl
             _dbContext = dbContext;
             _repoCong = repoCong;
         }
-        public async Task<IEnumerable<Publicador>> getAllPublishersAsync()
+        public async Task<IEnumerable<Publicador>> getAllPublishersAsync(long congregacaoId)
         {
-
-
-            var cong = _repoCong.getCongregationDefaultAsync();
 
             Console.WriteLine("================= getAllPublishersAsync IN =================");
 
-            Console.WriteLine("Cong: " + cong.Id + " - " + cong.Nome);
+            Console.WriteLine("Cong: " + congregacaoId);
 
-            var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Estado).Include(p => p.Dianteira).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Grupo).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).ToListAsync();
+            var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Estado).Include(p => p.Dianteira).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Grupo).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == congregacaoId).ToListAsync();
 
             // var pub = await _dbContext.Publicador.AsNoTracking().Include(p => p.Congregacao).Include(p => p.Dianteira).Include(p => p.Pioneiro).OrderBy(p => p.Nome).Where(p => p.CongregacaoId == cong.Id).Where(p => p.Grupo.CongregacaoId == cong.Id).ToListAsync();
 
@@ -49,7 +46,7 @@ namespace Secretary.API.InterfacesImpl
         {
             Console.WriteLine("================= getAllPublishersAsync =================");
 
-            var pub = _dbContext.Publicador.AsNoTracking().Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).FirstOrDefaultAsync(p => p.Id == id);
+            var pub = _dbContext.Publicador.AsNoTracking().Include(p => p.Situacao).Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Country).FirstOrDefaultAsync(p => p.Id == id);
 
             return pub;
         }

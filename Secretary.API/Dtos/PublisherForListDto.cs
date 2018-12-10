@@ -20,7 +20,7 @@ namespace Secretary.API.Dtos
         public string Sexo { get; set; }
         public string SituacaoServicoCampo { get; set; }
         public string TelCelular { get; set; }                   
-        public Situacao Situacao { get; set; }
+        public SituacaoForListDto Situacao { get; set; }
         public long CongregacaoId { get; set; }        
         public StateForListDto Estado { get; set; }
         public CongregationSimplifiedDto Congregacao { get; set; }

@@ -63,8 +63,10 @@ namespace Secretary.API.Helpers
             CreateMap<Dianteira, LeadSimplifiedDto>();
 
             CreateMap<Grupo, GroupSimplifiedDto>();
-
-            CreateMap<Pioneiro, PioneerSimplifiedDto>();
+            // SITUACAO
+            CreateMap<Situacao, SituacaoForListDto>();
+            CreateMap<SituacaoForListDto, Situacao>();
+            // COUNTRY
 
             // FIELD SERVICE
             CreateMap<ServicoCampo, FieldServiceForListDto>();
@@ -77,15 +79,12 @@ namespace Secretary.API.Helpers
 
             CreateMap<Pioneiro, PioneerSimplifiedDto>();
 
-            
+            CreateMap<CountryForListDto, Country>();
+            CreateMap<Country, CountryForListDto>();
             
             CreateMap<StateForListDto, Estado>();
 
             CreateMap<Estado, StateForListDto>();
-
-            CreateMap<CountryForListDto, Country>();
-
-            CreateMap<Country, CountryForListDto>();
 
             CreateMap<TipoLogradouroForListDto, TipoLogradouro>();
 

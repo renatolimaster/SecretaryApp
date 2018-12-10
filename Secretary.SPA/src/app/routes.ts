@@ -27,6 +27,9 @@ import { DetailCongregationResolver } from './_resolver/detail-congregation.reso
 import { CreateCongregationComponent } from './congregation/create-congregation/create-congregation.component';
 import { TipoLogradouroResolver } from './_resolver/list-tipologradouro.resolver';
 import { ListTipologradouroComponent } from './tipologradouro/list-tipologradouro/list-tipologradouro.component';
+import { ListPublishersResolver } from './_resolver/list-publishers.resolver';
+import { DetailPublisherComponent } from './publisher/detail-publisher/detail-publisher.component';
+import { DetailPublisherResolver } from './_resolver/detail-publisher.resolver';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -67,7 +70,16 @@ export const appRoutes: Routes = [
         path: 'congregation/:id',
         component: DetailCongregationComponent
       },
-      { path: 'publisher', component: ListPublisherComponent },
+      {
+        path: 'publisher',
+        component: ListPublisherComponent,
+        resolve: { publishers: ListPublishersResolver }
+      },
+      {
+        path: 'detailpublisher/:id/:del',
+        component: DetailPublisherComponent,
+        resolve: { publisher: DetailPublisherResolver }
+      },
       { path: 'assistance', component: ListAssistanceComponent },
       {
         path: 'fieldservice',

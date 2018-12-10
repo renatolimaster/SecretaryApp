@@ -1,0 +1,133 @@
+<div class="container mt-3">
+  <div class="row">
+    <h2>{{ title }}</h2>
+    <div class="col-xs-12 col-md-12">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/publisher']" routerLinkActive="router-link-active">
+        <i class="fa fa-arrow-left"></i> List</button>&nbsp;
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/createpublisher']" routerLinkActive="router-link-active">
+        <i class="fa fa-plus"></i> Create New</button>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-12 mt-3">
+      <h4 class="text-primary">{{ subTitles }}</h4>
+      <hr>
+    </div>
+  </div>
+</div>
+<br />
+<div class="container">
+  <div class="card mt-3 w-75">
+    <div class="card-header">
+      <h3 class="text-primary">Publisher</h3>
+      <h3>{{ publisher.nome }}</h3>
+      <h5>{{ publisher.dianteira.descricao }}</h5>
+      <h5>{{ publisher.grupo.local }}</h5>
+    </div>
+    <div class="card-body">
+
+      <div class="card-block">
+
+        <div class='row'>
+
+          <div class="col-md">
+            <p class="card-text"><strong>Status</strong></p>
+            <h6 class="card-title">{{ publisher.situacao.descricao }}</h6>
+          </div>
+
+          <div class="col-md">
+            <p class="card-text"><strong>Cell Phone</strong></p>
+            <h6 class="card-title">{{ publisher.telCelular }}</h6>
+          </div>
+
+          <div class="col-md">
+            <p class="card-text"><strong>Pioneer</strong></p>
+            <h6 class="card-title">{{ publisher.pioneiro.descricao }}</h6>
+          </div>
+
+          <div class="col-md">
+            <p class="card-text"><strong>Field Service Status</strong></p>
+            <h6 class="card-title">{{ publisher.situacaoServicoCampo }}</h6>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="card-block">
+        <div class='row'>
+
+          <div class="col-12">
+            <hr>
+            <h4 class="text-primary">Address</h4>
+          </div>
+
+          <div class="col-md">
+            <p class="card-text"><strong>Public area</strong></p>
+            <p class="h6">&nbsp;</p>
+          </div>
+          <div class="col-md">
+            <p class="card-text"><strong>Complement</strong></p>
+            <p class="h6">&nbsp;</p>
+          </div>
+          <div class="col-md">
+            <p class="card-text"><strong>Neighborhood</strong></p>
+            <p class="h6">&nbsp;</p>
+          </div>
+          <div class="col-md">
+            <p class="card-text"><strong>City</strong></p>
+            <p class="h6">&nbsp;</p>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md">
+            <p class="card-text"><strong>State</strong></p>
+            <p class="h6">&nbsp;</p>
+          </div>
+          <div class="col-md">
+            <p class="card-text"><strong>Country</strong></p>
+            <p class="h6">&nbsp;</p>
+          </div>
+          
+          <div class="col-md">
+            <p class="card-text"><strong>Zip code</strong></p>
+            <p class="h6">&nbsp;</p>
+          </div>
+
+          <div class="col-md">
+            <p class="card-text">&nbsp;</p>
+            <p class="h6">&nbsp;</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="text-center">
+      <hr>
+      <button *ngIf="del == 'false'" type="button" class="btn btn-warning custombutton" [routerLink]="['/editcongregation', publisher?.id]" routerLinkActive="router-link-active">
+        <i class="fa fa-pencil-square-o"></i> Edit</button>&nbsp;     
+      <button *ngIf="del == 'true'" type="button" class="btn btn-danger custombutton" (click)="deleteFieldService(publisher.id)">
+        <i class="fa fa-times"></i> Delete</button>
+    </div>
+    &nbsp;
+  </div>
+
+<br>
+
+  <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/publisher']" routerLinkActive="router-link-active">
+          <i class="fa fa-arrow-left"></i> List</button>&nbsp;
+        <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/createpublisher']" routerLinkActive="router-link-active">
+          <i class="fa fa-plus"></i> Create New</button>
+      </div>
+    </div>
+
+
+</div>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Secretary.API.Data;
@@ -9,9 +10,10 @@ using Secretary.API.Data;
 namespace Secretary.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181210170953_afterCountry")]
+    partial class afterCountry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,7 +151,7 @@ namespace Secretary.API.Migrations
 
                     b.ToTable("Congregacao","secretary");
                 });
-
+/*
             modelBuilder.Entity("Secretary.API.Models.Country", b =>
                 {
                     b.Property<long>("Id")
@@ -177,6 +179,7 @@ namespace Secretary.API.Migrations
 
                     b.ToTable("Country");
                 });
+                 */
 
             modelBuilder.Entity("Secretary.API.Models.Dianteira", b =>
                 {

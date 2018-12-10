@@ -7,7 +7,7 @@ namespace Secretary.API.Interfaces
 {
     public interface IPublisherRepository
     {
-        Task<IEnumerable<Publicador>> getAllPublishersAsync();
+        Task<IEnumerable<Publicador>> getAllPublishersAsync(long congregationId);
         Task<Publicador> getPublisherAsync(long id);
         DateTime getStartFieldService(long publisherId);
         List<Publicador> getPublisherByCongregation(long congregationId);

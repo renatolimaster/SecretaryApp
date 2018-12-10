@@ -176,8 +176,8 @@ export class CongregationFieldserviceComponent implements OnInit {
         });
       }
     }
-    // download the pdf with all charts
-    doc.save('CongregationFieldService_' + Date.now() + '.pdf');
+    // download the pdf with all charts moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a');
+    doc.save('CongregationFieldService_Reference_' + moment(this.date.fromDate).format('MMM-YYYY') + '.pdf');
   }
 
   loadReportsFromPeriod(report: IDate) {

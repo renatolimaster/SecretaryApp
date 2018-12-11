@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace Secretary.API.Models
+namespace Secretary.API.Model
 {
-    public partial class Reuniao : BaseEntity
+    public partial class Reuniao
     {
         public Reuniao()
         {
@@ -12,19 +11,17 @@ namespace Secretary.API.Models
             Recibo = new HashSet<Recibo>();
         }
 
-        
-        public long AuditoriaUsuario { get; set; }        
-        
+        public long Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Ipaddress { get; set; }
+        public long AuditoriaUsuario { get; set; }
         public string Descricao { get; set; }
         public string DiaSemana { get; set; }
         public string Hora { get; set; }
-
-        // ForeignKey
         public long CongregacaoId { get; set; }
-        [Display(Name = "Congregation")]
-        public Congregacao Congregacao { get; set; }
 
-        // Collections
+        public Congregacao Congregacao { get; set; }
         public ICollection<AssistenciaReuniao> AssistenciaReuniao { get; set; }
         public ICollection<Recibo> Recibo { get; set; }
     }

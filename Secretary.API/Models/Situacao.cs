@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace Secretary.API.Models
+namespace Secretary.API.Model
 {
-    public partial class Situacao : BaseEntity
+    public partial class Situacao
     {
         public Situacao()
         {
             Publicador = new HashSet<Publicador>();
         }
-        
-        [Display(Name = "User")]
+
+        public long Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Ipaddress { get; set; }
         public long AuditoriaUsuario { get; set; }
-        
-        [Display(Name = "Description")]
         public string Descricao { get; set; }
-
-
-        // ForeignKey
         public long CongregacaoId { get; set; }
-        [Display(Name = "Congregation")]
-        public Congregacao Congregacao { get; set; }
 
-        // Collections
-        [Display(Name = "Publisher")]
+        public Congregacao Congregacao { get; set; }
         public ICollection<Publicador> Publicador { get; set; }
     }
 }

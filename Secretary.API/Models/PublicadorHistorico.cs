@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace Secretary.API.Models
+namespace Secretary.API.Model
 {
-    public partial class PublicadorHistorico : BaseEntity
+    public partial class PublicadorHistorico
     {
-        
+        public long Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Ipaddress { get; set; }
         public DateTime DataReferencia { get; set; }
         public string Evento { get; set; }
         public string Observacao { get; set; }
-
-        // ForeignKey
         public long CongregacaoId { get; set; }
-        [Display(Name = "Congregation")]
-        public Congregacao Congregacao { get; set; }
         public long PublicadorId { get; set; }
-        [Display(Name = "Publisher")]
+
+        public Congregacao Congregacao { get; set; }
         public Publicador Publicador { get; set; }
-
-
     }
 }

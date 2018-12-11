@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace Secretary.API.Models
+namespace Secretary.API.Model
 {
-    public partial class Familia : BaseEntity
+    public partial class Familia
     {
-        
-        
+        public long Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Ipaddress { get; set; }
         public long AuditoriaUsuario { get; set; }
-        
         public string Parentesco { get; set; }
-
-        // Foreignkey
         public long CongregacaoId { get; set; }
-        [Display(Name = "Congregation")]
-        public Congregacao Congregacao { get; set; }
         public long ChefeFamiliaId { get; set; }
-        [Display(Name = "House Holder")]
-        public Publicador ChefeFamilia { get; set; }
         public long MembroId { get; set; }
-        [Display(Name = "Family Member")]
+
+        public Publicador ChefeFamilia { get; set; }
+        public Congregacao Congregacao { get; set; }
         public Publicador Membro { get; set; }
     }
 }

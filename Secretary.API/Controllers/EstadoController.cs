@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Secretary.API.Data;
 using Secretary.API.Interfaces;
-using Secretary.API.Models;
+using Secretary.API.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Authorization;

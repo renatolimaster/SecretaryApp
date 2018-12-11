@@ -7,22 +7,22 @@ namespace Secretary.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<long>(
-                name: "CountryId1",
+                name: "CountryId",
                 schema: "secretary",
                 table: "Publicador",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Publicador_CountryId1",
+                name: "IX_Publicador_CountryId",
                 schema: "secretary",
                 table: "Publicador",
-                column: "CountryId1");
+                column: "CountryId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Publicador_Country_CountryId1",
+                name: "FK_Publicador_Country_CountryId",
                 schema: "secretary",
                 table: "Publicador",
-                column: "CountryId1",
+                column: "CountryId",
                 principalSchema: "secretary",
                 principalTable: "Country",
                 principalColumn: "Id",
@@ -32,17 +32,17 @@ namespace Secretary.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Publicador_Country_CountryId1",
+                name: "FK_Publicador_Country_CountryId",
                 schema: "secretary",
                 table: "Publicador");
 
             migrationBuilder.DropIndex(
-                name: "IX_Publicador_CountryId1",
+                name: "IX_Publicador_CountryId",
                 schema: "secretary",
                 table: "Publicador");
 
             migrationBuilder.DropColumn(
-                name: "CountryId1",
+                name: "CountryId",
                 schema: "secretary",
                 table: "Publicador");
         }

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Secretary.API.Dtos;
 using Secretary.API.Interfaces;
-using Secretary.API.Models;
+using Secretary.API.Model;
 
 namespace Secretary.API.Controllers
 {

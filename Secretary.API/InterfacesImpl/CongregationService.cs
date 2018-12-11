@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Secretary.API.Data;
 using Secretary.API.Interfaces;
-using Secretary.API.Models;
+using Secretary.API.Model;
 
 namespace Secretary.API.InterfacesImpl
 {

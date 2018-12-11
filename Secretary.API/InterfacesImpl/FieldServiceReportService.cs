@@ -8,7 +8,7 @@ using Secretary.API.Data;
 using Secretary.API.Dtos;
 using Secretary.API.Helpers;
 using Secretary.API.Interfaces;
-using Secretary.API.Models;
+using Secretary.API.Model;
 
 namespace Secretary.API.InterfacesImpl
 {

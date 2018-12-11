@@ -1,37 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace Secretary.API.Models
+namespace Secretary.API.Model
 {
-    public partial class Grupo : BaseEntity
+    public partial class Grupo
     {
         public Grupo()
         {
             Publicador = new HashSet<Publicador>();
         }
 
-        [Display(Name = "User")]
+        public long Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Ipaddress { get; set; }
         public long AuditoriaUsuario { get; set; }
-
-        [Display(Name = "Local")]
         public string Local { get; set; }
-
-        // ForeingKey
         public long? AjudanteId { get; set; }
-        [Display(Name = "Helper")]
-        public Publicador Ajudante { get; set; }
-
         public long CongregacaoId { get; set; }
-        [Display(Name = "Congregation")]
-        public Congregacao Congregacao { get; set; }
-
         public long? SuperintendenteId { get; set; }
-        [Display(Name = "Elder")]
-        public Publicador Superintendente { get; set; }
 
-        // Collections
-        [Display(Name = "Publisher")]
+        public Publicador Ajudante { get; set; }
+        public Congregacao Congregacao { get; set; }
+        public Publicador Superintendente { get; set; }
         public ICollection<Publicador> Publicador { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Secretary.API.Models;
+using Secretary.API.Model;
 
 namespace Secretary.API.Interfaces
 {

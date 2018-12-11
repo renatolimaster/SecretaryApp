@@ -2,7 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using Secretary.API.Dtos;
-using Secretary.API.Models;
+using Secretary.API.Model;
 
 namespace Secretary.API.Helpers
 {

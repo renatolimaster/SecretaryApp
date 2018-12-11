@@ -7,7 +7,7 @@ using NodaTime;
 using Secretary.API.Data;
 using Secretary.API.Helpers;
 using Secretary.API.Interfaces;
-using Secretary.API.Models;
+using Secretary.API.Model;
 
 namespace Secretary.API.InterfacesImpl
 {
@@ -46,7 +46,7 @@ namespace Secretary.API.InterfacesImpl
         {
             Console.WriteLine("================= getAllPublishersAsync =================");
 
-            var pub = _dbContext.Publicador.AsNoTracking().Include(p => p.Situacao).Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.Country).FirstOrDefaultAsync(p => p.Id == id);
+            var pub = _dbContext.Publicador.AsNoTracking().Include(p => p.Situacao).Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.TipoLogradouro).FirstOrDefaultAsync(p => p.Id == id);
 
             return pub;
         }

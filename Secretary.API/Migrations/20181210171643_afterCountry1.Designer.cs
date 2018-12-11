@@ -497,7 +497,7 @@ namespace Secretary.API.Migrations
 
                     b.Property<int>("CountryId");
 
-                    b.Property<long?>("CountryId1");
+                    b.Property<long?>("CountryId");
 
                     b.Property<DateTime?>("DataAnciao")
                         .HasColumnType("TIMESTAMP(3)");
@@ -591,7 +591,7 @@ namespace Secretary.API.Migrations
                     b.HasIndex("CongregacaoId")
                         .HasName("FK_Publicador_Congregacao");
 
-                    b.HasIndex("CountryId1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("DianteiraId")
                         .HasName("FK_Publicador_Dianteira");
@@ -1332,7 +1332,7 @@ namespace Secretary.API.Migrations
 
                     b.HasOne("Secretary.API.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryId1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("Secretary.API.Models.Dianteira", "Dianteira")
                         .WithMany("Publicador")

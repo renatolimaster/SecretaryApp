@@ -2,4 +2,4 @@
 
 1-Configure Extensions in VSCode
 2-Configure projetcName.csproj PackageReference to EntityFrameworkCore connection DB
-2-Create DataContext and Models
+2-Create DataContext and Model

@@ -1,40 +1,25 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
-namespace Secretary.API.Models
+namespace Secretary.API.Model
 {
-    public partial class Transferencia : BaseEntity
+    public partial class Transferencia
     {
-        
-        [Display(Name = "User")]
+        public long Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Ipaddress { get; set; }
         public long AuditoriaUsuario { get; set; }
-        
-        [Display(Name = "Date")]
-        [DataType(DataType.Date)]
         public DateTime Data { get; set; }
-        
-        [Display(Name = "Obs")]
         public string Observacao { get; set; }
-        
-        
-        // ForeignKey
         public long CongregacaoId { get; set; }
-        [Display(Name = "Congregation")]
-        public Congregacao Congregacao { get; set; }
-
         public long PublicadorId { get; set; }
-        [Display(Name = "Publisher")]
-        public Publicador Publicador { get; set; }
-
         public long OrigemId { get; set; }
-        [Display(Name = "Origin")]
-        public Congregacao Origem { get; set; }
-
         public long DestinoId { get; set; }
-        [Display(Name = "Destination")]
+
+        public Congregacao Congregacao { get; set; }
         public Congregacao Destino { get; set; }
-
-
+        public Congregacao Origem { get; set; }
+        public Publicador Publicador { get; set; }
     }
-
 }

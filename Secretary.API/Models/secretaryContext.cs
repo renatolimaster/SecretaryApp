@@ -1,17 +1,16 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Secretary.API.Model;
 
-namespace Secretary.API.Data
+namespace Secretary.API.Model
 {
-    public partial class ApplicationDbContext : DbContext
+    public partial class secretaryContext : DbContext
     {
-        public ApplicationDbContext()
+        public secretaryContext()
         {
         }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public secretaryContext(DbContextOptions<secretaryContext> options)
             : base(options)
         {
         }

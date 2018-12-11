@@ -1,38 +1,24 @@
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Secretary.API.Models
+namespace Secretary.API.Model
 {
-    public class PeticaoPioneiroAuxiliar : BaseEntity
+    public partial class PeticaoPioneiroAuxiliar
     {
-
-        [Display(Name = "Start Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MMM/yyyy}")]
+        public long Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Ipaddress { get; set; }
         public DateTime ReferenciaInicial { get; set; }
-
-        [Display(Name = "End Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MMM/yyyy}")]
         public DateTime ReferenciaFinal { get; set; }
-
-        [Display(Name = "Notes")]
-        public string Observacao { set; get; }
-
-        [Display(Name = "Status")]
-        public bool? EstaAprovado { set; get; }
-
-        // ForeignKey
         public long CongregacaoId { get; set; }
-        [Display(Name = "Congregation")]
-        public Congregacao Congregacao { get; set; }
-
         public long PublicadorId { get; set; }
-        [Display(Name = "Publisher")]
-        public Publicador Publicador { get; set; }
-        
         public long PioneiroId { get; set; }
-        [Display(Name = "Pioneer")]
+        public bool EstaAprovado { get; set; }
+        public string Observacao { get; set; }
+
+        public Congregacao Congregacao { get; set; }
         public Pioneiro Pioneiro { get; set; }
+        public Publicador Publicador { get; set; }
     }
 }

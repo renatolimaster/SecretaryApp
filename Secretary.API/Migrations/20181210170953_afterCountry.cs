@@ -482,7 +482,7 @@ namespace Secretary.API.Migrations
                     Email = table.Column<string>(maxLength: 255, nullable: false),
                     EstadoId = table.Column<long>(nullable: true),
                     CountryId = table.Column<int>(nullable: false),
-                    CountryId1 = table.Column<long>(nullable: true),
+//                    CountryId = table.Column<long>(nullable: true),
                     GrupoId = table.Column<long>(nullable: true),
                     IrmaoBatizado = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "FALSE"),
                     Login = table.Column<string>(maxLength: 255, nullable: true),
@@ -514,8 +514,8 @@ namespace Secretary.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Publicador_Country_CountryId1",
-                        column: x => x.CountryId1,
+                        name: "FK_Publicador_Country_CountryId",
+                        column: x => x.CountryId,
                         principalSchema: "secretary",
                         principalTable: "Country",
                         principalColumn: "Id",
@@ -1082,10 +1082,10 @@ namespace Secretary.API.Migrations
                 column: "CongregacaoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Publicador_CountryId1",
+                name: "IX_Publicador_CountryId",
                 schema: "secretary",
                 table: "Publicador",
-                column: "CountryId1");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "FK_Publicador_Dianteira",
@@ -1422,7 +1422,7 @@ namespace Secretary.API.Migrations
                 table: "Publicador");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Publicador_Country_CountryId1",
+                name: "FK_Publicador_Country_CountryId",
                 schema: "secretary",
                 table: "Publicador");
 

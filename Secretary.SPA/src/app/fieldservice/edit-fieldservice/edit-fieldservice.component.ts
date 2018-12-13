@@ -3,21 +3,22 @@ import {
   OnInit,
   ViewChild,
   HostListener,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Input
 } from '@angular/core';
 import { ServicoCampo } from '../../_models/ServicoCampo';
 import { ReportService } from '../../_services/report.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from '../../_services/alertify.service';
 import { CongregationService } from '../../_services/congregation.service';
 import { Congregacao } from '../../_models/Congregacao';
 import { PioneerService } from '../../_services/pioneer.service';
 import { Pioneiro } from '../../_models/Pioneiro';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../../_services/auth.service';
 import { Publicador } from '../../_models/Publicador';
 import { PublisherService } from '../../_services/publisher.service';
-import { timingSafeEqual } from 'crypto';
+
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-edit-fieldservice',
@@ -25,8 +26,8 @@ import { timingSafeEqual } from 'crypto';
   styleUrls: ['./edit-fieldservice.component.css']
 })
 export class EditFieldserviceComponent implements OnInit {
-  @ViewChild('editForm')
-  editForm: NgForm;
+  @ViewChild('editForm') editForm: NgForm;
+  @Input() modalRef: BsModalRef;
   title = 'Field Service';
   subTitles = 'Edit';
   report: ServicoCampo;
@@ -138,10 +139,17 @@ export class EditFieldserviceComponent implements OnInit {
     totalHours = report.horas + report.horasBetel + report.creditoHoras;
 
     if (report.horas < 70) {
-      console.log('h: ' + report.horas);
       if (totalHours > 70) {
         alert('Hours + Bethel + Credit = ' + totalHours + 'h and exceeds 70h, please adjust it!');
-        return;
+        return false;
+      }
+    }
+
+    if (totalHours >= 30 && report.pioneiroId === 1) {
+      if (!confirm('Are you sure to update that report just as publisher with ' +
+        totalHours + ' of hours?')) {
+        this.alertifyService.warning('Update canceled!');
+        return false;
       }
     }
 
@@ -180,4 +188,15 @@ export class EditFieldserviceComponent implements OnInit {
     );
     console.log('status: ' + this.editForm.dirty);
   }
+
+  deleteAqui() {
+    console.log('deleteAqui');
+  }
+
+  clickMethod(name: string) {
+    if (confirm('Are you sure to delete ' + name)) {
+      console.log('Implement delete functionality here');
+    }
+  }
+
 }

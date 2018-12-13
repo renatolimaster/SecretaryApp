@@ -32,16 +32,17 @@ namespace Secretary.API.Dtos
         public CongregationSimplifiedDto Congregacao { get; set; }
         public DateTime? Batismo { get; set; }
         public string Cep { get; set; }
-        public string Cidade { get; set; }
 
         // ADDRESS
         public string TelCelular { get; set; }
         public string TelResidencial { get; set; }
         public string TelTrabalho { get; set; }
         public long? TipoLogradouroId { get; set; }
-        public TipoLogradouro TipoLogradouro { get; set; }
+        public TipoLogradouroForListDto TipoLogradouro { get; set; }
         public string NomeLogradouro { get; set; }
         public string Complemento { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
         public string Email { get; set; } = "fsr.vec@gmail.com";
         public long? EstadoId { get; set; }
         public EstadoForListDto Estado { get; set; }

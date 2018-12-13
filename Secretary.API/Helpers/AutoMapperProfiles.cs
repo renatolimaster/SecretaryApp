@@ -81,10 +81,11 @@ namespace Secretary.API.Helpers
 
             CreateMap<CountryForListDto, Country>();
             CreateMap<Country, CountryForListDto>();
-            
+            // ESTADO
             CreateMap<StateForListDto, Estado>();
-
             CreateMap<Estado, StateForListDto>();
+            CreateMap<EstadoForListDto, Estado>();
+            CreateMap<Estado, EstadoForListDto>();
 
             CreateMap<TipoLogradouroForListDto, TipoLogradouro>();
 

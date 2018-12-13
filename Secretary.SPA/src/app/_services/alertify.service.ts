@@ -11,9 +11,12 @@ export class AlertifyService {
   confirm(message: string, okCallback: () => any) {
     alertify.confirm(message, function(e) {
       if (e) {
-        okCallback();
-      } else {
-      }
+        alertify.success('Yes');
+        return true;
+    } else {
+        alertify.error('No');
+        return false;
+    }
     });
   }
 

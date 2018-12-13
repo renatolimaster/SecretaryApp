@@ -46,7 +46,7 @@ namespace Secretary.API.InterfacesImpl
         {
             Console.WriteLine("================= getAllPublishersAsync =================");
 
-            var pub = _dbContext.Publicador.AsNoTracking().Include(p => p.Situacao).Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.TipoLogradouro).FirstOrDefaultAsync(p => p.Id == id);
+            var pub = _dbContext.Publicador.AsNoTracking().Include(p => p.Situacao).Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.TipoLogradouro).Include(p => p.Country).Include(p => p.Estado).FirstOrDefaultAsync(p => p.Id == id);
 
             return pub;
         }

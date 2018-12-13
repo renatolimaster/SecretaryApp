@@ -8,7 +8,7 @@ namespace Secretary.API.Interfaces
     public interface IRepository<T> where T: class
     {        
 
-        Task<T> Get(long id);
+        // Task<T> Get(long id);
         Task<IEnumerable<T>> GetAll();
         Task<bool> Add(T entity);
         Task<bool> Update(T entity);

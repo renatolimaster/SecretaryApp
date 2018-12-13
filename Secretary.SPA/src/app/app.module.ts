@@ -1,12 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BsDropdownModule } from 'ngx-bootstrap';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpModule } from '@angular/http';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -37,7 +36,6 @@ import { DetailFieldServiceResolver } from './_resolver/detail-fieldservice.reso
 import { EditFieldServiceResolver } from './_resolver/edit-fieldservice.resolver';
 import { ListFieldServiceResolver } from './_resolver/list-fieldservice.resolver';
 import { MonthDatePickerComponent } from './month-date-picker/month-date-picker.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListCongregationResolver } from './_resolver/list-congregation.resolver';
 import { DetailCongregationComponent } from './congregation/detail-congregation/detail-congregation.component';
 import { EditCongregationComponent } from './congregation/edit-congregation/edit-congregation.component';
@@ -52,6 +50,8 @@ import { SettingsService } from './_services/settings.service';
 import { ListPublishersResolver } from './_resolver/list-publishers.resolver';
 import { DetailPublisherResolver } from './_resolver/detail-publisher.resolver';
 import { DetailPublisherComponent } from './publisher/detail-publisher/detail-publisher.component';
+import { ModalServiceConfirmWindowComponent } from './_modals/modal-service-confirm-window/modal-service-confirm-window.component';
+
 
 
 export function tokenGetter() {
@@ -80,6 +80,8 @@ export function tokenGetter() {
     ListFieldserviceComponent,
     ListAssistanceComponent,
     //
+    ModalServiceConfirmWindowComponent,
+    //
     CongregationFieldserviceComponent,
     ListMembersComponent,
     MemberCardComponent,
@@ -98,6 +100,7 @@ export function tokenGetter() {
     HttpModule,
     FormsModule,
     ReactiveFormsModule,
+    ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),

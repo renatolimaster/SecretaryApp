@@ -8,6 +8,7 @@ namespace Secretary.API.Model
         public Country()
         {
             Estado = new HashSet<Estado>();
+            Publicador = new HashSet<Publicador>();
         }
 
         public long Id { get; set; }
@@ -22,5 +23,6 @@ namespace Secretary.API.Model
         public int PhoneCode { get; set; }
 
         public ICollection<Estado> Estado { get; set; }
+        public ICollection<Publicador> Publicador { get; set; }
     }
 }

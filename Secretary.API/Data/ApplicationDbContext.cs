@@ -42,14 +42,16 @@ namespace Secretary.API.Data
         public virtual DbSet<Transferencia> Transferencia { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
+        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseNpgsql("Host=localhost;Database=secretary;Username=postgres;Password=22113311");
             }
         }
+         */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -595,6 +597,11 @@ namespace Secretary.API.Data
                     .WithMany(p => p.Publicador)
                     .HasForeignKey(d => d.TipoLogradouroId)
                     .HasConstraintName("publicador$FK_Publicador_TipoLogradouro");
+
+                entity.HasOne(d => d.Country)
+                    .WithMany(p => p.Publicador)
+                    .HasForeignKey(d => d.CountryId)
+                    .HasConstraintName("publicador$FK_Publicador_Country");
             });
 
             modelBuilder.Entity<PublicadorHistorico>(entity =>

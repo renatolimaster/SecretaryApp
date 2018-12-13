@@ -37,7 +37,7 @@ dotnet ef migrations remove
 dotnet ef database update
 
 ===== database first ======
-dotnet ef dbcontext scaffold "Host=localhost;Database=secretary;Username=postgres;Password=22113311" Npgsql.EntityFrameworkCore.PostgreSQL -o Model
+dotnet ef dbcontext scaffold "Host=localhost;Database=secretary;Username=postgres;Password=22113311" Npgsql.EntityFrameworkCore.PostgreSQL -o Model --schema secretary
 
 
 ===== Change Environment

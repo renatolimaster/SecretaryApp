@@ -43,7 +43,8 @@ namespace Secretary.API.Model
         public long? DianteiraId { get; set; }
         public string Email { get; set; }
         public long? EstadoId { get; set; }
-        public int CountryId { get; set; }
+        public long CountryId { get; set; }
+        public Country Country { get; set; }
         public long? GrupoId { get; set; }
         public bool IrmaoBatizado { get; set; }
         public string Login { get; set; }

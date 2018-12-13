@@ -9,7 +9,7 @@ using Secretary.API.Models;
 
 namespace Secretary.API.InterfacesImpl
 {
-    public class Repository<T> : IRepository<T> where T :  BaseEntity
+    public class Repository<T> : IRepository<T> where T :  class
     {
         private readonly ApplicationDbContext _context;
         private DbSet<T> entities;
@@ -25,11 +25,12 @@ namespace Secretary.API.InterfacesImpl
             return await entities.ToListAsync();
         }
  
+ /*
         public async Task<T> Get(long id)
         {
             return await entities.FirstOrDefaultAsync(u => u.Id == id);
         }
-     
+ */
         public Task<bool> Add(T entity)
         {
             if (entity == null)
@@ -43,7 +44,7 @@ namespace Secretary.API.InterfacesImpl
  
         public Task<bool> Update(T entity)
         {
-            Console.WriteLine("entity: " + entity.Id);
+            // Console.WriteLine("entity: " + entity);
             if (entity == null)
             {
                 Console.WriteLine("entity: null");

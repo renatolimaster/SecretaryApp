@@ -20,7 +20,7 @@ export class DetailPublisherComponent implements OnInit {
     private route: ActivatedRoute,
     private publisherService: PublisherService,
     private alertifyService: AlertifyService
-    ) { }
+  ) {}
 
   ngOnInit() {
     this.catchParams();
@@ -39,6 +39,9 @@ export class DetailPublisherComponent implements OnInit {
   loadCongregation() {
     this.route.data.subscribe(data => {
       this.publisher = data['publisher'];
+      if (this.publisher.dianteira.descricao === 'Não') {
+        this.publisher.dianteira.descricao = 'Publisher';
+      }
     });
   }
 
@@ -53,5 +56,4 @@ export class DetailPublisherComponent implements OnInit {
       }
     );
   }
-
 }

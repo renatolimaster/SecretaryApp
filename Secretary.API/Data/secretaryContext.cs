@@ -41,6 +41,7 @@ namespace Secretary.API.Model
         public virtual DbSet<Transferencia> Transferencia { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
+/*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -49,7 +50,7 @@ namespace Secretary.API.Model
                 optionsBuilder.UseNpgsql("Host=localhost;Database=secretary;Username=postgres;Password=22113311");
             }
         }
-
+ */
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AssistenciaReuniao>(entity =>

@@ -9,15 +9,17 @@ export class AlertifyService {
   constructor() {}
 
   confirm(message: string, okCallback: () => any) {
-    alertify.confirm(message, function(e) {
+    alertify.confirm(message, function (e: any) {
       if (e) {
-        alertify.success('Yes');
-        return true;
-    } else {
-        alertify.error('No');
-        return false;
-    }
+        okCallback();
+      } else {
+        alertify.success('No');
+      }
     });
+  }
+
+  alert(message: string) {
+    alertify.alert(message);
   }
 
   success(message: string) {

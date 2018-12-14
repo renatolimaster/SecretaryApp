@@ -18,7 +18,10 @@ import { NgForm } from '@angular/forms';
 import { Publicador } from '../../_models/Publicador';
 import { PublisherService } from '../../_services/publisher.service';
 
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ModalServiceConfirmWindowComponent } from 'src/app/_modals/modal-service-confirm-window/modal-service-confirm-window.component';
+
+declare let alertify: any;
 
 @Component({
   selector: 'app-edit-fieldservice',
@@ -28,6 +31,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 export class EditFieldserviceComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
   @Input() modalRef: BsModalRef;
+  bsModalRef: BsModalRef;
   title = 'Field Service';
   subTitles = 'Edit';
   report: ServicoCampo;
@@ -48,6 +52,7 @@ export class EditFieldserviceComponent implements OnInit {
   }
 
   constructor(
+    private modalService: BsModalService,
     private cdRef: ChangeDetectorRef,
     private publisherService: PublisherService,
     private pioneerService: PioneerService,
@@ -65,6 +70,11 @@ export class EditFieldserviceComponent implements OnInit {
     this.loadPioneers();
     this.loadPublishers();
     this.loadReport();
+  }
+
+  openModalWithComponent() {
+    /* this is how we open a Modal Component from another component */
+    this.bsModalRef = this.modalService.show(ModalServiceConfirmWindowComponent);
   }
 
   compareCongregationFn(c1: Congregacao, c2: Congregacao): boolean {
@@ -153,6 +163,11 @@ export class EditFieldserviceComponent implements OnInit {
       }
     }
 
+    this.updateReport(report.id, report);
+
+  }
+
+  updateReport(id: number, report: ServicoCampo) {
     this.reportService.updateReport(report.id, report).subscribe(
       () => {
         this.getReport(report.id);
@@ -187,16 +202,6 @@ export class EditFieldserviceComponent implements OnInit {
       }
     );
     console.log('status: ' + this.editForm.dirty);
-  }
-
-  deleteAqui() {
-    console.log('deleteAqui');
-  }
-
-  clickMethod(name: string) {
-    if (confirm('Are you sure to delete ' + name)) {
-      console.log('Implement delete functionality here');
-    }
   }
 
 }

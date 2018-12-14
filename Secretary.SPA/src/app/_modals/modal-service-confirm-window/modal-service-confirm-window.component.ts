@@ -19,7 +19,10 @@ export class ModalServiceConfirmWindowComponent implements OnInit {
   @Output() deleteEvent = new EventEmitter();
   message: string;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(
+    public bsModalRef: BsModalRef,
+    private modalService: BsModalService
+    ) {}
 
   ngOnInit() {}
 

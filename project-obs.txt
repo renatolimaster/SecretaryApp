@@ -27,6 +27,7 @@ TypeScript Hero - Christoph Buhler
 mostrar os arquivos escondidos das pastas e deletar .gei, se houver;
 ir para a pasta raiz do projeto e criar: git init;
 copiar do github: git remote add origin https://github.com/renatolimaster/SecretaryApp.git
+                                        https://github.com/renatolimaster/React.git
 fazer o primeiro commit
 salvar para o github
 

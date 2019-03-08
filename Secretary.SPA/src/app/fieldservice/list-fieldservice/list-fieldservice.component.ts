@@ -49,23 +49,13 @@ export class ListFieldserviceComponent implements OnInit {
   ngOnInit() {
     this.msg = '';
     this.date = {
-      fromDate: this.dateTimeExtensions.CreateDate(
-        1,
-        new Date().getMonth() - 1,
-        new Date().getFullYear()
-      ),
-      toDate: this.dateTimeExtensions.CreateDate(
-        1,
-        new Date().getMonth() - 1,
-        new Date().getFullYear()
-      ),
-      referenceDate: this.dateTimeExtensions.CreateDate(
-        1,
-        new Date().getMonth() - 1,
-        new Date().getFullYear()
-      ),
-      check: false
-    };
+      fromDate: new Date(moment(this.dateTimeExtensions.FirstDayOfMonth(new Date()))
+          .subtract(0, 'months')
+          .format('YYYY-MM-DD')),
+      toDate: new Date(moment(this.dateTimeExtensions.FirstDayOfMonth(new Date()))
+          .subtract(0, 'months')
+          .format('YYYY-MM-DD')),
+      referenceDate: this.dateTimeExtensions.CreateDate(1, new Date().getMonth() - 1, new Date().getFullYear()), check: false };
 
     this.loadReportsFromPeriod(this.date);
   }

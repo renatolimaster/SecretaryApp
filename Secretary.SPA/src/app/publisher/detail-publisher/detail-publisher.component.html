@@ -35,83 +35,194 @@
     <div class="card-header">
       <h3 class="text-primary">{{ publisher.dianteira.descricao }}</h3>
       <h3>{{ publisher.nome }}</h3>
+      <div class="d-flex justify-content-between">
+        <h5><strong>Got Baptized: </strong>{{ publisher.batismo | date: 'MM/dd/yyyy' }}</h5>
+        <h5><strong>Birth: </strong>{{ publisher.dataNascimento | date: 'MM/dd/yyyy' }} <span class="text-info">({{ publisher.age }})</span></h5>
+        <h5 *ngIf="publisher.sexo == true" class="text-primary"><strong>Gender: </strong>Male</h5>
+        <h5 *ngIf="publisher.sexo == false" class="text-warning"><strong>Gender: </strong>Female</h5>
+      </div>
       <h5>
         Group: <span class="text-danger">{{ publisher.grupo.local }}</span>
       </h5>
     </div>
-    <div class="card-body">
-      <div class="card-block">
-        <div class="row">
-          <div class="col-md">
-            <h6 class="card-title">Status</h6>
-            <p class="card-text">{{ publisher.situacao.descricao }}</p>
-          </div>
 
-          <div class="col-md">
-            <h6 class="card-title">Cell Phone</h6>
-            <p class="card-text">{{ publisher.telCelular }}</p>
-          </div>
 
-          <div class="col-md">
-              <h6 class="card-title">Pioneer</h6>
-            <p class="card-text">{{ publisher.pioneiro.descricao }}</p>
-            
-          </div>
-
-          <div class="col-md">
-              <h6 class="card-title">Field Service Status</h6>
-            <p class="card-text">{{ publisher.situacaoServicoCampo }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-block">
-        <div class="row">
-          <div class="col-12">
+    <ngb-tabset>
+      <ngb-tab title="General">
+        <ng-template ngbTabContent>
+          <div class="card-body">
+            <div class="card-block">
+              <div class="row">
+                  <div class="col-12">
+                      <h4 class="text-primary">General</h4>
+                    </div>
+                <div class="col-md">
+                  <h6 class="card-title"><strong>Status</strong></h6>
+                  <p class="card-text">{{ publisher.situacao.descricao }}</p>
+                </div>
+      
+                <div class="col-md">
+                  <h6 class="card-title"><strong>Householder</strong></h6>
+                  <p class="card-text">{{ publisher.chefeFamilia ? 'Yes' : 'No' }}</p>
+                </div>
+      
+                <div class="col-md">
+                    <h6 class="card-title"><strong>Pioneer</strong></h6>
+                  <p class="card-text">{{ publisher.pioneiro.descricao }}</p>
+                  
+                </div>
+      
+                <div class="col-md">
+                    <h6 class="card-title"><strong>Field Service Status</strong></h6>
+                    <p class="card-text">{{ publisher.situacaoServicoCampo }}</p>
+                </div>
+                
+              </div>
+            </div>
             <hr />
-            <h4 class="text-primary">Address</h4>
+            <div class="card-block">
+                <div class="row">
+                  <div class="col-md">
+                    <h6 class="card-title"><strong>Baptized</strong></h6>
+                    <p class="card-text">{{ publisher.irmaoBatizado ? 'Yes' : 'No'}}</p>
+                  </div>
+        
+                  <div class="col-md">
+                    <h6 class="card-title"><strong>Got Baptized</strong></h6>
+                    <p class="card-text">{{ publisher.batismo | date: 'MM/dd/yyyy' }}</p>
+                  </div>
+        
+                  <div class="col-md">
+                      <h6 class="card-title"><strong>Elder Designation</strong></h6>
+                    <p class="card-text">{{ publisher.dataAnciao | date: 'MM/dd/yyyy' }}</p>
+                    
+                  </div>
+        
+                  <div class="col-md">
+                      <h6 class="card-title"><strong>Servant Designation</strong></h6>
+                      <p class="card-text">{{ publisher.dataServoMinisterial | date: 'MM/dd/yyyy'  }}</p>
+                  </div>
+                  
+                </div>
+              </div>
+      
+              <hr />
+            <div class="card-block">
+                <div class="row">
+                  <div class="col-md">
+                    <h6 class="card-title"><strong>Start service</strong></h6>
+                    <p class="card-text">{{ publisher.dataInicioServico | date: 'MM/dd/yyyy' }}</p>
+                  </div>
+        
+                  <div class="col-md">
+                    <h6 class="card-title"><strong>Deactivated</strong></h6>
+                    <p class="card-text">{{ publisher.dataInativo ? 'Yes' : 'No' }}</p>
+                  </div>
+        
+                  <div class="col-md">
+                      <h6 class="card-title"><strong>Reactivated</strong></h6>
+                    <p class="card-text">{{ publisher.dataReativado | date: 'MM/dd/yyyy' }}</p>
+                    
+                  </div>
+        
+                  <div class="col-md">
+                      <h6 class="card-title"><strong>Servant Designation</strong></h6>
+                      <p class="card-text">{{ publisher.dataServoMinisterial | date: 'MM/dd/yyyy'  }}</p>
+                  </div>
+                  
+                </div>
+              </div>
           </div>
-
-          <div class="col-md">
-            <p class="card-text"><strong>Public area</strong></p>
-            <p class="h6">&nbsp;{{ publisher.tipoLogradouro.descricao }}</p>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>Contact</ng-template>
+        <ng-template ngbTabContent>
+          <div class="card-body">      
+            <div class="card-block">
+              <div class="row">
+                <div class="col-12">
+                  <h4 class="text-primary">Contact</h4>
+                </div>
+              
+                <div class="col-md">
+                  <h6 class="card-title"><strong>Cell Phone</strong></h6>
+                  <p class="card-text">{{ publisher.telCelular }}</p>
+                </div>
+              
+                <div class="col-md">
+                  <p class="card-text"><strong>Work Phone</strong></p>
+                  <p class="h6">&nbsp;{{ publisher.telTrabalho }}</p>
+                </div>
+              
+                <div class="col-md">
+                  <p class="card-text"><strong>Home Phone</strong></p>
+                  <p class="h6">&nbsp;{{ publisher.telResidencial }}</p>
+                </div>
+              
+                <div class="col-md">
+                  <p class="card-text"><strong>Email</strong></p>
+                  <p class="h6">&nbsp;{{ publisher.email }}</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-md">
-            <p class="card-text"><strong>Complement</strong></p>
-            <p class="h6">&nbsp;{{ publisher.complemento }}</p>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>Address</ng-template>
+        <ng-template ngbTabContent>
+          <div class="card-body">      
+            <div class="card-block">
+              <div class="row">
+                  <div class="col-12">
+                      <h4 class="text-primary">Address</h4>
+                    </div>
+                  <div class="col-md">
+                      <p class="card-text"><strong>Public area</strong></p>
+                      <p class="h6">&nbsp;{{ publisher.tipoLogradouro.descricao }}</p>
+                    </div>
+                    <div class="col-md">
+                      <p class="card-text"><strong>Complement</strong></p>
+                      <p class="h6">&nbsp;{{ publisher.complemento }}</p>
+                    </div>
+                    <div class="col-md">
+                      <p class="card-text"><strong>Neighborhood</strong></p>
+                      <p class="h6">&nbsp;{{ publisher.bairro }}</p>
+                    </div>
+                    <div class="col-md">
+                      <p class="card-text"><strong>City</strong></p>
+                      <p class="h6">&nbsp;{{ publisher.cidade }}</p>
+                    </div>
+              </div>
+      
+              <hr />
+      
+              <div class="row">
+                <div class="col-md">
+                  <p class="card-text"><strong>State</strong></p>
+                  <p class="h6">&nbsp;{{ publisher.estado.descricao }}</p>
+                </div>
+                <div class="col-md">
+                  <p class="card-text"><strong>Country</strong></p>
+                  <p class="h6">&nbsp;{{ publisher.country.niceName }}</p>
+                </div>
+      
+                <div class="col-md">
+                  <p class="card-text"><strong>Zip code</strong></p>
+                  <p class="h6">&nbsp;{{ publisher.cep }}</p>
+                </div>
+      
+                <div class="col-md">
+                  <p class="card-text">&nbsp;</p>
+                  <p class="h6">&nbsp;</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-md">
-            <p class="card-text"><strong>Neighborhood</strong></p>
-            <p class="h6">&nbsp;{{ publisher.bairro }}</p>
-          </div>
-          <div class="col-md">
-            <p class="card-text"><strong>City</strong></p>
-            <p class="h6">&nbsp;{{ publisher.cidade }}</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md">
-            <p class="card-text"><strong>State</strong></p>
-            <p class="h6">&nbsp;{{ publisher.estado.descricao }}</p>
-          </div>
-          <div class="col-md">
-            <p class="card-text"><strong>Country</strong></p>
-            <p class="h6">&nbsp;{{ publisher.country.niceName }}</p>
-          </div>
-
-          <div class="col-md">
-            <p class="card-text"><strong>Zip code</strong></p>
-            <p class="h6">&nbsp;{{ publisher.cep }}</p>
-          </div>
-
-          <div class="col-md">
-            <p class="card-text">&nbsp;</p>
-            <p class="h6">&nbsp;</p>
-          </div>
-        </div>
-      </div>
-    </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
 
     <div class="text-center">
       <hr />

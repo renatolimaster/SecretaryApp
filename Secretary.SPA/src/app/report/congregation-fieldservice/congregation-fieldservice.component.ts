@@ -82,19 +82,12 @@ export class CongregationFieldserviceComponent implements OnInit {
 
   ngOnInit() {
     this.msg = '';
-    this.date = {
-      fromDate: this.dateTimeExtensions.CreateDate(
-        1,
-        new Date().getMonth() - 1,
-        new Date().getFullYear()
-      ),
-      toDate: this.dateTimeExtensions.CreateDate(
-        1,
-        new Date().getMonth() - 1,
-        new Date().getFullYear()
-      ),
-      check: false
-    };
+    this.date = { fromDate: new Date(moment(this.dateTimeExtensions.FirstDayOfMonth(new Date()))
+          .subtract(0, 'months')
+          .format('YYYY-MM-DD')),
+      toDate: new Date(moment(
+        this.dateTimeExtensions.FirstDayOfMonth(new Date())).subtract(0, 'months').format('YYYY-MM-DD')),
+      check: false };
 
     if (this.date.check) {
       this.publisherType = [

@@ -14,6 +14,7 @@ export class DetailPublisherComponent implements OnInit {
   subTitles = 'Details';
   publisher: Publicador;
   del: any;
+  sexo: boolean;
 
   constructor(
     private router: Router,
@@ -42,6 +43,7 @@ export class DetailPublisherComponent implements OnInit {
       if (this.publisher.dianteira.descricao === 'Não') {
         this.publisher.dianteira.descricao = 'Publisher';
       }
+      this.sexo = this.publisher.sexo;
     });
   }
 

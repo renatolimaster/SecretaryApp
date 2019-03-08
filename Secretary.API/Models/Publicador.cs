@@ -72,6 +72,7 @@ namespace Secretary.API.Model
         public Pioneiro Pioneiro { get; set; }
         public Situacao Situacao { get; set; }
         public TipoLogradouro TipoLogradouro { get; set; }
+        // public Boolean Professes { get; set; }
         public ICollection<Familia> FamiliaChefeFamilia { get; set; }
         public ICollection<Familia> FamiliaMembro { get; set; }
         public ICollection<Familiares> FamiliaresMembro { get; set; }

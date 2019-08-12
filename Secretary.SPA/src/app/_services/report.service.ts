@@ -20,6 +20,12 @@ export class ReportService {
     return this.http.get<ServicoCampo[]>(this.baseUrl + 'fieldservice/initialize/'  + toDate);
   }
 
+  getMissingFieldServiceMail(toDate): Observable<ServicoCampo[]> {
+    return this.http.get<ServicoCampo[]>(
+      this.baseUrl + 'fieldservice/missingfieldservicemail/' + toDate
+    );
+  }
+
   getReport(id): Observable<ServicoCampo> {
     return this.http.get<ServicoCampo>(this.baseUrl + 'fieldservice/' + id);
   }

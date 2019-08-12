@@ -41,7 +41,7 @@
     "multisort": "^0.5.3",
     "ngx-bootstrap": "^3.0.1",
     "pdfmake": "^0.1.38",
-    "rxjs": "^6.0.0",
+    "rxjs": "6.0.0",
     "rxjs-compat": "^6.3.3",
     "sweetalert": "^2.1.2",
     "zone.js": "^0.8.26"

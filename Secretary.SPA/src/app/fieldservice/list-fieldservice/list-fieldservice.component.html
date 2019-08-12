@@ -3,16 +3,27 @@
     <h2>{{ title }}</h2>
     <div class="col-xs-12 col-md-12">
       <button asp-action="Index" class="btn-sm btn btn-outline-primary">
-        <i class="fa fa-plus"></i> Create New
-      </button>&nbsp;
+        <i class="fa fa-plus"></i> Create New</button
+      >&nbsp;
       <button
         type="button"
         class="btn-sm btn btn-outline-primary"
         (click)="initializeFieldServices()"
         data-toggle="tooltip"
         data-placement="right"
-        title="The date of the previous month will be considered.">
+        title="The date of the previous month will be considered."
+      >
         <i class="fa fa-calendar-check-o"></i> Initialize
+      </button>&nbsp;
+      <button
+        type="button"
+        class="btn-sm btn btn-outline-primary"
+        (click)="missingFieldServicesSendEmail()"
+        data-toggle="tooltip"
+        data-placement="right"
+        title="The date of the previous month will be considered."
+      >
+        <i class="fa fa-flag-checkered"></i> Missing
       </button>
     </div>
   </div>
@@ -41,7 +52,8 @@
       <form
         #myForm="ngForm"
         class="form-control-inline my-2 my-lg-0"
-        (ngSubmit)="loadReportsFromPeriod(myForm.value)">
+        (ngSubmit)="loadReportsFromPeriod(myForm.value)"
+      >
         <div class="row">
           <div class="col-sm-4">
             <h5 class="card-text">From</h5>
@@ -75,8 +87,15 @@
 
           <div class="col-sm-2">
             <h5 class="card-text">&nbsp;</h5>
-            <input [(ngModel)]="date.check" type="checkbox" class="form-check-input " name="check" id="check">
-            <label class="form-check-label" for="check">Undelivered</label>&nbsp; &nbsp;          
+            <input
+              [(ngModel)]="date.check"
+              type="checkbox"
+              class="form-check-input "
+              name="check"
+              id="check"
+            />
+            <label class="form-check-label" for="check">Undelivered</label
+            >&nbsp; &nbsp;
           </div>
 
           <div class="col-sm-2">
@@ -84,13 +103,12 @@
             <button
               type="submit"
               class="btn btn-success custombutton"
-              [disabled]="!myForm.dirty">
+              [disabled]="!myForm.dirty"
+            >
               <i class="fa fa-filter"></i> Filter
             </button>
           </div>
-          
         </div>
-
       </form>
 
       <br />
@@ -125,11 +143,13 @@
     <ngx-datatable-row-detail
       [rowHeight]="50"
       #myDetailRow
-      (toggle)="onDetailToggle($event)">
+      (toggle)="onDetailToggle($event)"
+    >
       <ng-template
         let-row="row"
         let-expanded="expanded"
-        ngx-datatable-row-detail-template>
+        ngx-datatable-row-detail-template
+      >
         <div style="padding-left:60px; font-size:14px">
           <div>{{ row.Publicador.nome }}, {{ row.horas }}</div>
         </div>
@@ -146,8 +166,10 @@
       </ng-template>
       <ng-template let-value="value" ngx-datatable-cell-template>
         <div class="text-left">
-        <span class="mobile-hidden">{{ value.nome.split(' ')[0] }} {{ value.nome.split(' ')[1] }}</span>
-      </div>
+          <span class="mobile-hidden"
+            >{{ value.nome.split(' ')[0] }} {{ value.nome.split(' ')[1] }}</span
+          >
+        </div>
       </ng-template>
     </ngx-datatable-column>
 
@@ -198,7 +220,7 @@
         let-sort="sortFn"
         ngx-datatable-header-template
       >
-        <span class="mobile-hidden">Colocations</span>
+        <span class="mobile-hidden">Placements</span>
       </ng-template>
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value }}
@@ -237,8 +259,12 @@
         <span class="mobile-hidden">Hours</span>
       </ng-template>
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        <span *ngIf="value === 0" class="text-danger"><strong>{{ value }}</strong></span>
-        <span *ngIf="value !== 0" class="text-primary"><strong>{{ value }}</strong></span>
+        <span *ngIf="value === 0" class="text-danger"
+          ><strong>{{ value }}</strong></span
+        >
+        <span *ngIf="value !== 0" class="text-primary"
+          ><strong>{{ value }}</strong></span
+        >
       </ng-template>
     </ngx-datatable-column>
 

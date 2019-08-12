@@ -49,13 +49,23 @@ export class ListFieldserviceComponent implements OnInit {
   ngOnInit() {
     this.msg = '';
     this.date = {
-      fromDate: new Date(moment(this.dateTimeExtensions.FirstDayOfMonth(new Date()))
+      fromDate: new Date(
+        moment(this.dateTimeExtensions.FirstDayOfMonth(new Date()))
           .subtract(0, 'months')
-          .format('YYYY-MM-DD')),
-      toDate: new Date(moment(this.dateTimeExtensions.FirstDayOfMonth(new Date()))
+          .format('YYYY-MM-DD')
+      ),
+      toDate: new Date(
+        moment(this.dateTimeExtensions.FirstDayOfMonth(new Date()))
           .subtract(0, 'months')
-          .format('YYYY-MM-DD')),
-      referenceDate: this.dateTimeExtensions.CreateDate(1, new Date().getMonth() - 1, new Date().getFullYear()), check: false };
+          .format('YYYY-MM-DD')
+      ),
+      referenceDate: this.dateTimeExtensions.CreateDate(
+        1,
+        new Date().getMonth() - 1,
+        new Date().getFullYear()
+      ),
+      check: false
+    };
 
     this.loadReportsFromPeriod(this.date);
   }
@@ -63,7 +73,9 @@ export class ListFieldserviceComponent implements OnInit {
   initializeFieldServices() {
     const priorMonth = moment(
       this.dateTimeExtensions.FirstDayOfMonth(new Date())
-    ).subtract(1, 'months').format('YYYY-MM-DD');
+    )
+      .subtract(1, 'months')
+      .format('YYYY-MM-DD');
 
     this.msg = '';
 
@@ -83,6 +95,40 @@ export class ListFieldserviceComponent implements OnInit {
 
         if (count > 0) {
           this.msg = count + ' have not yet delivered the report!';
+          this.alertifyService.error(this.msg);
+        }
+      },
+      error => {
+        this.alertifyService.error(error);
+      }
+    );
+  }
+
+  missingFieldServicesSendEmail() {
+    const priorMonth = moment(
+      this.dateTimeExtensions.FirstDayOfMonth(new Date())
+    )
+      .subtract(1, 'months')
+      .format('YYYY-MM-DD');
+
+    this.msg = '';
+
+    this.reportService.getMissingFieldServiceMail(priorMonth).subscribe(
+      (reports: ServicoCampo[]) => {
+        this.reports = reports;
+        // cache our list
+        this.temp = [...reports];
+        // push our inital complete list
+        this.rows = reports;
+        let count = 0;
+        this.reports.forEach(item => {
+          if (item.horas === 0) {
+            count++;
+          }
+        });
+
+        if (count > 0) {
+          this.msg = count + ' have not yet delivered the report and was sent e-mail!';
           this.alertifyService.error(this.msg);
         }
       },
@@ -134,20 +180,22 @@ export class ListFieldserviceComponent implements OnInit {
     }
 
     if (this.date.check) {
-      this.reportService.getUndeliveredReportsByPeriod(fromDate, toDate).subscribe(
-        (reports: ServicoCampo[]) => {
-          this.reports = reports;
-          // cache our list
-          this.temp = [...reports];
-          // push our inital complete list
-          this.rows = reports;
-          this.msg = this.reports.length + ' report(s) loaded!!';
-          this.alertifyService.success(this.msg);
-        },
-        error => {
-          this.alertifyService.error(error);
-        }
-      );
+      this.reportService
+        .getUndeliveredReportsByPeriod(fromDate, toDate)
+        .subscribe(
+          (reports: ServicoCampo[]) => {
+            this.reports = reports;
+            // cache our list
+            this.temp = [...reports];
+            // push our inital complete list
+            this.rows = reports;
+            this.msg = this.reports.length + ' report(s) loaded!!';
+            this.alertifyService.success(this.msg);
+          },
+          error => {
+            this.alertifyService.error(error);
+          }
+        );
     } else {
       this.reportService.getReportsByPeriod(fromDate, toDate).subscribe(
         (reports: ServicoCampo[]) => {
@@ -164,7 +212,6 @@ export class ListFieldserviceComponent implements OnInit {
         }
       );
     }
-
   }
 
   onPage(event) {

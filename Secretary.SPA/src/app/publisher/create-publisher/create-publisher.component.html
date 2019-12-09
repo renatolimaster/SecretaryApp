@@ -1,0 +1,225 @@
+<div class="container mt-3">
+
+  <div class="row">
+    <h2>{{title}}</h2>
+    <div class="col-xs-12 col-sm-12">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/publisher']" routerLinkActive="router-link-active">
+        <i class="fa fa-arrow-left"></i> List</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 mt-3">
+      <h4 class="text-primary">{{subTitles}}</h4>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div *ngIf="editForm.dirty" class="card mt-3 w-75 alert alert-info">
+    <p class="card-text"><strong>Information:</strong>&nbsp;You have made changes. Any unsave changes will be lost!</p>
+  </div>
+
+  <div class="card mt-3 w-75">
+    <div class="card-header">
+      <h3 class="text-primary">New Publisher</h3>
+    </div>
+
+    <form #editForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="updateFieldService(editForm.value)">
+      <div class="card-body">
+
+        <div class="card-block">
+          <div class="row text-left">
+            <div class="col-12">
+              <h5 class="text-primary">General</h5>
+              <hr>
+            </div>
+          </div>
+
+          <div class='row'>
+
+            <div class="col-sm">
+              <h5 class="card-text">Congregation</h5>
+              <select class="form-control w-75" id="congregacaoId" name="congregacaoId" [(ngModel)]="selectedCongregation" required>
+                <option *ngFor="let congregation of congregations" [ngValue]="congregation.id">&nbsp;{{congregation.id}}:{{congregation?.nome}}</option>
+              </select>
+
+            </div>
+
+            <div class="col-sm">
+              <h5 class="card-text">Pioneer</h5>
+              <select [(ngModel)]="selectedPioneer" class="form-control w-50" id="pioneiroId" name="pioneiroId" required>
+                <option *ngFor="let pioneer of pioneers" [ngValue]="pioneer.id">&nbsp;{{pioneer.descricao}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm">
+              <h5 class="card-text">Gender</h5>
+              <select [(ngModel)]="sexo" class="form-control w-50" id="sexo" name="sexo" required>
+                <option value="true">Male</option>
+                <option value="false">Female</option>
+              </select>
+            </div>
+
+          </div>
+
+
+          <br>
+          <div class='row'>
+
+            <div class="col-md-12">
+              <h5 class="card-text">Publisher</h5>
+              <input type="text" placeholder="Name" class="form-control" id="nome" required>
+            </div>
+
+          </div>
+
+          <br>
+
+          <div class='row'>
+
+            <div class="col-sm">
+              <h5 class="card-text">Birth date</h5>
+              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
+                [(bsValue)]="myDateValue" required>
+            </div>
+
+            <div class="col-sm">
+              <h5 class="card-text">Baptism date</h5>
+              <input type="text" placeholder="Baptism date" class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true }" [(bsValue)]="myDateValue"
+                required>
+            </div>
+
+            <div class="col-sm">
+              &nbsp;
+            </div>
+
+          </div>
+          <hr>
+        </div>
+
+        <div class="card-block">
+          <br>
+          <div class="row text-left">
+            <div class="col-12">
+              <h5 class="text-primary">Contacts</h5>
+              <hr>
+            </div>
+          </div>
+
+          <div class="row text-left">
+
+            <div class="col-md">
+              <h5 class="card-title"><strong>Start service</strong></h5>
+              <p class="card-text">dataInicioServico</p>
+              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
+                [(bsValue)]="myDateValue" required>
+            </div>
+
+            <div class="col-md">
+              <h5 class="card-title"><strong>Servant Designation</strong></h5>
+              <p class="card-text">dataServoMinisterial</p>
+              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
+                [(bsValue)]="myDateValue" required>
+            </div>
+
+            <div class="col-md">
+              <h5 class="card-title"><strong>Elder Assignment</strong></h5>
+              <p class="card-text">dataInicioServico</p>
+              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
+                [(bsValue)]="myDateValue" required>
+            </div>
+
+            
+
+            
+
+          </div>
+
+          <br>
+
+          <div class="row text-left">
+
+            <div class="col-md">
+              <h5 class="card-title"><strong>Inactive</strong></h5>
+              <p class="card-text">dataInativo</p>
+              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
+                [(bsValue)]="myDateValue" required>
+            </div>
+
+            <div class="col-md">
+              <h5 class="card-title"><strong>Reactivated</strong></h5>
+              <p class="card-text">dataReativado</p>
+              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
+                [(bsValue)]="myDateValue" required>
+            
+            </div>
+
+            <div class="col-md">
+              <h5 class="card-title"><strong>&nbsp;</strong></h5>
+              <p class="card-text">&nbsp;</p>
+
+            </div>
+
+          </div>
+
+          <br>
+
+
+          <br>
+          <div class="row text-left">
+            <div class="col-12">
+              <h5 class="text-primary">Specials Services</h5>
+              <hr>
+            </div>
+          </div>
+
+          <div class="row text-left">
+
+            <h4>Algo 2</h4>
+
+          </div>
+
+          <br>
+
+          <div class="row text-left">
+            <div class="col-md-12">
+              <h5 class="text-primary">Notes</h5>
+              <hr>
+              <!-- <textarea class="form-control" id="observacao" placeholder="Write something relevant here..." [(ngModel)]="report.observacao" name="observacao"
+                rows="3"> </textarea> -->
+            </div>
+          </div>
+
+          <br>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="col-12 text-center">
+        <hr>
+        <button type="submit" class="btn btn-success custombutton" [disabled]="!editForm.dirty"><i class="fa fa-floppy-o"></i>
+          Save</button>
+      </div>
+
+    </form>
+    &nbsp;
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/publisher']" routerLinkActive="router-link-active">
+        <i class="fa fa-arrow-left"></i> List</button>
+    </div>
+  </div>
+
+
+</div>

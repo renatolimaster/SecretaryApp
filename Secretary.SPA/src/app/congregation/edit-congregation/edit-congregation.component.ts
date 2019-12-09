@@ -23,13 +23,14 @@ import 'rxjs/add/operator/catch';
 import { Location } from 'src/app/_interfaces/ILocation';
 import { NgForm } from '@angular/forms';
 
-@Component({
+@Component( {
   selector: 'app-edit-congregation',
   templateUrl: './edit-congregation.component.html',
-  styleUrls: ['./edit-congregation.component.css']
-})
-export class EditCongregationComponent implements OnInit {
-  @ViewChild('editForm')
+  styleUrls: [ './edit-congregation.component.css' ]
+} )
+export class EditCongregationComponent implements OnInit
+{
+  @ViewChild( 'editForm' )
   editForm: NgForm;
   title = 'Congregation';
   subTitles = 'Edit Congregation';
@@ -59,13 +60,15 @@ export class EditCongregationComponent implements OnInit {
   auditoriaUsuario: number;
 
 
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any) {
-    if (this.editForm.dirty) {
+  @HostListener( 'window:beforeunload', [ '$event' ] )
+  unloadNotification ( $event: any )
+  {
+    if ( this.editForm.dirty )
+    {
       $event.returnValue = true;
     }
   }
-  constructor(
+  constructor (
     private route: ActivatedRoute,
     private authService: AuthService,
     private userService: UserService,
@@ -75,15 +78,17 @@ export class EditCongregationComponent implements OnInit {
     private tipoLogradouroRepo: TipologradouroService,
     private congregationService: CongregationService,
     private alertifyService: AlertifyService
-    ) { }
+  ) { }
 
-  ngOnInit() {
+  ngOnInit ()
+  {
     //
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+    const token = localStorage.getItem( 'token' );
+    if ( token )
+    {
+      this.authService.decodedToken = this.jwtHelper.decodeToken( token );
       // will use it to get real name of publisher data
-      this.loadUser(this.authService.decodedToken.nameid);
+      this.loadUser( this.authService.decodedToken.nameid );
     }
     //
     this.localizacao = '';
@@ -97,132 +102,167 @@ export class EditCongregationComponent implements OnInit {
   }
 
 
-  loadCongregation() {
-    console.log('edit loadReport()');
-    this.route.data.subscribe(data => {
-      this.congregation = data['congregation'];
-    });
+  loadCongregation ()
+  {
+    // console.log( 'edit loadReport()' );
+    this.route.data.subscribe( data =>
+    {
+      this.congregation = data[ 'congregation' ];
+    } );
   }
 
-  updateCongregation(congregation: Congregacao) {
-    console.log(congregation);
+  updateCongregation ( congregation: Congregacao )
+  {
+    // console.log( congregation );
 
-    this.congregationService.updateCongregation(congregation.id, congregation).subscribe(
-      () => {
-        this.getCongregation(congregation.id);
-        this.alertifyService.success('Report updated successfully!');
+    this.congregationService.updateCongregation( congregation.id, congregation ).subscribe(
+      () =>
+      {
+        this.getCongregation( congregation.id );
+        this.alertifyService.success( 'Congregation updated successfully!' );
+        this.editForm.reset();
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
-  getCongregation(congregationId: number) {
+  getCongregation ( congregationId: number )
+  {
 
-    this.congregationService.getCongregation(congregationId).subscribe(
-      (congregation: Congregacao) => {
+    this.congregationService.getCongregation( congregationId ).subscribe(
+      ( congregation: Congregacao ) =>
+      {
+        // console.log( 'Congregacao:', congregation );
         this.congregation = congregation;
+        this.selectedCountry = this.congregation.estado.country.id;
+        this.selectedEstado = this.congregation.estado.id;
+        this.selectedTipoLogradouro = this.congregation.tipoLogradouroId;
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
 
 
-  loadUser(id) {
-    console.log('loadUser: ' + id);
-    this.userService.getUser(id).subscribe(
-      (user: Usuario) => {
+  loadUser ( id )
+  {
+    // console.log( 'loadUser: ' + id );
+    this.userService.getUser( id ).subscribe(
+      ( user: Usuario ) =>
+      {
         this.user = user;
-        this.getPublisher(this.user.publicadorId);
+        this.getPublisher( this.user.publicadorId );
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
 
-  getPublisher(id) {
-    this.publisherService.getPublisher(id).subscribe(
-      (publisher: Publicador) => {
+  getPublisher ( id )
+  {
+    this.publisherService.getPublisher( id ).subscribe(
+      ( publisher: Publicador ) =>
+      {
         this.publisher = publisher;
         this.auditoriaUsuario = this.publisher.id;
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
 
   }
 
 
-  loadTipoLogradouro() {
+  loadTipoLogradouro ()
+  {
     this.tipoLogradouroRepo.getTipos().subscribe(
-      (tipoLogradouro: TipoLogradouro[]) => {
+      ( tipoLogradouro: TipoLogradouro[] ) =>
+      {
         this.tipoLogradouro = tipoLogradouro;
         this.selectedTipoLogradouro = 0;
-        for (let i = 0; i < this.tipoLogradouro.length; ++i) {
-          this.selectedTipoLogradouro = this.tipoLogradouro[i].id;
+        for ( let i = 0; i < this.tipoLogradouro.length; ++i )
+        {
+          this.selectedTipoLogradouro = this.tipoLogradouro[ i ].id;
           break;
         }
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
-  setCurrentPosition() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+  setCurrentPosition ()
+  {
+    if ( navigator.geolocation )
+    {
+      navigator.geolocation.getCurrentPosition( position =>
+      {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        this.loadCountryLocationGeonames(latitude, longitude);
-      });
+        this.loadCountryLocationGeonames( latitude, longitude );
+      } );
     }
   }
 
-  loadCountryLocationGeonames(latitude: number, longitude: number) {
-    this.countryService.displayLocationGeonames(latitude, longitude).subscribe(response => {
+  loadCountryLocationGeonames ( latitude: number, longitude: number )
+  {
+    this.countryService.displayLocationGeonames( latitude, longitude ).subscribe( response =>
+    {
       this.location = response;
       this.localizacao = this.location.countryName;
       // console.log('displayLocationGeonames: ' + this.location.countryName);
-      this.countryService.searchCountry(this.localizacao).subscribe(
-        (countryRes: Country) => {
+      this.countryService.searchCountry( this.localizacao ).subscribe(
+        ( countryRes: Country ) =>
+        {
           this.searchCountry = countryRes;
           this.selectedCountry = this.searchCountry.id;
           this.loadCountries();
-          this.loadStateByCountry(this.selectedCountry);
+          this.loadStateByCountry( this.selectedCountry );
           // this.loadStateByCountry(this.selectedCountry);
           // console.log('searchCountry: ' + this.selectedCountry + ' - ' + this.searchCountry.niceName);
         }
       );
-    });
+    } );
   }
 
-  loadCountries() {
+  loadCountries ()
+  {
     this.countryService.getCountries().subscribe(
-      (country: Country[]) => {
+      ( country: Country[] ) =>
+      {
         this.country = country;
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
-  loadStateByCountry(id: number) {
-    this.stateService.GetStatesByCountry(id).subscribe(
-      (states: Estado[]) => {
+  loadStateByCountry ( id: number )
+  {
+    this.stateService.GetStatesByCountry( id ).subscribe(
+      ( states: Estado[] ) =>
+      {
         this.estado = states;
-        this.selectedEstado = this.estado[0].id;
+        this.selectedEstado = this.estado[ 0 ].id;
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
 

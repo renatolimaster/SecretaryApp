@@ -151,6 +151,7 @@ export class CreateCongregationComponent implements OnInit {
   }
 
   setCurrentPosition() {
+    console.log( 'navigator', navigator.geolocation);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
@@ -224,6 +225,7 @@ export class CreateCongregationComponent implements OnInit {
     this.countryService.getCountries().subscribe(
       (country: Country[]) => {
         this.country = country;
+        console.log('Country', this.country);
       },
       error => {
         this.alertifyService.error(error);
@@ -256,7 +258,7 @@ export class CreateCongregationComponent implements OnInit {
       (result: Congregacao) => {
         console.log(result);
         this.alertifyService.success('Congregation created successfully!');
-        this.router.navigate(['/editcongregation/' + result.id]);
+        this.router.navigate( ['/congregation/' + result.id]);
       },
       error => {
         this.alertifyService.error(error);

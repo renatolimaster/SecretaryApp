@@ -4,38 +4,46 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Publicador } from '../_models/Publicador';
 
-@Injectable({
+@Injectable( {
   providedIn: 'root'
-})
-export class PublisherService {
+} )
+export class PublisherService
+{
   baseUrl = environment.apiUrl;
 
-  constructor(
+  constructor (
     private http: HttpClient
-  ) {}
+  ) { }
 
-  getPublishers(): Observable<Publicador[]> {
-    return this.http.get<Publicador[]>(this.baseUrl + 'publisher/');
+  getPublishers (): Observable<Publicador[]>
+  {
+    console.log( 'url: ' + this.baseUrl + 'publisher/' );
+    return this.http.get<Publicador[]>( this.baseUrl + 'publisher/' );
   }
 
-  getPublisher(id): Observable<Publicador> {
-    return this.http.get<Publicador>(this.baseUrl + 'publisher/' + id);
+  getPublisher ( id ): Observable<Publicador>
+  {
+    console.log( 'url: ' + this.baseUrl + 'publisher/' + id );
+    return this.http.get<Publicador>( this.baseUrl + 'publisher/' + id );
   }
 
-  createPublisher(publisher: Publicador) {
+  createPublisher ( publisher: Publicador )
+  {
     // const user = this.authService.decodedToken.
     return this.http.post<Publicador>(
-      this.baseUrl + 'publisher/', publisher);
+      this.baseUrl + 'publisher/', publisher );
   }
 
-  updatePublisher(id: number, publisher: Publicador) {
-    console.log('url: ' + this.baseUrl + 'publisher/' + id + ' - ' + publisher);
-    console.log(publisher);
-    return this.http.put(this.baseUrl + 'publisher/' + id, publisher);
+  updatePublisher ( id: number, publisher: Publicador )
+  {
+    console.log( 'url: ' + this.baseUrl + 'publisher/' + id + ' - ' + publisher );
+    console.log( publisher );
+    return this.http.put( this.baseUrl + 'publisher/' + id, publisher );
   }
 
-  deletePublisher(id: number) {
-    console.log('url: ' + this.baseUrl + 'deletepublisher/' + id);
-    return this.http.delete(this.baseUrl + 'publisher/' + id);
+  deletePublisher ( id: number )
+  {
+    console.log( 'url: ' + this.baseUrl + 'deletepublisher/' + id );
+    return this.http.delete( this.baseUrl + 'publisher/' + id );
   }
 }

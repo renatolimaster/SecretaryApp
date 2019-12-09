@@ -4,5 +4,9 @@
     "typescriptHero.imports.stringQuoteStyle": "'",
     "editor.fontSize": 12,
     "editor.mouseWheelZoom": true,
-    "window.zoomLevel": -1
+    "window.zoomLevel": 0,
+    "cSpell.words": [
+        "alertify",
+        "createpublisher"
+    ]
 }

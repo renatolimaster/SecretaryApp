@@ -19,6 +19,7 @@ export interface Publicador {
   grupoId: number;
   grupo: Grupo;
   pioneiroId: number;
+  numeroPioneiro: string;
   pioneiro: Pioneiro;
   sexo: boolean;
   situacaoServicoCampo: string;

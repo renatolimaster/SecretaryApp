@@ -3,12 +3,13 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { Congregacao } from 'src/app/_models/Congregacao';
 
-@Component({
+@Component( {
   selector: 'app-list-congregation',
   templateUrl: './list-congregation.component.html',
-  styleUrls: ['./list-congregation.component.css']
-})
-export class ListCongregationComponent implements OnInit {
+  styleUrls: [ './list-congregation.component.css' ]
+} )
+export class ListCongregationComponent implements OnInit
+{
   title = 'Congregation';
   congregations: Congregacao[];
 
@@ -20,43 +21,51 @@ export class ListCongregationComponent implements OnInit {
   val: string;
   msg: string;
 
-  constructor(
+  constructor (
     private alertifyService: AlertifyService,
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
+  ngOnInit ()
+  {
     this.loadCongregations();
   }
 
-  loadCongregations() {
-    this.route.data.subscribe(data => {
-      this.congregations = data['congregation'];
+  loadCongregations ()
+  {
+    this.route.data.subscribe( data =>
+    {
+      this.congregations = data[ 'congregation' ];
       // cache our list
-      this.temp = [...this.congregations];
-      // push our inital complete list
+      this.temp = [ ...this.congregations ];
+      // push our initial complete list
       this.rows = this.congregations;
+      // console.log( 'Congregations', this.congregations );
       this.msg = this.congregations.length + ' congregation(s) loaded!!';
-      this.alertifyService.success(this.msg);
-    });
+      this.alertifyService.success( this.msg );
+    } );
   }
 
-  onPage(event) {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      console.log('paged!', event);
-    }, 100);
+  onPage ( event )
+  {
+    clearTimeout( this.timeout );
+    this.timeout = setTimeout( () =>
+    {
+      console.log( 'paged!', event );
+    }, 100 );
   }
 
-  updateFilter(event) {
+  updateFilter ( event )
+  {
     this.msg = '';
     const val = event.target.value.toLowerCase();
     this.val = val;
 
     // filter our data: from Row Detail Template - myDetailRow
-    const temp = this.temp.filter(function(d) {
-      return d.nome.toLowerCase().indexOf(val) !== -1 || !val;
-    });
+    const temp = this.temp.filter( function ( d )
+    {
+      return d.nome.toLowerCase().indexOf( val ) !== -1 || !val;
+    } );
 
     // update the rows
     this.rows = temp;
@@ -64,13 +73,15 @@ export class ListCongregationComponent implements OnInit {
     // this.table.offset = 0;
   }
 
-  toggleExpandRow(row) {
-    console.log('Toggled Expand Row!', row);
+  toggleExpandRow ( row )
+  {
+    console.log( 'Toggled Expand Row!', row );
     // this.table.rowDetail.toggleExpandRow(row);
   }
 
-  onDetailToggle(event) {
-    console.log('Detail Toggled', event);
+  onDetailToggle ( event )
+  {
+    console.log( 'Detail Toggled', event );
   }
 
 }

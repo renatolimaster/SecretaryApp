@@ -7,7 +7,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-md-12 mt-3">
-      <h4 class="text-primary">Publisher Report</h4>
+      <h4 class="text-primary">Publisher reports</h4>
       <hr />
     </div>
   </div>
@@ -16,11 +16,7 @@
 
 <div class="container">
   <div class="card-body">
-    <form
-      #myForm="ngForm"
-      class="form-control-inline my-2 my-lg-0"
-      (ngSubmit)="loadPublisherReport(myForm.value)"
-    >
+    <form #myForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="loadPublisherReport(myForm.value)">
       <div class="row">
         <div class="col-sm-3">
           <h5>From</h5>
@@ -55,20 +51,13 @@
         <div class="col-sm-4">
           <h5>Publisher</h5>
           <select class="form-control form-control-lg" [(ngModel)]="selectedPublisher" name="iPublisherId">
-            <option *ngFor="let publisher of publishers" value="{{publisher.id}}">&nbsp;{{ publisher.nome }}&nbsp;</option
-            >
+            <option *ngFor="let publisher of publishers" value="{{ publisher.id }}">&nbsp;{{ publisher.nome }}&nbsp;</option>
           </select>
         </div>
 
         <div class="col-sm-2">
           <h5 class="card-text">&nbsp;</h5>
-          <button
-            type="submit"
-            class="btn btn-success custombutton"
-            [disabled]="!myForm.dirty"
-          >
-            <i class="fa fa-filter"></i> Filter
-          </button>
+          <button type="submit" class="btn btn-success custombutton" [disabled]="!myForm.dirty"><i class="fa fa-filter"></i> Filter</button>
         </div>
       </div>
     </form>
@@ -77,9 +66,7 @@
 
 <div *ngIf="!reports" class="container">
   <div class="card mt-3 w-75 alert alert-info">
-    <p class="card-text">
-      <strong>Information:</strong>&nbsp;Select a publisher to see the report!
-    </p>
+    <p class="card-text"><strong>Information:</strong>&nbsp;Select a publisher to see the report!</p>
   </div>
 </div>
 
@@ -93,8 +80,27 @@
       <div class="panel-body">
         <h5 class="text-success text-center">{{ subHeader }}</h5>
         <h6 class="text-info text-center">
-          {{ fromDateSubHeader }} - {{ toDateSubHeader }} - Hours: {{ totalHours }} - Bethel: {{ totalBethel }} - Credit: {{ totalCredit}} - Total: {{ totalHoursBethelCredit }}
+          {{ fromDateSubHeader }} - {{ toDateSubHeader }} - Hours: {{ totalHours }} - Bethel: {{ totalBethel }} - Credit: {{ totalCredit }} - Total:
+          {{ totalHoursBethelCredit }}
         </h6>
+      </div>
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-sm-2 text-primary">Date of birth</div>
+          <div class="col-sm-2 text-primary">Date immersed</div>
+          <div class="col-sm-2 text-primary">Gender</div>
+          <div class="col-sm-2 text-primary">Privilege</div>
+          <div class="col-sm-2 text-primary">Pioneer</div>
+          <div class="col-sm-2 text-primary">Number</div>
+        </div>
+        <div class="row text-center">
+          <div class="col-sm-2">{{ dateOfBirth }}</div>
+          <div class="col-sm-2">{{ dateImmersed }}</div>
+          <div class="col-sm-2">{{ gender }}</div>
+          <div class="col-sm-2">{{ servant }}</div>
+          <div class="col-sm-2">{{ pioneer }}</div>
+          <div class="col-sm-2">{{ pioneerNumber }}</div>
+        </div>
       </div>
 
       <!-- Table nova -->

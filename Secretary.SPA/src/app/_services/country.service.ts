@@ -29,7 +29,8 @@ export class CountryService {
   }
 
   displayLocationGeonames(latitude, longitude): Observable<Location> {
-    const url = 'http://ws.geonames.org/countryCodeJSON?lat=' + latitude + '&lng=' + longitude + '&username=renatolimaster';
+    //const url = 'http://ws.geonames.org/countryCodeJSON?lat=' + latitude + '&lng=' + longitude + '&username=renatolimaster';
+    const url = 'http://api.geonames.org/countryCodeJSON?lat=' + latitude + '&lng=' + longitude + '&username=renatolimaster';
     // this.http.get<Location>(url).subscribe(response => {
     //   this.location = response;
     // });

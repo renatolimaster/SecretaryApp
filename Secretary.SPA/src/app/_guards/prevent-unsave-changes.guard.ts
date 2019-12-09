@@ -6,7 +6,7 @@ import { EditFieldserviceComponent } from '../fieldservice/edit-fieldservice/edi
 export class PreventUnsaveChanges implements CanDeactivate<EditFieldserviceComponent> {
     canDeactivate(component: EditFieldserviceComponent) {
         if (component.editForm.dirty) {
-            return confirm('Are you sure you want to continue? Any unsave changes will be lost.');
+            return confirm('Are you sure you want to continue? Any unsaved changes will be lost.');
         }
         return true;
     }

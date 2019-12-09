@@ -36,7 +36,7 @@ namespace Secretary.API.InterfacesImpl
 
       pub.ForEach(element =>
       {
-        Console.WriteLine(element.Id + " - " + element.Nome);
+        Console.WriteLine(element.Id + " - " + element.Nome + " - " + element.Sexo);
       });
 
       return pub;
@@ -44,7 +44,7 @@ namespace Secretary.API.InterfacesImpl
 
     public Task<Publicador> getPublisherAsync(long id)
     {
-      Console.WriteLine("================= getAllPublishersAsync =================");
+      Console.WriteLine("================= getPublisherAsync =================");
 
       var pub = _dbContext.Publicador.AsNoTracking().Include(p => p.Situacao).Include(p => p.Dianteira).Include(p => p.Grupo).Include(p => p.Congregacao).Include(p => p.Pioneiro).Include(p => p.TipoLogradouro).Include(p => p.Country).Include(p => p.Estado).FirstOrDefaultAsync(p => p.Id == id);
 

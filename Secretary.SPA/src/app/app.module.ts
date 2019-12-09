@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BsDropdownModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, BsDatepickerModule, DatepickerModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpModule } from '@angular/http';
@@ -51,6 +51,8 @@ import { ListPublishersResolver } from './_resolver/list-publishers.resolver';
 import { DetailPublisherResolver } from './_resolver/detail-publisher.resolver';
 import { DetailPublisherComponent } from './publisher/detail-publisher/detail-publisher.component';
 import { ModalServiceConfirmWindowComponent } from './_modals/modal-service-confirm-window/modal-service-confirm-window.component';
+import { CreatePublishersResolver } from './_resolver/create-publishers.resolver';
+import { CreatePublisherComponent } from './publisher/create-publisher/create-publisher.component';
 
 
 
@@ -76,6 +78,7 @@ export function tokenGetter() {
     ListPublisherComponent,
     PublisherFieldserviceComponent,
     DetailPublisherComponent,
+    CreatePublisherComponent,
     //
     ListFieldserviceComponent,
     ListAssistanceComponent,
@@ -103,6 +106,12 @@ export function tokenGetter() {
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    
+    BsDatepickerModule.forRoot(),
+    DatepickerModule.forRoot() ,
+
+
+
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {
@@ -127,6 +136,7 @@ export function tokenGetter() {
     // PUBLISHERS
     ListPublishersResolver,
     DetailPublisherResolver,
+    CreatePublishersResolver,
     //
     // field service
     DetailFieldServiceResolver,

@@ -13,7 +13,7 @@ export class CongregationService {
 
   constructor(
     private http: HttpClient,
-    public authService: AuthService) {}
+    private authService: AuthService) {}
 
   getCongregations(): Observable<Congregacao[]> {
     return this.http.get<Congregacao[]>(this.baseUrl + 'congregation');

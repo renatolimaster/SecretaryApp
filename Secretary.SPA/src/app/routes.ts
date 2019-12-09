@@ -30,13 +30,15 @@ import { ListTipologradouroComponent } from './tipologradouro/list-tipologradour
 import { ListPublishersResolver } from './_resolver/list-publishers.resolver';
 import { DetailPublisherComponent } from './publisher/detail-publisher/detail-publisher.component';
 import { DetailPublisherResolver } from './_resolver/detail-publisher.resolver';
+import { CreatePublisherComponent } from './publisher/create-publisher/create-publisher.component';
+import { CreatePublishersResolver } from './_resolver/create-publishers.resolver';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',
-    canActivate: [AuthGuard],
+    canActivate: [ AuthGuard ],
     children: [
       { path: 'members', component: ListMembersComponent },
       { path: 'editmembers', component: EditMembersComponent },
@@ -76,6 +78,10 @@ export const appRoutes: Routes = [
         resolve: { publishers: ListPublishersResolver }
       },
       {
+        path: 'createpublisher',
+        component: CreatePublisherComponent
+      },
+      {
         path: 'detailpublisher/:id/:del',
         component: DetailPublisherComponent,
         resolve: { publisher: DetailPublisherResolver }
@@ -94,7 +100,7 @@ export const appRoutes: Routes = [
       {
         path: 'editfieldservice/:id',
         component: EditFieldserviceComponent,
-        canDeactivate: [PreventUnsaveChanges],
+        canDeactivate: [ PreventUnsaveChanges ],
         resolve: { report: EditFieldServiceResolver }
       },
       {

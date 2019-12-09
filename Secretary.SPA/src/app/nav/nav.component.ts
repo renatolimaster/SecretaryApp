@@ -8,12 +8,13 @@ import { Publicador } from '../_models/Publicador';
 import { Usuario } from '../_models/Usuario';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-@Component({
+@Component( {
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
-})
-export class NavComponent implements OnInit {
+  styleUrls: [ './nav.component.css' ]
+} )
+export class NavComponent implements OnInit
+{
   @Input() publisher: Publicador;
   model: any = {};
   jwtHelper = new JwtHelperService();
@@ -24,70 +25,86 @@ export class NavComponent implements OnInit {
   user: Usuario;
   auditoriaUsuario: number;
 
-  constructor(
+  constructor (
     private countryService: CountryService,
     public authService: AuthService,
     private alertify: AlertifyService,
     private router: Router
-    ) {}
+  ) { }
 
-  ngOnInit() {
+  ngOnInit ()
+  {
     this.setCurrentPosition();
   }
 
-  login() {
-    this.authService.login(this.model).subscribe(
-      () => {
-        this.alertify.success('Logged in successfully');
+  login ()
+  {
+    this.authService.login( this.model ).subscribe(
+      () =>
+      {
+        this.alertify.success( 'Logged in successfully' );
       },
-      error => {
-        this.alertify.error(error);
+      error =>
+      {
+        this.alertify.error( error );
       },
-      () => {
-        this.router.navigate(['/fieldservice']);
+      () =>
+      {
+        this.router.navigate( [ '/fieldservice' ] );
       }
     );
     this.model.username = '';
     this.model.password = '';
   }
 
-  loggedIn() {
+  loggedIn ()
+  {
     return this.authService.loggedIn();
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.alertify.message('logged out');
-    this.router.navigate(['/home']);
+  logout ()
+  {
+    localStorage.removeItem( 'token' );
+    this.alertify.message( 'logged out' );
+    this.router.navigate( [ '/home' ] );
   }
 
-  onShown(): void {
-    console.log('on show');
+  onShown (): void
+  {
+    console.log( 'on show' );
   }
 
-  onHidden() {
-    console.log('on hidden');
+  onHidden ()
+  {
+    console.log( 'on hidden' );
   }
 
-  isOpenChange() {
-    console.log('on open change');
+  isOpenChange ()
+  {
+    console.log( 'on open change' );
   }
 
-  setCurrentPosition() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+  setCurrentPosition ()
+  {
+    // console.log( 'setCurrentPosition', navigator.geolocation );
+    if ( navigator.geolocation )
+    {
+      navigator.geolocation.getCurrentPosition( position =>
+      {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        this.loadCountryLocationGeonames(latitude, longitude);
-      });
+        this.loadCountryLocationGeonames( latitude, longitude );
+      } );
     }
   }
 
-  loadCountryLocationGeonames(latitude: number, longitude: number) {
-    this.countryService.displayLocationGeonames(latitude, longitude).subscribe(response => {
+  loadCountryLocationGeonames ( latitude: number, longitude: number )
+  {
+    this.countryService.displayLocationGeonames( latitude, longitude ).subscribe( response =>
+    {
       this.location = response;
       this.country = this.location.countryName;
-    });
+    } );
   }
 
 }

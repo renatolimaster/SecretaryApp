@@ -10,10 +10,11 @@ import { PublisherService } from './publisher.service';
 import { Publicador } from '../_models/Publicador';
 
 
-@Injectable({
+@Injectable( {
   providedIn: 'root'
-})
-export class AuthService {
+} )
+export class AuthService
+{
   baseUrl = environment.apiUrl + 'auth/';
   userToken: any;
   decodedToken: any;
@@ -22,31 +23,46 @@ export class AuthService {
   publisher: Publicador;
   auditoriaUsuario: number;
 
-  constructor(
+  constructor (
     private http: HttpClient,
     private userService: UserService,
     private alertifyService: AlertifyService,
     private publisherService: PublisherService
-  ) {}
+  ) { }
 
-  login(model: any) {
-    return this.http.post(this.baseUrl + 'login', model).pipe(
-      map((response: any) => {
+  login ( model: any )
+  {
+    return this.http.post( this.baseUrl + 'login', model ).pipe(
+      map( ( response: any ) =>
+      {
         const user = response;
-        if (user) {
-          localStorage.setItem('token', user.token);
-          this.decodedToken = this.jwtHelper.decodeToken(user.token);
+        if ( user )
+        {
+          localStorage.setItem( 'token', user.token );
+          this.decodedToken = this.jwtHelper.decodeToken( user.token );
         }
-      })
+      } )
     );
   }
 
-  register(model: any) {
-    return this.http.post(this.baseUrl + 'register', model);
+  register ( model: any )
+  {
+    return this.http.post( this.baseUrl + 'register', model );
   }
 
-  loggedIn() {
-    const token = localStorage.getItem('token');
-    return !this.jwtHelper.isTokenExpired(token);
+  loggedIn ()
+  {
+    const token = localStorage.getItem( 'token' );
+    return !this.jwtHelper.isTokenExpired( token );
+  }
+
+  getUserLogged ()
+  {
+    const token = localStorage.getItem( 'token' );
+    if ( token )
+    {
+      return this.decodedToken = this.jwtHelper.decodeToken( token );
+    }
+    return null;
   }
 }

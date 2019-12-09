@@ -95,27 +95,27 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="coordenador">Name</label>
-                  <input type="text" class="form-control form-control-sm" id="coordenador" [(ngModel)]="congregation.coordenador" name="coordenador" required>
+                  <input type="text" class="form-control form-control-md" id="coordenador" [(ngModel)]="congregation.coordenador" name="coordenador" required>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="telCelular">Cell Phone</label>
-                  <input type="text" class="form-control form-control-sm" [(ngModel)]="congregation.telCelular" name="telCelular" id="telCelular">
+                  <input type="text" class="form-control form-control-md" [(ngModel)]="congregation.telCelular" name="telCelular" id="telCelular">
                 </div>
               </div>
     
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="telResidencial">Home Phone</label>
-                  <input type="text" class="form-control form-control-sm" id="telResidencial" [(ngModel)]="congregation.telResidencial" name="telResidencial">
+                  <input type="text" class="form-control form-control-md" id="telResidencial" [(ngModel)]="congregation.telResidencial" name="telResidencial">
                 </div>
               </div>
     
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="telTrabalho">Job Phone</label>
-                  <input type="text" class="form-control form-control-sm" id="telTrabalho" [(ngModel)]="congregation.telTrabalho" name="telTrabalho">
+                  <input type="text" class="form-control form-control-md" id="telTrabalho" [(ngModel)]="congregation.telTrabalho" name="telTrabalho">
                 </div>
               </div>
     
@@ -131,7 +131,7 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="tipoLogradouro">Tipo</label>
-                  <select [(ngModel)]="selectedTipoLogradouro" class="form-control form-control-sm" name="tipoLogradouroId"
+                  <select [(ngModel)]="selectedTipoLogradouro" class="form-control form-control-md" name="tipoLogradouroId"
                     required>
                     <option *ngFor="let tipo of tipoLogradouro" [ngValue]="tipo.id">&nbsp;{{tipo?.descricao}}&nbsp;</option>
                   </select>
@@ -141,14 +141,14 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="nomeLogradouro">Public place</label>
-                  <input type="text" class="form-control form-control-sm" id="nomeLogradouro" [(ngModel)]="congregation.nomeLogradouro" name="nomeLogradouro">
+                  <input type="text" class="form-control form-control-md" id="nomeLogradouro" [(ngModel)]="congregation.nomeLogradouro" name="nomeLogradouro">
                 </div>
               </div>
     
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="complemento">Complement</label>
-                  <input type="text" class="form-control form-control-sm" id="complemento" [(ngModel)]="congregation.complemento" name="complemento">
+                  <input type="text" class="form-control form-control-md" id="complemento" [(ngModel)]="congregation.complemento" name="complemento">
                 </div>
               </div>
     
@@ -163,21 +163,21 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="bairro">Neighborhood</label>
-                  <input type="text" class="form-control form-control-sm" id="bairro" [(ngModel)]="congregation.bairro" name="bairro">
+                  <input type="text" class="form-control form-control-md" id="bairro" [(ngModel)]="congregation.bairro" name="bairro">
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="cidade">City</label>
-                  <input type="text" class="form-control form-control-sm" id="cidade" [(ngModel)]="congregation.cidade" name="cidade">
+                  <input type="text" class="form-control form-control-md" id="cidade" [(ngModel)]="congregation.cidade" name="cidade">
                 </div>
               </div>
     
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="cep">Zip code</label>
-                  <input type="text" class="form-control form-control-sm" id="cep" [(ngModel)]="congregation.cep" name="cep">
+                  <input type="text" class="form-control form-control-md" id="cep" [(ngModel)]="congregation.cep" name="cep">
                 </div>
               </div>
     
@@ -188,7 +188,7 @@
                   <div class="col-md-4">
                 <div class="form-group">
                   <label for="country">Country</label>
-                  <select [(ngModel)]="selectedCountry" class="form-control form-control-sm" id="countryId" name="countryId" required>
+                  <select [(ngModel)]="selectedCountry" class="form-control form-control-md" id="countryId" name="countryId" required>
                     <option *ngFor="let tipo of country" [ngValue]="tipo.id">&nbsp;{{tipo.niceName}}&nbsp;</option>
                   </select>
                 </div>
@@ -197,7 +197,7 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="estado">State</label>
-                  <select [(ngModel)]="selectedEstado" class="form-control form-control-sm" name="estadoId" id="estadoId" required>
+                  <select [(ngModel)]="selectedEstado" class="form-control form-control-md" name="estadoId" id="estadoId" required>
                     <option *ngFor="let tipo of estado" [ngValue]="tipo.id">&nbsp;{{ tipo.descricao }}&nbsp;</option>
                   </select>
                 </div>

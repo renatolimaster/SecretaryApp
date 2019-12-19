@@ -22,13 +22,14 @@ import { Usuario } from 'src/app/_models/Usuario';
 import { Publicador } from 'src/app/_models/Publicador';
 import { Router } from '@angular/router';
 
-@Component({
+@Component( {
   selector: 'app-create-congregation',
   templateUrl: './create-congregation.component.html',
-  styleUrls: ['./create-congregation.component.css']
-})
-export class CreateCongregationComponent implements OnInit {
-  @ViewChild('createForm')
+  styleUrls: [ './create-congregation.component.css' ]
+} )
+export class CreateCongregationComponent implements OnInit
+{
+  @ViewChild( 'createForm' )
   createForm: NgForm;
 
   title = 'Congregation';
@@ -58,14 +59,16 @@ export class CreateCongregationComponent implements OnInit {
   publisher: Publicador;
   auditoriaUsuario: number;
 
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any) {
-    if (this.createForm.dirty) {
+  @HostListener( 'window:beforeunload', [ '$event' ] )
+  unloadNotification ( $event: any )
+  {
+    if ( this.createForm.dirty )
+    {
       $event.returnValue = true;
     }
   }
 
-  constructor(
+  constructor (
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
@@ -78,13 +81,15 @@ export class CreateCongregationComponent implements OnInit {
     private alertifyService: AlertifyService
   ) { }
 
-  ngOnInit() {
+  ngOnInit ()
+  {
     //
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+    const token = localStorage.getItem( 'token' );
+    if ( token )
+    {
+      this.authService.decodedToken = this.jwtHelper.decodeToken( token );
       // will use it to get real name of publisher data
-      this.loadUser(this.authService.decodedToken.nameid);
+      this.loadUser( this.authService.decodedToken.nameid );
     }
     //
     this.localizacao = '';
@@ -98,33 +103,40 @@ export class CreateCongregationComponent implements OnInit {
 
   }
 
-  loadUser(id) {
-    console.log('loadUser: ' + id);
-    this.userService.getUser(id).subscribe(
-      (user: Usuario) => {
+  loadUser ( id )
+  {
+    console.log( 'loadUser: ' + id );
+    this.userService.getUser( id ).subscribe(
+      ( user: Usuario ) =>
+      {
         this.user = user;
-        this.getPublisher(this.user.publicadorId);
+        this.getPublisher( this.user.publicadorId );
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
-  getPublisher(id) {
-    this.publisherService.getPublisher(id).subscribe(
-      (publisher: Publicador) => {
+  getPublisher ( id )
+  {
+    this.publisherService.getPublisher( id ).subscribe(
+      ( publisher: Publicador ) =>
+      {
         this.publisher = publisher;
         this.auditoriaUsuario = this.publisher.id;
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
 
   }
 
-  initializeCongregation() {
+  initializeCongregation ()
+  {
     this.congregation = {
       id: 0,
       nome: '',
@@ -150,33 +162,44 @@ export class CreateCongregationComponent implements OnInit {
     };
   }
 
-  setCurrentPosition() {
-    console.log( 'navigator', navigator.geolocation);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+  setCurrentPosition ()
+  {
+    console.log( 'navigator', navigator.geolocation );
+    if ( navigator.geolocation )
+    {
+      navigator.geolocation.getCurrentPosition( position =>
+      {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        this.loadCountryLocationGeonames(latitude, longitude);
-      });
+        console.log( 'longlat:', latitude + ' -- ' + longitude );
+        this.loadCountryLocationGeonames( latitude, longitude );
+      } );
+    } else
+    {
+      console.log( 'Error Geolocation' );
     }
   }
 
-  loadCountryLocationGeonames(latitude: number, longitude: number) {
-    this.countryService.displayLocationGeonames(latitude, longitude).subscribe(response => {
+  loadCountryLocationGeonames ( latitude: number, longitude: number )
+  {
+    this.countryService.displayLocationGeonames( latitude, longitude ).subscribe( response =>
+    {
       this.location = response;
       this.localizacao = this.location.countryName;
-      // console.log('displayLocationGeonames: ' + this.location.countryName);
-      this.countryService.searchCountry(this.localizacao).subscribe(
-        (countryRes: Country) => {
+      console.log( 'displayLocationGeonames====================>: ' + this.location );
+      //this.countryService.searchCountry( this.localizacao ).subscribe(
+      this.countryService.searchCountry( this.localizacao ).subscribe(
+        ( countryRes: Country ) =>
+        {
           this.searchCountry = countryRes;
-          this.selectedCountry = this.searchCountry.id;
+          this.selectedCountry = this.searchCountry.geonameId;
           this.loadCountries();
-          this.loadStateByCountry(this.selectedCountry);
+          this.loadStateByCountry( this.selectedCountry );
           // this.loadStateByCountry(this.selectedCountry);
           // console.log('searchCountry: ' + this.selectedCountry + ' - ' + this.searchCountry.niceName);
         }
       );
-    });
+    } );
   }
 
   /*
@@ -205,63 +228,76 @@ export class CreateCongregationComponent implements OnInit {
   }
   */
 
-  loadTipoLogradouro() {
+  loadTipoLogradouro ()
+  {
     this.tipoLogradouroRepo.getTipos().subscribe(
-      (tipoLogradouro: TipoLogradouro[]) => {
+      ( tipoLogradouro: TipoLogradouro[] ) =>
+      {
         this.tipoLogradouro = tipoLogradouro;
         this.selectedTipoLogradouro = 0;
-        for (let i = 0; i < this.tipoLogradouro.length; ++i) {
-          this.selectedTipoLogradouro = this.tipoLogradouro[i].id;
+        for ( let i = 0; i < this.tipoLogradouro.length; ++i )
+        {
+          this.selectedTipoLogradouro = this.tipoLogradouro[ i ].id;
           break;
         }
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
-  loadCountries() {
+  loadCountries ()
+  {
     this.countryService.getCountries().subscribe(
-      (country: Country[]) => {
+      ( country: Country[] ) =>
+      {
         this.country = country;
-        console.log('Country', this.country);
+        console.log( 'Country', this.country );
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
   }
 
-  loadStateByCountry(id: number) {
-    this.stateService.GetStatesByCountry(id).subscribe(
-      (states: Estado[]) => {
+  loadStateByCountry ( countryId: number )
+  {
+    this.stateService.GetStatesByCountry( countryId ).subscribe(
+      ( states: Estado[] ) =>
+      {
         this.estado = states;
-        this.selectedEstado = this.estado[0].id;
+        this.selectedEstado = this.estado[ 0 ].geonameId;
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
 
   }
 
-  createCongregation(congregacao: Congregacao) {
+  createCongregation ( congregacao: Congregacao )
+  {
 
-    console.log('createCongregation');
+    console.log( 'createCongregation' );
 
     congregacao.auditoriaUsuario = this.auditoriaUsuario;
 
-    console.log(congregacao);
+    console.log( congregacao );
 
-    this.congregationService.createCongregation(congregacao).subscribe(
-      (result: Congregacao) => {
-        console.log(result);
-        this.alertifyService.success('Congregation created successfully!');
-        this.router.navigate( ['/congregation/' + result.id]);
+    this.congregationService.createCongregation( congregacao ).subscribe(
+      ( result: Congregacao ) =>
+      {
+        console.log( result );
+        this.alertifyService.success( 'Congregation created successfully!' );
+        this.router.navigate( [ '/congregation/' + result.id ] );
       },
-      error => {
-        this.alertifyService.error(error);
+      error =>
+      {
+        this.alertifyService.error( error );
       }
     );
 

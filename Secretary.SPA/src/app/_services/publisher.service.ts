@@ -17,13 +17,13 @@ export class PublisherService
 
   getPublishers (): Observable<Publicador[]>
   {
-    console.log( 'url: ' + this.baseUrl + 'publisher/' );
+    // console.log( 'url: ' + this.baseUrl + 'publisher/' );
     return this.http.get<Publicador[]>( this.baseUrl + 'publisher/' );
   }
 
   getPublisher ( id ): Observable<Publicador>
   {
-    console.log( 'url: ' + this.baseUrl + 'publisher/' + id );
+    // console.log( 'url: ' + this.baseUrl + 'publisher/' + id );
     return this.http.get<Publicador>( this.baseUrl + 'publisher/' + id );
   }
 
@@ -36,14 +36,14 @@ export class PublisherService
 
   updatePublisher ( id: number, publisher: Publicador )
   {
-    console.log( 'url: ' + this.baseUrl + 'publisher/' + id + ' - ' + publisher );
-    console.log( publisher );
+    // console.log( 'url: ' + this.baseUrl + 'publisher/' + id + ' - ' + publisher );
+    // console.log( publisher );
     return this.http.put( this.baseUrl + 'publisher/' + id, publisher );
   }
 
   deletePublisher ( id: number )
   {
-    console.log( 'url: ' + this.baseUrl + 'deletepublisher/' + id );
+    // console.log( 'url: ' + this.baseUrl + 'deletepublisher/' + id );
     return this.http.delete( this.baseUrl + 'publisher/' + id );
   }
 }

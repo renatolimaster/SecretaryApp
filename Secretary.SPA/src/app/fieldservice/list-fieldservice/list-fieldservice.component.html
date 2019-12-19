@@ -9,9 +9,8 @@
         type="button"
         class="btn-sm btn btn-outline-primary"
         (click)="initializeFieldServices()"
-        data-toggle="tooltip"
-        data-placement="right"
-        title="The date of the previous month will be considered."
+        placement="top"
+        ngbTooltip="The date of the previous month will be considered."
       >
         <i class="fa fa-calendar-check-o"></i> Initialize
       </button>&nbsp;
@@ -19,9 +18,9 @@
         type="button"
         class="btn-sm btn btn-outline-primary"
         (click)="missingFieldServicesSendEmail()"
-        data-toggle="tooltip"
+        placement="top"
         data-placement="right"
-        title="The date of the previous month will be considered."
+        ngbTooltip="The date of the previous month will be considered."
       >
         <i class="fa fa-flag-checkered"></i> Missing
       </button>

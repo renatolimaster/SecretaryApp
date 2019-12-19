@@ -137,8 +137,8 @@ export class EditCongregationComponent implements OnInit
       {
         // console.log( 'Congregacao:', congregation );
         this.congregation = congregation;
-        this.selectedCountry = this.congregation.estado.country.id;
-        this.selectedEstado = this.congregation.estado.id;
+        // this.selectedCountry = this.congregation.estado.country.id;
+        // this.selectedEstado = this.congregation.estado.id;
         this.selectedTipoLogradouro = this.congregation.tipoLogradouroId;
       },
       error =>
@@ -228,7 +228,7 @@ export class EditCongregationComponent implements OnInit
         ( countryRes: Country ) =>
         {
           this.searchCountry = countryRes;
-          this.selectedCountry = this.searchCountry.id;
+          this.selectedCountry = this.searchCountry.geonameId;
           this.loadCountries();
           this.loadStateByCountry( this.selectedCountry );
           // this.loadStateByCountry(this.selectedCountry);
@@ -252,13 +252,13 @@ export class EditCongregationComponent implements OnInit
     );
   }
 
-  loadStateByCountry ( id: number )
+  loadStateByCountry ( countryId: number )
   {
-    this.stateService.GetStatesByCountry( id ).subscribe(
+    this.stateService.GetStatesByCountry( countryId ).subscribe(
       ( states: Estado[] ) =>
       {
         this.estado = states;
-        this.selectedEstado = this.estado[ 0 ].id;
+        this.selectedEstado = this.estado[ 0 ].geonameId;
       },
       error =>
       {

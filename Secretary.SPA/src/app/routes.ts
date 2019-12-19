@@ -31,7 +31,9 @@ import { ListPublishersResolver } from './_resolver/list-publishers.resolver';
 import { DetailPublisherComponent } from './publisher/detail-publisher/detail-publisher.component';
 import { DetailPublisherResolver } from './_resolver/detail-publisher.resolver';
 import { CreatePublisherComponent } from './publisher/create-publisher/create-publisher.component';
-import { CreatePublishersResolver } from './_resolver/create-publishers.resolver';
+import { ListGroupComponent } from './group/list-group/list-group.component';
+import { DetailsGroupComponent } from './group/details-group/details-group.component';
+import { EditPublisherComponent } from './publisher/edit-publisher/edit-publisher.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -73,6 +75,14 @@ export const appRoutes: Routes = [
         component: DetailCongregationComponent
       },
       {
+        path: 'grupo/:congregationId',
+        component: ListGroupComponent
+      },
+      {
+        path: 'grupo/:groupId/:congregationId',
+        component: DetailsGroupComponent
+      },
+      {
         path: 'publisher',
         component: ListPublisherComponent,
         resolve: { publishers: ListPublishersResolver }
@@ -80,6 +90,10 @@ export const appRoutes: Routes = [
       {
         path: 'createpublisher',
         component: CreatePublisherComponent
+      },
+      {
+        path: 'editpublisher/:id',
+        component: EditPublisherComponent
       },
       {
         path: 'detailpublisher/:id/:del',

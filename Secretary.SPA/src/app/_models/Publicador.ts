@@ -12,6 +12,7 @@ export interface Publicador {
   nome: string;
   primeiroNome: string;
   nomeSobrenome: string;
+  anointed: boolean;
   dataNascimento: Date;
   age: number;
   dianteiraId: number;
@@ -22,7 +23,7 @@ export interface Publicador {
   numeroPioneiro: string;
   pioneiro: Pioneiro;
   sexo: boolean;
-  situacaoServicoCampo: string;
+  situacaoServicoCampo: 'Irregular';
   telCelular: string;
   congregacaoId: number;
   congregacao: Congregacao;

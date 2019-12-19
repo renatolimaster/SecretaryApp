@@ -9,6 +9,7 @@ namespace Secretary.API.Dtos
     public string Nome { get; set; }
     public string PrimeiroNome { get; set; }
     public string NomeSobrenome { get; set; }
+    public string Anointed { get; set; }
     public DateTime? DataNascimento { get; set; }
     public DateTime? Batismo { get; set; }
     public int Age { get; set; }

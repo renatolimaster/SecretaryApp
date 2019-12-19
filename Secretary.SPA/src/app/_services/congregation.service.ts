@@ -1,42 +1,46 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Congregacao } from '../_models/Congregacao';
-import { AuthService } from './auth.service';
 
-@Injectable({
+@Injectable( {
   providedIn: 'root'
-})
-export class CongregationService {
-  baseUrl = environment.apiUrl;
+} )
+export class CongregationService
+{
+  private baseUrl = environment.apiUrl;
 
-  constructor(
-    private http: HttpClient,
-    private authService: AuthService) {}
+  constructor (
+    private http: HttpClient
+  ) { }
 
-  getCongregations(): Observable<Congregacao[]> {
-    return this.http.get<Congregacao[]>(this.baseUrl + 'congregation');
+  getCongregations (): Observable<Congregacao[]>
+  {
+    return this.http.get<Congregacao[]>( this.baseUrl + 'congregation' );
   }
 
-  getCongregation(id): Observable<Congregacao> {
-    return this.http.get<Congregacao>(this.baseUrl + 'congregation/' + id);
+  getCongregation ( id ): Observable<Congregacao>
+  {
+    return this.http.get<Congregacao>( this.baseUrl + 'congregation/' + id );
   }
 
-  createCongregation(congregation: Congregacao) {
-    // const user = this.authService.decodedToken.
+  createCongregation ( congregation: Congregacao )
+  {
     return this.http.post<Congregacao>(
-      this.baseUrl + 'congregation/', congregation);
+      this.baseUrl + 'congregation/', congregation );
   }
 
-  updateCongregation(id: number, congregation: Congregacao) {
-    console.log('url: ' + this.baseUrl + 'congregation/' + id + ' - ' + congregation);
-    console.log(congregation);
-    return this.http.put(this.baseUrl + 'congregation/' + id, congregation);
+  updateCongregation ( id: number, congregation: Congregacao )
+  {
+    console.log( 'url: ' + this.baseUrl + 'congregation/' + id + ' - ' + congregation );
+    console.log( congregation );
+    return this.http.put( this.baseUrl + 'congregation/' + id, congregation );
   }
 
-  deleteCongregation(id: number) {
-    console.log('url: ' + this.baseUrl + 'deletecongregation/' + id);
-    return this.http.delete(this.baseUrl + 'congregation/' + id);
+  deleteCongregation ( id: number )
+  {
+    console.log( 'url: ' + this.baseUrl + 'deletecongregation/' + id );
+    return this.http.delete( this.baseUrl + 'congregation/' + id );
   }
 }

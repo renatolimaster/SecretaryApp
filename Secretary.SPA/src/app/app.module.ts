@@ -53,9 +53,12 @@ import { DetailPublisherComponent } from './publisher/detail-publisher/detail-pu
 import { ModalServiceConfirmWindowComponent } from './_modals/modal-service-confirm-window/modal-service-confirm-window.component';
 import { CreatePublishersResolver } from './_resolver/create-publishers.resolver';
 import { CreatePublisherComponent } from './publisher/create-publisher/create-publisher.component';
-
-
-
+import { ListGroupComponent } from './group/list-group/list-group.component';
+import { EditGroupComponent } from './group/edit-group/edit-group.component';
+import { CreateGroupComponent } from './group/create-group/create-group.component';
+import { UpdateGroupComponent } from './group/update-group/update-group.component';
+import { DetailsGroupComponent } from './group/details-group/details-group.component';
+import { EditPublisherComponent } from './publisher/edit-publisher/edit-publisher.component';
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -79,6 +82,13 @@ export function tokenGetter() {
     PublisherFieldserviceComponent,
     DetailPublisherComponent,
     CreatePublisherComponent,
+    EditPublisherComponent,
+    // group
+    ListGroupComponent,
+    EditGroupComponent,
+    CreateGroupComponent,
+    UpdateGroupComponent,
+    DetailsGroupComponent,
     //
     ListFieldserviceComponent,
     ListAssistanceComponent,
@@ -147,6 +157,11 @@ export function tokenGetter() {
     ListCongregationResolver,
     EditCongregationResolver,
     DetailCongregationResolver,
+    CreateCongregationComponent,
+    // Group
+    // CreateGroupComponent,
+    // DetailGroupComponent,
+    // UpdateGroupComponent,
     // tipo logradouro
     TipoLogradouroResolver
   ],

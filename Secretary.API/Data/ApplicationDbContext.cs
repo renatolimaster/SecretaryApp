@@ -159,10 +159,10 @@ namespace Secretary.API.Data
 
         entity.Property(e => e.ModifiedDate).HasDefaultValueSql("now()");
 
-        entity.HasIndex(e => e.countryCode)
+        entity.HasIndex(e => e.CountryCode)
                   .HasName("FK_Country_CountryCode");
 
-        entity.HasIndex(e => e.countryName)
+        entity.HasIndex(e => e.CountryName)
         .HasName("FK_Country_CountryName");
 
         entity.HasIndex(e => e.Name)
@@ -173,19 +173,19 @@ namespace Secretary.API.Data
       {
         entity.ToTable("Cidade", "secretary");
 
-        entity.HasIndex(c => c.adminCode1)
+        entity.HasIndex(c => c.AdminCode1)
       .HasName("FK_Cidade_adminCode1");
 
-        entity.HasIndex(c => c.geonameId)
+        entity.HasIndex(c => c.GeonameId)
         .HasName("FK_Cidade_GeonameId");
 
-        entity.HasIndex(c => c.countryCode)
+        entity.HasIndex(c => c.CountryCode)
         .HasName("FK_Cidade_CountryId");
 
-        entity.HasIndex(c => c.countryName)
+        entity.HasIndex(c => c.CountryName)
         .HasName("FK_Cidade_CountryName");
 
-        entity.HasIndex(c => c.adminName1)
+        entity.HasIndex(c => c.AdminName1)
         .HasName("FK_Cidade_AdminName1");
       });
 
@@ -227,19 +227,19 @@ namespace Secretary.API.Data
         entity.HasIndex(e => e.CountryId)
                   .HasName("FK_Estado_Country");
         //
-        entity.HasIndex(e => e.adminCode1)
+        entity.HasIndex(e => e.AdminCode1)
             .HasName("FK_Estado_AdminCode1");
 
-        entity.HasIndex(e => e.geonameId)
+        entity.HasIndex(e => e.GeonameId)
           .HasName("FK_Estado_GeonameId");
 
-        entity.HasIndex(e => e.toponymName)
+        entity.HasIndex(e => e.ToponymName)
               .HasName("FK_Estado_ToponymName");
 
-        entity.HasIndex(e => e.name)
+        entity.HasIndex(e => e.Name)
         .HasName("FK_Estado_Name");
 
-        entity.HasIndex(e => e.countryName)
+        entity.HasIndex(e => e.CountryName)
         .HasName("FK_Estado_CountryName");
         //
         entity.Property(e => e.Id).HasDefaultValueSql("nextval('secretary.\"Estado_Id_seq\"'::regclass)");

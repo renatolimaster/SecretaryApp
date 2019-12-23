@@ -80,18 +80,27 @@ export class CountryService
 
     // Return city by coordinates
     // http://api.geonames.org/findNearbyJSON?lat=-20.84889&lng=-41.11278&username=renatolimaster
+    // Get City by geonameId
+    // http://api.geonames.org/getJSON?geonameId=6319276&username=renatolimaster
     // console.log( 'getCityByCoordinates 2', lat, lng );
     const url = 'http://api.geonames.org/findNearbyJSON?lat=' + lat + '&lng=' + lng + '&username=renatolimaster';
     console.log( 'getCityByCoordinates:', url );
     return this.http.get<Cidade>( url );
   }
 
-  getCityByGeonameId ( geonameId: number ): Observable<Cidade[]>
+  getCitiesByGeonameId ( geonameId: number ): Observable<Cidade[]>
   {
     const url = 'http://api.geonames.org/childrenJSON?geonameId=' + geonameId + '&username=renatolimaster';
     console.log( 'getCityByGeonameId:', url );
     return this.http.get<Cidade[]>( url );
   }
+
+getCityByGeonameId( geonameId: number ): Observable < Cidade >
+{
+  const url = 'http://api.geonames.org/getJSON?geonameId=' + geonameId + '&username=renatolimaster';
+  console.log( 'getCityByGeonameId:', url );
+  return this.http.get<Cidade>( url );
+}
 
 }
 

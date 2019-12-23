@@ -48,7 +48,7 @@ namespace Secretary.API.Dtos
     public string Email { get; set; } = "fsr.vec@gmail.com";
     public long? EstadoId { get; set; }
     public EstadoForListDto Estado { get; set; }
-    public int CountryId { get; set; }
+    public long? CountryId { get; set; }
     public CountryForListDto Country { get; set; }
 
   }

@@ -15,22 +15,21 @@ namespace Secretary.API.Model
     public long Id { get; set; }
     //
 
-    public string adminCode1 { get; set; }
-    public string lng { get; set; }
-    public int geonameId { get; set; }
-    public string toponymName { get; set; }
-    public string countryId { get; set; }
-    public string fcl { get; set; }
-    public int population { get; set; }
-    public string countryCode { get; set; }
-    public string name { get; set; }
-    public string fclName { get; set; }
-    public string adminCodes1_ISO3166_2 { get; set; }
-    public string countryName { get; set; }
-    public string fcodeName { get; set; }
-    public string adminName1 { get; set; }
-    public string lat { get; set; }
-    public string fcode { get; set; }
+    public string AdminCode1 { get; set; }
+    public string Lng { get; set; }
+    public int GeonameId { get; set; }
+    public string ToponymName { get; set; }
+    public string Fcl { get; set; }
+    public int Population { get; set; }
+    public string CountryCode { get; set; }
+    public string Name { get; set; }
+    public string FclName { get; set; }
+    public string AdminCodes1_ISO3166_2 { get; set; }
+    public string CountryName { get; set; }
+    public string FcodeName { get; set; }
+    public string AdminName1 { get; set; }
+    public string Lat { get; set; }
+    public string Fcode { get; set; }
 
     //
     public DateTime DateCreated { get; set; }

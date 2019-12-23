@@ -179,6 +179,7 @@ export class CreatePublisherComponent implements OnInit
         {
           this.countries = countryRes.geonames;
           this.country = this.countries.find( c => c.geonameId === +this.city.countryId );
+          console.log( 'Country here:', this.country );
           this.selectedCountry = this.country.geonameId;
           this.loadStateByCountry( this.country.geonameId );
         },
@@ -196,7 +197,7 @@ export class CreatePublisherComponent implements OnInit
       ( states: any ) =>
       {
         this.estado = states.geonames;
-        this.selectedEstado = this.estado[0].geonameId;
+        this.selectedEstado = this.estado[ 0 ].geonameId;
         // console.log( 'selectedEstado:', this.selectedEstado );
         this.loadCitiesByState( this.selectedEstado );
         this.initializePublisher();
@@ -212,12 +213,27 @@ export class CreatePublisherComponent implements OnInit
   loadCitiesByState ( geonameId: number )
   {
     console.log( 'loadCitiesByState', geonameId );
+    this.countryService.getCitiesByGeonameId( geonameId ).subscribe( ( cities: any ) =>
+    {
+      this.cities = cities.geonames;
+      // console.log( 'Cities:', this.cities );
+      this.selectedCity = this.cities[ 0 ].geonameId;
+      this.city = this.cities[ 0 ];
+    }, error =>
+    {
+      console.log( 'loadCitiesByState', error );
+    } );
+  }
+
+  loadCityByGeonameId ( geonameId: number )
+  {
+    console.log( 'loadCitiesByState', geonameId );
     this.countryService.getCityByGeonameId( geonameId ).subscribe( ( cities: any ) =>
     {
       this.cities = cities.geonames;
       // console.log( 'Cities:', this.cities );
       this.selectedCity = this.cities[ 0 ].geonameId;
-      this.city = this.cities[0];
+      this.city = this.cities[ 0 ];
     }, error =>
     {
       console.log( 'loadCitiesByState', error );
@@ -349,11 +365,19 @@ export class CreatePublisherComponent implements OnInit
     console.log( newDate );
   }
 
+  updatePublisher ( publisher: Publicador )
+  {
+    // To implement Cidade, State and country
+    // check if already be in database
+    // if check update the values else insert
+    console.log( 'Publicador:', publisher );
+  }
+
   initializePublisher ()
   {
     this.publisher = {
       id: 0,
-      nome: '',
+      nome: null,
       primeiroNome: '',
       nomeSobrenome: '',
       dataNascimento: null,

@@ -11,12 +11,11 @@ export interface Cidade
   countryCode: string,
   name: string,
   fclName: string,
-  adminCodes1: {
-    ISO3166_2: string,
-  },
+  adminCodes1_ISO3166_2: string,
   countryName: string,
   fcodeName: string,
   adminName1: string,
   lat: string,
   fcode: string,
+  EstadoId: number;
 }

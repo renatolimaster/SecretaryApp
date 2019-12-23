@@ -12,40 +12,40 @@ namespace Secretary.API.Model
     }
 
     public long Id { get; set; }
-    
+
     //
 
-    public string continent { get; set; }
-    public string capital { get; set; }
+    public string Continent { get; set; }
+    public string Capital { get; set; }
 
-    public string languages { get; set; }
-    public int geonameId { get; set; }
+    public string Languages { get; set; }
+    public int GeonameId { get; set; }
 
-    public int south { get; set; }
+    public int South { get; set; }
 
-    public string isoAlpha3 { get; set; }
+    public string IsoAlpha3 { get; set; }
 
-    public int north { get; set; }
+    public int North { get; set; }
 
-    public int fipsCode { get; set; }
+    public int FipsCode { get; set; }
 
-    public int population { get; set; }
+    public int Population { get; set; }
 
-    public int east { get; set; }
+    public int East { get; set; }
 
-    public string isoNumeric { get; set; }
+    public string IsoNumeric { get; set; }
 
-    public int areaInSqKm { get; set; }
+    public int AreaInSqKm { get; set; }
 
-    public string countryCode { get; set; }
+    public string CountryCode { get; set; }
 
-    public int west { get; set; }
+    public int West { get; set; }
 
-    public string countryName { get; set; }
+    public string CountryName { get; set; }
 
-    public string continentName { get; set; }
+    public string ContinentName { get; set; }
 
-    public string currencyCode { get; set; }
+    public string CurrencyCode { get; set; }
 
 
     //

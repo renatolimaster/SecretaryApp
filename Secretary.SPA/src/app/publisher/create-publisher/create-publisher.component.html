@@ -35,8 +35,8 @@
         </div>
       </div>
     </div>
-<!-- ngNativeValidate -->
-    <form  #editForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="updatePublisher(editForm.value)">
+    <!-- ngNativeValidate -->
+    <form #editForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="updatePublisher(editForm.value)">
       <div class="card-body">
 
         <div class="card-block">
@@ -46,6 +46,21 @@
               <hr>
             </div>
           </div>
+
+
+          <br>
+          <div class="row">
+            <div class="col-sm-6 text-center">
+              <agm-map [latitude]="latitude" [longitude]="longitude">
+
+              </agm-map>
+              <img width="300" alt="Angular Logo">
+            </div>
+            <div class="input-container">
+              <input google-place type="text" class="google-place-input" placeholder="Type to search..">
+            </div>
+          </div>
+          <br>
 
           <div class='row'>
 
@@ -70,10 +85,9 @@
                 required>
             </div>
 
-
-
           </div>
           <br>
+
           <div class='row'>
 
             <div class="col-sm-8">
@@ -162,7 +176,8 @@
             </div>
 
             <div class="col-sm-4">
-              <h5 class="card-title"> <span class="badge badge-sm badge-plain text-danger" placement="top" ngbTooltip="First time in service">*</span> Service Start</h5>
+              <h5 class="card-title"> <span class="badge badge-sm badge-plain text-danger" placement="top" ngbTooltip="First time in service">*</span> Service
+                Start</h5>
               <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
                 [(bsValue)]="publisher.dataInicioServico" required>
             </div>
@@ -311,7 +326,8 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <h5 class="card-text">State</h5>
-                    <select [(ngModel)]="selectedEstado" class="form-control form-control-md" name="estadoId" id="estadoId" (ngModelChange)="loadCitiesByState($event)" required>
+                    <select [(ngModel)]="selectedEstado" class="form-control form-control-md" name="estadoId" id="estadoId"
+                      (ngModelChange)="loadCitiesByState($event)" required>
                       <option *ngFor="let item of estado" [ngValue]="item.geonameId">&nbsp;{{ item.toponymName }}&nbsp;</option>
                     </select>
                   </div>

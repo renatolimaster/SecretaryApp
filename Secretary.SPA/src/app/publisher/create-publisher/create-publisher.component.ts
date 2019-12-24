@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, Input, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap';
 import { Congregacao } from 'src/app/_models/Congregacao';
 import { Pioneiro } from 'src/app/_models/Pioneiro';
 import { Publicador } from 'src/app/_models/Publicador';
@@ -14,7 +14,6 @@ import { Country } from 'src/app/_models/Country';
 import { PublisherService } from 'src/app/_services/publisher.service';
 import { PioneerService } from 'src/app/_services/pioneer.service';
 import { CongregationService } from 'src/app/_services/congregation.service';
-import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { Usuario } from 'src/app/_models/Usuario';
@@ -22,10 +21,8 @@ import { UserService } from 'src/app/_services/user.service';
 import { GroupService } from 'src/app/_services/group.service';
 import { TipologradouroService } from 'src/app/_services/tipologradouro.service';
 import { CountryService } from 'src/app/_services/country.service';
-import { StatesService } from 'src/app/_services/states.service';
 import { Location } from 'src/app/_interfaces/ILocation';
 import { SituationService } from 'src/app/_services/situation.service';
-import { flattenStyles } from '@angular/platform-browser/src/dom/dom_renderer';
 
 @Component( {
   selector: 'app-create-publisher',
@@ -84,6 +81,9 @@ export class CreatePublisherComponent implements OnInit
   location: Location;
   locationCountry: Location[];
   localizacao: number;
+  latitude: number;
+  longitude: number;
+
 
   @HostListener( 'window:beforeunload', [ '$event' ] )
   unloadNotification ( $event: any )
@@ -95,19 +95,15 @@ export class CreatePublisherComponent implements OnInit
   }
 
   constructor (
-    private modalService: BsModalService,
-    private cdRef: ChangeDetectorRef,
     private publisherService: PublisherService,
     private pioneerService: PioneerService,
     private congregationService: CongregationService,
-    private route: ActivatedRoute,
     private alertifyService: AlertifyService,
     private authService: AuthService,
     private userService: UserService,
     private groupService: GroupService,
     private tipoLogradouroService: TipologradouroService,
     private countryService: CountryService,
-    private stateService: StatesService,
     private situationService: SituationService
 
   )
@@ -154,10 +150,10 @@ export class CreatePublisherComponent implements OnInit
     {
       navigator.geolocation.getCurrentPosition( position =>
       {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
         // console.log( 'position:', position );
-        this.loadCountryLocationGeonames( latitude, longitude );
+        this.loadCountryLocationGeonames( this.latitude, this.longitude );
       }, error =>
       {
         console.log( 'Geolocation is not supported by this browser.', error );
@@ -179,7 +175,6 @@ export class CreatePublisherComponent implements OnInit
         {
           this.countries = countryRes.geonames;
           this.country = this.countries.find( c => c.geonameId === +this.city.countryId );
-          console.log( 'Country here:', this.country );
           this.selectedCountry = this.country.geonameId;
           this.loadStateByCountry( this.country.geonameId );
         },
@@ -271,7 +266,7 @@ export class CreatePublisherComponent implements OnInit
         } else
         {
           this.selectedCongregation = 0;
-          this.loadCongregations( this.selectedCongregation );
+          this.loadCongregations( );
         }
       }, error =>
       {
@@ -307,7 +302,7 @@ export class CreatePublisherComponent implements OnInit
     );
   }
 
-  loadCongregations ( id: number )
+  loadCongregations ( )
   {
     this.congregationService.getCongregations().subscribe(
       ( congregations: Congregacao[] = [] ) =>
@@ -371,6 +366,7 @@ export class CreatePublisherComponent implements OnInit
     // check if already be in database
     // if check update the values else insert
     console.log( 'Publicador:', publisher );
+    
   }
 
   initializePublisher ()

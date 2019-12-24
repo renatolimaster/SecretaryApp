@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Country } from '../_models/Country';
 import { Location } from 'src/app/_interfaces/ILocation';
 import { Estado } from '../_models/Estado';
@@ -26,7 +26,6 @@ export class CountryService
 
   getCountry (): Observable<Country[]>
   {
-    // return this.http.get<Country>(this.baseUrl + 'country/' + id);
     const url = 'http://api.geonames.org/countryInfoJSON?username=renatolimaster';
     return this.http.get<Country[]>( url );
   }
@@ -95,12 +94,12 @@ export class CountryService
     return this.http.get<Cidade[]>( url );
   }
 
-getCityByGeonameId( geonameId: number ): Observable < Cidade >
-{
-  const url = 'http://api.geonames.org/getJSON?geonameId=' + geonameId + '&username=renatolimaster';
-  console.log( 'getCityByGeonameId:', url );
-  return this.http.get<Cidade>( url );
-}
+  getCityByGeonameId ( geonameId: number ): Observable<Cidade>
+  {
+    const url = 'http://api.geonames.org/getJSON?geonameId=' + geonameId + '&username=renatolimaster';
+    console.log( 'getCityByGeonameId:', url );
+    return this.http.get<Cidade>( url );
+  }
 
 }
 

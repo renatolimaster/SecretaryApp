@@ -59,11 +59,13 @@ import { CreateGroupComponent } from './group/create-group/create-group.componen
 import { UpdateGroupComponent } from './group/update-group/update-group.component';
 import { DetailsGroupComponent } from './group/details-group/details-group.component';
 import { EditPublisherComponent } from './publisher/edit-publisher/edit-publisher.component';
-export function tokenGetter() {
-  return localStorage.getItem('token');
+import { AgmCoreModule } from '@agm/core';
+export function tokenGetter ()
+{
+  return localStorage.getItem( 'token' );
 }
 
-@NgModule({
+@NgModule( {
   declarations: [
     AppComponent,
     NavComponent,
@@ -116,26 +118,30 @@ export function tokenGetter() {
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    
+
     BsDatepickerModule.forRoot(),
-    DatepickerModule.forRoot() ,
+    DatepickerModule.forRoot(),
 
+    // AGM google maps 
+    AgmCoreModule.forRoot( {
+      apiKey: 'AIzaSyBQAV_Z2e5TYYu5Ev5tRrtTrHq5tKyJMkk'
+    } ),
 
-
-    RouterModule.forRoot(appRoutes),
-    JwtModule.forRoot({
+    RouterModule.forRoot( appRoutes ),
+    JwtModule.forRoot( {
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:5000'],
-        blacklistedRoutes: ['localhost:5000/api/auth']
+        whitelistedDomains: [ 'localhost:5000' ],
+        blacklistedRoutes: [ 'localhost:5000/api/auth' ]
       }
-    }),
+    } ),
     NgbModule.forRoot(),
   ],
   providers: [
-    { provide: LOCALE_ID,
-      deps: [SettingsService],      // some service handling global settings
-      useFactory: (settingsService) => settingsService.getLanguage()  // returns locale string
+    {
+      provide: LOCALE_ID,
+      deps: [ SettingsService ],      // some service handling global settings
+      useFactory: ( settingsService ) => settingsService.getLanguage()  // returns locale string
     },
     AuthService,
     ErrorInterceptorProvider,
@@ -165,6 +171,6 @@ export function tokenGetter() {
     // tipo logradouro
     TipoLogradouroResolver
   ],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
+  bootstrap: [ AppComponent ]
+} )
+export class AppModule { }

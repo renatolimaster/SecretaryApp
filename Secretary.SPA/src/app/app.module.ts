@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule, ModalModule, BsDatepickerModule, DatepickerModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
-import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -112,7 +111,6 @@ export function tokenGetter ()
     NgxDatatableModule,
     BrowserModule,
     HttpClientModule,
-    HttpModule,
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),

@@ -125,7 +125,6 @@ export function tokenGetter ()
 
     // AGM google maps 
     AgmCoreModule.forRoot( {
-      // apiKey: 'AIzaSyBQAV_Z2e5TYYu5Ev5tRrtTrHq5tKyJMkk'
       apiKey: environment.googleApiKey
     } ),
 

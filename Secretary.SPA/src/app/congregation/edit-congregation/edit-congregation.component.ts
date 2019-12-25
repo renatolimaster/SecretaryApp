@@ -30,7 +30,7 @@ import { NgForm } from '@angular/forms';
 } )
 export class EditCongregationComponent implements OnInit
 {
-  @ViewChild( 'editForm' )
+  @ViewChild( 'editForm', { static: true } )
   editForm: NgForm;
   title = 'Congregation';
   subTitles = 'Edit Congregation';

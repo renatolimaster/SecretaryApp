@@ -23,6 +23,8 @@ import { TipologradouroService } from 'src/app/_services/tipologradouro.service'
 import { CountryService } from 'src/app/_services/country.service';
 import { Location } from 'src/app/_interfaces/ILocation';
 import { SituationService } from 'src/app/_services/situation.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 
 @Component( {
   selector: 'app-create-publisher',
@@ -31,7 +33,7 @@ import { SituationService } from 'src/app/_services/situation.service';
 } )
 export class CreatePublisherComponent implements OnInit
 {
-  @ViewChild( 'editForm' ) editForm: NgForm;
+  @ViewChild( 'editForm', { static: true } ) editForm: NgForm;
   @Input() modalRef: BsModalRef;
   bsModalRef: BsModalRef;
   title = 'Publisher';
@@ -81,8 +83,11 @@ export class CreatePublisherComponent implements OnInit
   location: Location;
   locationCountry: Location[];
   localizacao: number;
+
+  // AMG Google Maps
   latitude: number;
   longitude: number;
+  locationChosen: boolean = true;
 
 
   @HostListener( 'window:beforeunload', [ '$event' ] )
@@ -95,6 +100,7 @@ export class CreatePublisherComponent implements OnInit
   }
 
   constructor (
+    private viewportScroller: ViewportScroller,
     private publisherService: PublisherService,
     private pioneerService: PioneerService,
     private congregationService: CongregationService,
@@ -107,7 +113,7 @@ export class CreatePublisherComponent implements OnInit
     private situationService: SituationService
 
   )
-  { }
+  { this.viewportScroller.getScrollPosition(); }
 
   ngOnInit ()
   {
@@ -122,6 +128,16 @@ export class CreatePublisherComponent implements OnInit
     this.loadTipoLogradouro();
     this.loadLoggedUserData();
   }
+
+  // google maps
+  onChooseLocation ( event )
+  {
+    console.log( event );
+    this.latitude = event.coords.lat;
+    this.longitude = event.coords.lng;
+    this.locationChosen = true;
+  }
+  //
 
   initializeVariables ()
   {
@@ -266,7 +282,7 @@ export class CreatePublisherComponent implements OnInit
         } else
         {
           this.selectedCongregation = 0;
-          this.loadCongregations( );
+          this.loadCongregations();
         }
       }, error =>
       {
@@ -302,7 +318,7 @@ export class CreatePublisherComponent implements OnInit
     );
   }
 
-  loadCongregations ( )
+  loadCongregations ()
   {
     this.congregationService.getCongregations().subscribe(
       ( congregations: Congregacao[] = [] ) =>
@@ -366,7 +382,7 @@ export class CreatePublisherComponent implements OnInit
     // check if already be in database
     // if check update the values else insert
     console.log( 'Publicador:', publisher );
-    
+
   }
 
   initializePublisher ()

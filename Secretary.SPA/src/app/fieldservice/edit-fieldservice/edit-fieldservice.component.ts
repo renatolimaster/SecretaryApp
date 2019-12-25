@@ -29,7 +29,7 @@ declare let alertify: any;
   styleUrls: ['./edit-fieldservice.component.css']
 })
 export class EditFieldserviceComponent implements OnInit {
-  @ViewChild('editForm') editForm: NgForm;
+  @ViewChild('editForm', {static: true} ) editForm: NgForm;
   @Input() modalRef: BsModalRef;
   bsModalRef: BsModalRef;
   title = 'Field Service';

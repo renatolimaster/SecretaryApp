@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { ServicoCampo } from 'src/app/_models/ServicoCampo';
 import { PublisherService } from 'src/app/_services/publisher.service';
 import { Publicador } from 'src/app/_models/Publicador';
-import { toDate } from '@angular/common/src/i18n/format_date';
+import { formatDate } from '@angular/common';
 
 import Chart from 'chart.js';
 
@@ -26,7 +26,7 @@ interface Idate
 } )
 export class PublisherFieldserviceComponent implements OnInit
 {
-  @ViewChild( 'myChart' ) myChart: ElementRef;
+  @ViewChild( 'myChart', { static: true } ) myChart: ElementRef;
   title = 'Congregation Field Service';
 
   date: Idate;

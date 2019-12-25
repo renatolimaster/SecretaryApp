@@ -54,7 +54,7 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
   @Input()
   mask = 'mm-yyyy';
 
-  @ViewChild('calendarPanel')
+  @ViewChild( 'calendarPanel', { static: true } )
   calendar: NgbDropdown;
 
   constructor() {

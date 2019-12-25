@@ -25,7 +25,7 @@ import { ListMembersComponent } from './members/list-members/list-members.compon
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { FooterComponent } from './footer/footer.component';
 import { ReportsComponent } from './reports/reports.component';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable/';
 import { EditMembersComponent } from './members/edit-members/edit-members.component';
 import { DetailsMembersComponent } from './members/details-members/details-members.component';
 import { EditFieldserviceComponent } from './fieldservice/edit-fieldservice/edit-fieldservice.component';
@@ -58,6 +58,7 @@ import { CreateGroupComponent } from './group/create-group/create-group.componen
 import { UpdateGroupComponent } from './group/update-group/update-group.component';
 import { DetailsGroupComponent } from './group/details-group/details-group.component';
 import { EditPublisherComponent } from './publisher/edit-publisher/edit-publisher.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AgmCoreModule } from '@agm/core';
 export function tokenGetter ()
 {
@@ -116,6 +117,7 @@ export function tokenGetter ()
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    BrowserAnimationsModule,
 
     BsDatepickerModule.forRoot(),
     DatepickerModule.forRoot(),
@@ -133,7 +135,7 @@ export function tokenGetter ()
         blacklistedRoutes: [ 'localhost:5000/api/auth' ]
       }
     } ),
-    NgbModule.forRoot(),
+    NgbModule,
   ],
   providers: [
     {

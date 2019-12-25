@@ -4,7 +4,7 @@
     <h2>{{title}}</h2>
     <div class="col-xs-12 col-sm-12">
       <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/publisher']" routerLinkActive="router-link-active">
-        <i class="fa fa-arrow-left"></i> List</button>
+        <i class="oi oi-arrow-left"></i> List 1</button>
     </div>
   </div>
 </div>
@@ -18,10 +18,14 @@
   </div>
 </div>
 
-<div class="container">
-  <div *ngIf="editForm.dirty" class="card mt-3 w-75 alert alert-info">
+<div class="container d-flex justify-content-center">
+  <div *ngIf="editForm.dirty" class="alert alert-info w-75 text-center">
     <p class="card-text"><strong>Information:</strong>&nbsp;You have made changes. Any unsave changes will be lost!</p>
   </div>
+</div>
+
+<div class="container d-flex justify-content-center">
+
 
   <div class="card mt-3 w-75">
     <div class="card-header">
@@ -31,7 +35,7 @@
           &nbsp;<h4 class="text-danger">{{publisher.nome}}</h4>
         </div>
         <div class="col-sm-6 text-right">
-          <button class="btn-sm btn btn-warning" (click)="resetForm()">Reset</button>
+          <button class="btn-sm btn btn-warning" (click)="resetForm()"><i class="oi oi-action-undo"></i>&nbsp;Reset</button>
         </div>
       </div>
     </div>
@@ -50,14 +54,10 @@
 
           <br>
           <div class="row">
-            <div class="col-sm-6 text-center">
-              <agm-map [latitude]="latitude" [longitude]="longitude">
-
+            <div class="col-sm d-flex justify-content-center border">
+              <agm-map [zoom]="18" [latitude]="latitude" [longitude]="longitude" (mapClick)="onChooseLocation($event)">
+                <agm-marker [latitude]="latitude" [longitude]="longitude" *ngIf="locationChosen"></agm-marker>
               </agm-map>
-              <img width="300" alt="Angular Logo">
-            </div>
-            <div class="input-container">
-              <input google-place type="text" class="google-place-input" placeholder="Type to search..">
             </div>
           </div>
           <br>
@@ -120,12 +120,14 @@
                 [(ngModel)]="publisher.batismo" name="batismo" [(bsValue)]="publisher.batismo" (ngModelChange)="changeBaptism($event)" required>
             </div>
 
+
             <div class="col-sm">
-              <h5 class="card-text">Group</h5>
-              <select [(ngModel)]="selectedGroup" class="form-control" id="groupId" name="groupId" required>
-                <option *ngFor="let group of groups" [ngValue]="group.id">&nbsp;{{group.local}}</option>
-              </select>
+              <h5 class="card-text"> <span class="badge badge-sm badge-plain text-danger" placement="top" ngbTooltip="First time in service">*</span>Service
+                Start</h5>
+              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
+                [(bsValue)]="publisher.dataInicioServico" required>
             </div>
+
           </div>
           <br>
           <div class="row">
@@ -168,6 +170,14 @@
 
           <div class='row'>
 
+            <div class="col-sm">
+              <h5 class="card-text">Group</h5>
+              <select [(ngModel)]="selectedGroup" class="form-control" id="groupId" name="groupId" required>
+                <option *ngFor="let group of groups" [ngValue]="group.id">&nbsp;{{group.local}}</option>
+              </select>
+            </div>
+
+
             <div class="col-sm-4">
               <h5 class="card-text">Situation</h5>
               <select [(ngModel)]="selectedSituation" class="form-control" id="situationId" name="situationId" required>
@@ -175,12 +185,7 @@
               </select>
             </div>
 
-            <div class="col-sm-4">
-              <h5 class="card-title"> <span class="badge badge-sm badge-plain text-danger" placement="top" ngbTooltip="First time in service">*</span> Service
-                Start</h5>
-              <input type="text" class="form-control" [minDate]="minDate" [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="{ isAnimated: true }"
-                [(bsValue)]="publisher.dataInicioServico" required>
-            </div>
+
             <div class="col-sm">
               <h5 class="card-text">Service Status</h5>
               <select [(ngModel)]="publisher.situacaoServicoCampo" class="form-control" id="situacaoServicoCampo" name="situacaoServicoCampo" required>
@@ -257,9 +262,9 @@
           <br>
           <div class="row">
 
-            <div class="col-sm">
+            <div class="col-sm form-group">
               <h5 class="card-text">E-mail</h5>
-              <input type="email" [(ngModel)]="publisher.email" class="form-control" id="email" name="email" required>
+              <input type="email" [(ngModel)]="publisher.email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
             </div>
 
           </div>
@@ -355,22 +360,28 @@
 
       <div class="col-12 text-center">
         <hr>
-        <button type="submit" class="btn btn-success custombutton" [disabled]="!editForm.dirty"><i class="fa fa-floppy-o"></i>
+        <button type="submit" class="btn btn-success custombutton" [disabled]="!editForm.dirty"><i class="oi oi-data-transfer-download"></i>
           Save</button>
       </div>
 
     </form>
     &nbsp;
+
+
+
   </div>
+
+
+
+</div>
+<div class="container mt-3">
 
   <br>
 
   <div class="row">
     <div class="col-xs-12 col-sm-12">
       <button asp-action="Index" class="btn-sm btn btn-outline-primary" [routerLink]="['/publisher']" routerLinkActive="router-link-active">
-        <i class="fa fa-arrow-left"></i> List</button>
+        <i class="oi oi-arrow-left"></i> List 2</button>
     </div>
   </div>
-
-
 </div>

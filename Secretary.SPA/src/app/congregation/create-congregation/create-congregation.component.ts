@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 } )
 export class CreateCongregationComponent implements OnInit
 {
-  @ViewChild( 'createForm' )
+  @ViewChild( 'createForm', {static: true} )
   createForm: NgForm;
 
   title = 'Congregation';

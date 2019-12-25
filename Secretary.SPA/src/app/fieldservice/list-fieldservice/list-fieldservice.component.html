@@ -3,26 +3,14 @@
     <h2>{{ title }}</h2>
     <div class="col-xs-12 col-md-12">
       <button asp-action="Index" class="btn-sm btn btn-outline-primary">
-        <i class="fa fa-plus"></i> Create New</button
-      >&nbsp;
-      <button
-        type="button"
-        class="btn-sm btn btn-outline-primary"
-        (click)="initializeFieldServices()"
-        placement="top"
-        ngbTooltip="The date of the previous month will be considered."
-      >
-        <i class="fa fa-calendar-check-o"></i> Initialize
+        <i class="oi oi-plus"></i> Create New</button>&nbsp;
+      <button type="button" class="btn-sm btn btn-outline-primary" (click)="initializeFieldServices()" placement="top"
+        ngbTooltip="The date of the previous month will be considered.">
+        <i class="oi oi-calendar"></i> Initialize
       </button>&nbsp;
-      <button
-        type="button"
-        class="btn-sm btn btn-outline-primary"
-        (click)="missingFieldServicesSendEmail()"
-        placement="top"
-        data-placement="right"
-        ngbTooltip="The date of the previous month will be considered."
-      >
-        <i class="fa fa-flag-checkered"></i> Missing
+      <button type="button" class="btn-sm btn btn-outline-primary" (click)="missingFieldServicesSendEmail()" placement="top" data-placement="right"
+        ngbTooltip="The date of the previous month will be considered.">
+        <i class="oi oi-circle-check"></i> Missing
       </button>
     </div>
   </div>
@@ -48,63 +36,30 @@
       </h5>
     </div>
     <div class="card-body">
-      <form
-        #myForm="ngForm"
-        class="form-control-inline my-2 my-lg-0"
-        (ngSubmit)="loadReportsFromPeriod(myForm.value)"
-      >
+      <form #myForm="ngForm" class="form-control-inline my-2 my-lg-0" (ngSubmit)="loadReportsFromPeriod(myForm.value)">
         <div class="row">
           <div class="col-sm-4">
             <h5 class="card-text">From</h5>
-            <input
-              [(ngModel)]="date.fromDate"
-              type="text"
-              class="form-control mr-sm-2"
-              bsDatepicker
-              [bsValue]="date?.fromDate"
-              [bsConfig]="{ dateInputFormat: 'MM/YYYY' }"
-              name="fromDate"
-              id="fromDate"
-              required
-            />
+            <input [(ngModel)]="date.fromDate" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="date?.fromDate"
+              [bsConfig]="{ dateInputFormat: 'MM/YYYY' }" name="fromDate" id="fromDate" required />
           </div>
 
           <div class="col-sm-4">
             <h5 class="card-text">To</h5>
-            <input
-              [(ngModel)]="date.toDate"
-              type="text"
-              class="form-control mr-sm-2"
-              bsDatepicker
-              [bsValue]="date?.toDate"
-              [bsConfig]="{ dateInputFormat: 'MM/YYYY' }"
-              id="toDate"
-              name="toDate"
-              required
-            />
+            <input [(ngModel)]="date.toDate" type="text" class="form-control mr-sm-2" bsDatepicker [bsValue]="date?.toDate"
+              [bsConfig]="{ dateInputFormat: 'MM/YYYY' }" id="toDate" name="toDate" required />
           </div>
 
           <div class="col-sm-2">
             <h5 class="card-text">&nbsp;</h5>
-            <input
-              [(ngModel)]="date.check"
-              type="checkbox"
-              class="form-check-input "
-              name="check"
-              id="check"
-            />
-            <label class="form-check-label" for="check">Undelivered</label
-            >&nbsp; &nbsp;
+            <input [(ngModel)]="date.check" type="checkbox" class="form-check-input " name="check" id="check" />
+            <label class="form-check-label" for="check">Undelivered</label>&nbsp; &nbsp;
           </div>
 
           <div class="col-sm-2">
             <h5 class="card-text">&nbsp;</h5>
-            <button
-              type="submit"
-              class="btn btn-success custombutton"
-              [disabled]="!myForm.dirty"
-            >
-              <i class="fa fa-filter"></i> Filter
+            <button type="submit" class="btn btn-success custombutton" [disabled]="!myForm.dirty">
+              <i class="oi oi-eye"></i> Filter
             </button>
           </div>
         </div>
@@ -114,298 +69,144 @@
       <div class="row">
         <div class="col-sm-12">
           <h5 class="card-text">Publisher</h5>
-          <input
-            type="text"
-            style="width:100%;"
-            class="form-control"
-            placeholder="Type to filter by publisher column..."
-            (keyup)="updateFilter($event)"
-          />
+          <input type="text" style="width:100%;" class="form-control" placeholder="Type to filter by publisher column..." (keyup)="updateFilter($event)" />
         </div>
       </div>
     </div>
   </div>
 
   <br />
-
-  <ngx-datatable
-    #table
-    class="material"
-    [limit]="10"
-    [columnMode]="'force'"
-    [headerHeight]="50"
-    [footerHeight]="50"
-    [rowHeight]="'auto'"
-    [rows]="rows"
-  >
-    <!-- Row Detail Template -->
-    <ngx-datatable-row-detail
-      [rowHeight]="50"
-      #myDetailRow
-      (toggle)="onDetailToggle($event)"
-    >
-      <ng-template
-        let-row="row"
-        let-expanded="expanded"
-        ngx-datatable-row-detail-template
-      >
-        <div style="padding-left:60px; font-size:14px">
-          <div>{{ row.Publicador.nome }}, {{ row.horas }}</div>
-        </div>
-      </ng-template>
-    </ngx-datatable-row-detail>
-    <!-- Column Templates -->
-    <ngx-datatable-column name="Publicador" [flexGrow]="1">
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Publisher</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        <div class="text-left">
-          <span class="mobile-hidden"
-            >{{ value.nome.split(' ')[0] }} {{ value.nome.split(' ')[1] }}</span
-          >
-        </div>
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="DataEntrega"
-      [flexGrow]="3"
-      [minWidth]="80"
-      [width]="100"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Date</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value | date: 'MM/yyyy' }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="Pioneiro"
-      [flexGrow]="3"
-      [minWidth]="80"
-      [width]="100"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Pioneer</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value.descricao }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="Publicacoes"
-      [flexGrow]="1"
-      [minWidth]="60"
-      [maxWidth]="100"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Placements</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="VideosMostrados"
-      [flexGrow]="1"
-      [minWidth]="62"
-      [maxWidth]="62"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Videos</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="Horas"
-      [flexGrow]="1"
-      [minWidth]="60"
-      [maxWidth]="60"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Hours</span>
-      </ng-template>
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        <span *ngIf="value === 0" class="text-danger"
-          ><strong>{{ value }}</strong></span
-        >
-        <span *ngIf="value !== 0" class="text-primary"
-          ><strong>{{ value }}</strong></span
-        >
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="Revisitas"
-      [flexGrow]="1"
-      [minWidth]="60"
-      [maxWidth]="60"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Visits</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="Estudos"
-      [flexGrow]="1"
-      [minWidth]="68"
-      [maxWidth]="68"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Studies</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="HorasBetel"
-      [flexGrow]="1"
-      [minWidth]="60"
-      [maxWidth]="60"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Bethel</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column
-      name="CreditoHoras"
-      [flexGrow]="1"
-      [minWidth]="60"
-      [maxWidth]="60"
-    >
-      <ng-template
-        let-column="column"
-        let-sort="sortFn"
-        ngx-datatable-header-template
-      >
-        <span class="mobile-hidden">Credit</span>
-      </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <div class="text-center">
-      <ngx-datatable-column
-        [width]="50"
-        [resizeable]="false"
-        [sortable]="false"
-        [draggable]="false"
-        [canAutoResize]="true"
-      >
-        <ng-template
-          let-row="row"
-          let-expanded="expanded"
-          ngx-datatable-cell-template
-        >
-          <button
-            type="button"
-            class="btn-sm btn btn-primary custombuttonlist"
-            [routerLink]="['/editfieldservice', row.id]"
-            routerLinkActive="router-link-active"
-          >
-            <i class="fa fa-pencil-square-o"></i> Edit
-          </button>
+  <div class="container border">
+    <ngx-datatable #table class="bootstrap" [limit]="10" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="50" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div style="padding-left:60px; font-size:14px">
+            <div>{{ row.Publicador.nome }}, {{ row.horas }}</div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+      <!-- Column Templates -->
+      <ngx-datatable-column name="Publicador" [flexGrow]="1">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Publisher</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div class="text-left">
+            <span class="mobile-hidden">{{ value.nome.split(' ')[0] }} {{ value.nome.split(' ')[1] }}</span>
+          </div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column
-        [width]="50"
-        [resizeable]="false"
-        [sortable]="false"
-        [draggable]="false"
-        [canAutoResize]="true"
-      >
-        <ng-template
-          let-row="row"
-          let-expanded="expanded"
-          ngx-datatable-cell-template
-        >
-          <button
-            type="button"
-            class="btn-sm btn btn-warning custombuttonlist"
-            [routerLink]="['/detailfieldservice/', row.id, false]"
-            routerLinkActive="router-link-active"
-          >
-            <i class="fa fa-address-card-o"></i> Detail
-          </button>
+
+      <ngx-datatable-column name="DataEntrega" [flexGrow]="3" [minWidth]="80" [width]="100">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Date</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date: 'MM/yyyy' }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column
-        [width]="50"
-        [resizeable]="false"
-        [sortable]="false"
-        [draggable]="false"
-        [canAutoResize]="true"
-      >
-        <ng-template
-          let-row="row"
-          let-expanded="expanded"
-          ngx-datatable-cell-template
-        >
-          <button
-            type="button"
-            class="btn-sm btn btn-danger custombuttonlist"
-            [routerLink]="['/detailfieldservice/', row.id, true]"
-            routerLinkActive="router-link-active"
-          >
-            <i class="fa fa-times"></i> Delete
-          </button>
+
+      <ngx-datatable-column name="Pioneiro" [flexGrow]="3" [minWidth]="80" [width]="100">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Pioneer</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value.descricao }}
         </ng-template>
       </ngx-datatable-column>
-    </div>
-  </ngx-datatable>
+
+      <ngx-datatable-column name="Publicacoes" [flexGrow]="1" [minWidth]="60" [maxWidth]="100">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Placements</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="VideosMostrados" [flexGrow]="1" [minWidth]="62" [maxWidth]="62">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Videos</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Horas" [flexGrow]="1" [minWidth]="60" [maxWidth]="60">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Hours</span>
+        </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span *ngIf="value === 0" class="text-danger"><strong>{{ value }}</strong></span>
+          <span *ngIf="value !== 0" class="text-primary"><strong>{{ value }}</strong></span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Revisitas" [flexGrow]="1" [minWidth]="60" [maxWidth]="60">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Visits</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Estudos" [flexGrow]="1" [minWidth]="68" [maxWidth]="68">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Studies</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="HorasBetel" [flexGrow]="1" [minWidth]="60" [maxWidth]="60">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Bethel</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="CreditoHoras" [flexGrow]="1" [minWidth]="60" [maxWidth]="60">
+        <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="mobile-hidden">Credit</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <div class="text-center">
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <button type="button" class="btn-sm btn btn-primary custombuttonlist" [routerLink]="['/editfieldservice', row.id]"
+              routerLinkActive="router-link-active">
+              <i class="oi oi-pencil"></i> Edit
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <button type="button" class="btn-sm btn btn-warning custombuttonlist" [routerLink]="['/detailfieldservice/', row.id, false]"
+              routerLinkActive="router-link-active">
+              <i class="oi oi-spreadsheet"></i> Detail
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="true">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <button type="button" class="btn-sm btn btn-danger custombuttonlist" [routerLink]="['/detailfieldservice/', row.id, true]"
+              routerLinkActive="router-link-active">
+              <i class="oi oi-delete"></i> Delete
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+      </div>
+    </ngx-datatable>
+    <br>
+  </div>
 </div>

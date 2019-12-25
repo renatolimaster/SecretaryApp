@@ -60,6 +60,7 @@ import { DetailsGroupComponent } from './group/details-group/details-group.compo
 import { EditPublisherComponent } from './publisher/edit-publisher/edit-publisher.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AgmCoreModule } from '@agm/core';
+import { environment } from '../environments/environment';
 export function tokenGetter ()
 {
   return localStorage.getItem( 'token' );
@@ -124,7 +125,8 @@ export function tokenGetter ()
 
     // AGM google maps 
     AgmCoreModule.forRoot( {
-      apiKey: 'AIzaSyBQAV_Z2e5TYYu5Ev5tRrtTrHq5tKyJMkk'
+      // apiKey: 'AIzaSyBQAV_Z2e5TYYu5Ev5tRrtTrHq5tKyJMkk'
+      apiKey: environment.googleApiKey
     } ),
 
     RouterModule.forRoot( appRoutes ),
